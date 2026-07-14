@@ -1,0 +1,17 @@
+/* ===== TacoBahis — metin ortalama ===== */
+
+/* 1) Üst duyuru çubuğu (güncel adres bildirimi) */
+[data-mj="announcement"]{
+  justify-content:center !important;
+  text-align:center !important;
+}
+
+/* 2) Ana menü grubunu yatayda ortala (SPOR, CASİNO, CANLI CASİNO, ...) */
+[data-mj="header-nav-list"]{
+  justify-content:center !important;
+}
+
+/* 3) Lig kart etiketleri (UEFA Şampiyonlar Ligi, Süper Lig, ...) */
+[data-mj="widget-game-card"] p{
+  text-align:center !important;
+}
