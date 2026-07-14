@@ -1,7 +1,8 @@
 /* ===== TacoBahis — özel stiller ===== */
 
 /* 1) Üst duyuru çubuğu metnini ortala (X butonuna dokunmadan) */
-[data-mj="announcement"] > div{
+[data-mj="announcement"] > div,
+[data-mj="announcement"] > div *{
   justify-content:center !important;
   text-align:center !important;
 }
