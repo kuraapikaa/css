@@ -26,3 +26,16 @@
   z-index:2 !important;
   position:relative !important;
 }
+
+/* 5) Banner navigasyon kümesini (oklar + noktalar) hafif sola al */
+[direction="horizontal"]:has([aria-label="arrow_left"]){
+  transform: translateX(-28px) !important;
+}
+
+/* 6) Banner oklarına gradient kenarlık (yuvarlak köşeyi korur) */
+[aria-label="arrow_left"], [aria-label="arrow_right"]{
+  border: 2px solid transparent !important;
+  background:
+    linear-gradient(#151515,#151515) padding-box,
+    linear-gradient(135deg,#CE8D36 0%,#F5C872 35.01%,#FFF0A3 60.01%,#998A5E 100%) border-box !important;
+}
