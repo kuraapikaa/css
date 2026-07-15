@@ -115,8 +115,8 @@
 }
 [data-mj="footer-license"] .tb-seal{
   flex: 0 0 auto;
-  width: 120px;
-  height: 120px;
+  width: 96px;
+  height: 96px;
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -177,8 +177,8 @@
     padding: 18px;
   }
   [data-mj="footer-license"] .tb-seal{
-    width: 92px;
-    height: 92px;
+    width: 76px;
+    height: 76px;
   }
 }
 
@@ -259,22 +259,28 @@
    Telegram ve aranma butonları custom.js tarafından ekleniyor.
    Ölçüler megafon butonundan birebir alındı: 40x40, #151515.
 
-   Köşe yarıçapı bilerek "inherit" değil, her butonun kendi değeri
-   korunuyor: megafon ve bizimkiler 16px, arama 8px. Sitenin kendi
-   tutarsızlığı — eşitlemek isterseniz aşağıdaki radius'u açın. */
+   Ölçü ve köşe yarıçapı megafondan runtime'da kopyalanır (bkz. custom.js
+   syncButtonSize). Arama butonu bu senkrona dahil değil — onun köşesi
+   sitede 8px, megafon masaüstünde 16px. Sitenin kendi tutarsızlığı. */
 [data-mj="header-call-button"],
 [data-mj="header-telegram-button"]{
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  padding: 8px;
-  border-radius: 16px;
   background: #151515;
   color: #F5C872;
   cursor: pointer;
   transition: transform .25s ease, box-shadow .25s ease, background-color .25s ease;
+
+  /* Ölçüler custom.js tarafından megafon butonundan okunup buraya yazılır.
+     Sabit yazmıyoruz: site kırılma noktasını @media ile değil, JS ile
+     algılayıp megafona farklı bir sınıf veriyor (masaüstü 40px/16px,
+     mobil 32px/8px). Kopyalanacak bir medya sorgusu yok.
+     Fallback değerler masaüstü ölçüleri. */
+  width: var(--tb-btn-size, 40px);
+  height: var(--tb-btn-size, 40px);
+  padding: var(--tb-btn-pad, 8px);
+  border-radius: var(--tb-btn-radius, 16px);
 }
 [data-mj="header-call-button"]:hover,
 [data-mj="header-telegram-button"]:hover{
@@ -284,25 +290,32 @@
 }
 [data-mj="header-call-button"] svg,
 [data-mj="header-telegram-button"] svg{
-  width: 24px;
-  height: 24px;
+  width: var(--tb-btn-icon, 24px);
+  height: var(--tb-btn-icon, 24px);
   display: block;
 }
 
-/* 13) İkon butonlara altın gradient kenarlık
+/* 13) Altın gradient kenarlık — ikon butonlar + Giriş
    ÖNEMLİ: 6. kuraldaki padding-box/border-box tekniği burada KULLANILAMAZ.
    Megafon butonunun background'unda CMS'ten gelen bir görsel var; o teknik
    background'u tamamen devraldığı için görseli siler. Maske yöntemi ::after
-   katmanında çalışır, background'a hiç dokunmaz. */
+   katmanında çalışır, background'a hiç dokunmaz.
+
+   Giriş burada, KAYIT değil: KAYIT zaten aynı gradienti DOLGU olarak
+   kullanıyor. İkisi böylece birbirini tamamlıyor — dolu gradient birincil
+   eylem, çerçeve ikincil. KAYIT'a da çerçeve koymak ikisini eşitler ve
+   hiyerarşiyi siler. */
 [data-mj="header-special-button"],
 [data-mj="header-call-button"],
 [data-mj="header-telegram-button"],
+[data-mj="login-button"],
 button[name="search"]{
   position: relative !important;
 }
 [data-mj="header-special-button"]::after,
 [data-mj="header-call-button"]::after,
 [data-mj="header-telegram-button"]::after,
+[data-mj="login-button"]::after,
 button[name="search"]::after{
   content:"";
   position:absolute;
@@ -321,6 +334,7 @@ button[name="search"]::after{
 [data-mj="header-special-button"]:hover::after,
 [data-mj="header-call-button"]:hover::after,
 [data-mj="header-telegram-button"]:hover::after,
+[data-mj="login-button"]:hover::after,
 button[name="search"]:hover::after{ opacity:1; }
 
 /* 14) Header lisans rozeti (logonun sağı)
@@ -348,7 +362,159 @@ button[name="search"]:hover::after{ opacity:1; }
   [data-mj="header-seal"]{ display: none; }
 }
 
-/* 15) Footer iletişim kartları (lisans bloğunun üstü)
+/* 15) Footer dizilimi — logo üstte, hepsi ortalı
+   Sıra: kalkan rozeti → logo → legal sayfalar → 18+ → dil → çizgi
+         → copyright → promo kartları → iletişim kartları → lisans
+
+   NASIL: display:contents ile ağaç düzleştirilip order ile sıralanıyor.
+   Düğümleri JS ile taşımak istemedik — footer React tarafından yönetiliyor
+   ve dil seçici bir react-select bileşeni; taşınırsa React güncellerken
+   kırılabilir, kopyalanırsa çalışmaz. Bu yöntemde DOM'a hiç dokunulmuyor,
+   yalnızca görsel sıra değişiyor.
+
+   NOT: logo ve legal menü sitede aynı kutunun (footer-top) içinde kardeş.
+   Ayrı sıralayabilmek için o kutuyu da düzleştirmek zorundayız; menünün
+   tam genişliğe yayılması bunun sonucu. Sekiz öge 1122px tutuyor, tek
+   satıra sığıyor; dar ekranda kendiliğinden kırılıyor. */
+[data-mj="footer"]{
+  display: flex !important;
+  flex-direction: column !important;
+}
+[data-mj="footer"] > .app-ltr-1l44gyp,
+[data-mj="footer-content"],
+[data-mj="footer-top"]{
+  display: contents !important;
+}
+/* logonun üstündeki kalkan rozeti — doğrulama sayfasına gider */
+[data-mj="footer-seal"]{
+  order: 0 !important;
+  align-self: center !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  margin: 28px 0 6px;
+  transition: transform .28s ease, filter .28s ease;
+}
+[data-mj="footer-seal"] img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+[data-mj="footer-seal"]:hover{
+  transform: scale(1.07);
+  filter: drop-shadow(0 0 10px rgba(245,200,114,.45));
+}
+[data-mj="footer-logo"]{
+  order: 1 !important;
+  align-self: center !important;
+  margin: 0 0 20px !important;
+}
+[data-mj="footer-nav"]{ order: 2 !important; }
+/* 18+ ve dil seçiciyi taşıyan blok — dikey ve ortalı */
+[data-mj="footer"] .app-ltr-19zdw54{
+  order: 3 !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 12px !important;
+  margin: 20px 0 0 !important;
+}
+[data-mj="footer"] hr{ order: 4 !important; }
+[data-mj="footer-bottom"]{ order: 5 !important; }
+[data-mj="footer-promo"]{ order: 6 !important; }
+[data-mj="footer-contact"]{ order: 7 !important; }
+[data-mj="footer-license"]{ order: 8 !important; }
+
+/* 16) Footer promo kartları (tıklanabilir, e-postaların üstünde)
+   E-posta kartlarından bilerek daha davetkâr: bunlar bilgi değil, eylem
+   çağrısı. Gradient kenarlık + ikon rozeti + kayan ok. */
+[data-mj="footer-promo"]{
+  text-align: left;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin: 28px 16px 0;
+}
+[data-mj="footer-promo"] .tb-promo{
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 20px;
+  border-radius: 16px;
+  background: rgba(255,255,255,.03);
+  text-decoration: none;
+  overflow: hidden;
+  transition: transform .28s ease, background-color .28s ease;
+}
+/* gradient kenarlık — maske yöntemi, background'a dokunmaz */
+[data-mj="footer-promo"] .tb-promo::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  padding:1px;
+  background: linear-gradient(135deg,#CE8D36 0%,#F5C872 35.01%,#FFF0A3 60.01%,#998A5E 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events:none;
+  opacity:.5;
+  transition: opacity .28s ease;
+}
+[data-mj="footer-promo"] .tb-promo:hover{
+  transform: translateY(-2px);
+  background: rgba(255,255,255,.055);
+}
+[data-mj="footer-promo"] .tb-promo:hover::after{ opacity:1; }
+[data-mj="footer-promo"] .tb-promo-ico{
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(245,200,114,.1);
+  color: #F5C872;
+  transition: transform .28s ease;
+}
+[data-mj="footer-promo"] .tb-promo:hover .tb-promo-ico{ transform: scale(1.08); }
+[data-mj="footer-promo"] .tb-promo-ico svg{ width: 22px; height: 22px; }
+[data-mj="footer-promo"] .tb-promo-txt{ flex: 1 1 auto; min-width: 0; }
+[data-mj="footer-promo"] .tb-promo-t{
+  display: block;
+  color: #F5C872;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+[data-mj="footer-promo"] .tb-promo-d{
+  display: block;
+  color: rgba(255,255,255,.78);
+  font-size: 14px;
+  line-height: 1.45;
+}
+[data-mj="footer-promo"] .tb-promo-d b{ color: #FFF0A3; font-weight: 600; }
+[data-mj="footer-promo"] .tb-promo-ok{
+  flex: 0 0 auto;
+  color: #F5C872;
+  display: inline-flex;
+  transition: transform .28s ease;
+}
+[data-mj="footer-promo"] .tb-promo-ok svg{ width: 18px; height: 18px; }
+[data-mj="footer-promo"] .tb-promo:hover .tb-promo-ok{ transform: translateX(4px); }
+
+@media (max-width: 900px){
+  [data-mj="footer-promo"]{ grid-template-columns: 1fr; }
+}
+
+/* 17) Footer iletişim kartları (lisans bloğunun üstü)
    Referans tasarımın gövdeleri beyazdı — o site açık temalı. Lacivert
    footer'da üç beyaz dikdörtgen patlardı; yapı korunup palet çevrildi. */
 [data-mj="footer-contact"]{
@@ -447,7 +613,11 @@ button[name="search"]:hover::after{ opacity:1; }
   [data-mj="header-call-button"],
   [data-mj="header-telegram-button"],
   [data-mj="header-seal"],
+  [data-mj="footer-seal"],
   [data-mj="footer-contact"] .tb-copy,
+  [data-mj="footer-promo"] .tb-promo,
+  [data-mj="footer-promo"] .tb-promo-ico,
+  [data-mj="footer-promo"] .tb-promo-ok,
   button[name="search"],
   [data-mj="header-nav-item"] .sl-navlink,
   [data-mj="footer-license"] .tb-seal{
