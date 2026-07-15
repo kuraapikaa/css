@@ -41,19 +41,28 @@
     { key: 'talep',  baslik: 'İstek ve Öneriler',   mail: 'talep@tacobahis.com'  }
   ];
 
-  var PROMOS = [
+  // Vizyon / misyon metinleri — düzenlemek isterseniz burası.
+  var ABOUT = [
     {
-      ikon: 'globe',
-      href: MIRROR_URL,
-      baslik: 'Güncel Adres',
-      metin: 'Her zaman güncel adresimize <b>tacogir.com</b> adresinden ulaşabilirsiniz'
+      baslik: 'Vizyonumuz',
+      paragraflar: [
+        'TacoBahis olarak vizyonumuz, çevrim içi eğlencede güvenin adresi olmak. Sağlam teknik altyapı, açık iletişim ve oyuncuyu merkeze alan bir hizmet anlayışıyla sektörde kalıcı bir marka inşa ediyoruz.',
+        'Lisanslı ve denetlenen bir platform olarak, her adımda hesap verebilir olmayı ve oyuncularımızın haklarını korumayı temel alıyoruz.'
+      ]
     },
     {
-      ikon: 'telegram',
-      href: TELEGRAM_URL,
-      baslik: 'Telegram Kanalı',
-      metin: 'Telegram kanalımıza katılın, <b>sürpriz hediyeler</b> kazanın!'
+      baslik: 'Misyonumuz',
+      paragraflar: [
+        'Üyelerimize kesintisiz erişim, rekabetçi oranlar ve hızlı ödeme deneyimi sunmak için çalışıyoruz. Her işlemde adalet, şeffaflık ve güvenlik önceliğimiz.',
+        'Amacımız basit: oyuncularımızın tek düşüncesi oyunun keyfi olsun; gerisini biz halledelim.'
+      ]
     }
+  ];
+
+  // Resmi kanallar
+  var CHANNELS = [
+    { ikon: 'telegram', href: TELEGRAM_URL, etiket: 'Telegram', deger: '@tacoresmi' },
+    { ikon: 'globe',    href: MIRROR_URL,   etiket: 'Her zaman güncel', deger: 'tacogir.com' }
   ];
 
   /* ---------- İkonlar ---------- */
@@ -114,7 +123,12 @@
     ok:
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" ' +
       'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-      '<path d="M5 12h14M13 6l6 6-6 6"/></svg>'
+      '<path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+
+    disari:
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" ' +
+      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<path d="M7 17 17 7M9 7h8v8"/></svg>'
   };
 
   /* ---------- 1) Footer lisans bloğu ---------- */
@@ -124,153 +138,100 @@
     'Kayıtlı adres: Hamchako, Mutsamudu, Autonomous Island of Anjouan, Union of Comoros. ' +
     'Bu platform, 2005 tarihli Computer Gaming Licensing Act 007 uyarınca Anjouan Eyaleti ' +
     'Offshore Finance Authority tarafından verilen <b>ALSI-202605014-FI1</b> numaralı lisans ' +
-    'ile faaliyet göstermektedir. Tüm lisanslı faaliyetler Anjouan Licensing Services Inc. denetimindedir. ';
+    'ile faaliyet göstermektedir. Tüm lisanslı faaliyetler Anjouan Licensing Services Inc. denetimindedir.';
 
   function buildLicense() {
     var box = document.createElement('div');
     box.setAttribute('data-mj', 'footer-license');
     box.innerHTML =
+      '<span class="tb-lic-kicker">Düzenlemeler ve İş Ortakları</span>' +
       '<a class="tb-seal" href="' + VERIFY_URL + '" target="_blank" rel="noopener noreferrer">' +
         '<img src="' + SEAL_URL + '" alt="Anjouan Gambling Board — Geçerli Lisans">' +
+        '<span class="tb-seal-hint">Doğrulamak için tıklayın</span>' +
       '</a>' +
-      '<div class="tb-body">' +
-        '<span class="tb-pill">' + SVG.shield + 'Lisanslı Operatör</span>' +
-        '<p class="tb-text">' + LICENSE_TEXT +
-          '<a href="' + VERIFY_URL + '" target="_blank" rel="noopener noreferrer">Lisansı doğrula →</a>' +
-        '</p>' +
-      '</div>';
+      '<p class="tb-text">' + LICENSE_TEXT + '</p>' +
+      '<a class="tb-lic-btn" href="' + VERIFY_URL + '" target="_blank" rel="noopener noreferrer">' +
+        'Lisans durumunu doğrula' + SVG.ok +
+      '</a>';
     return box;
   }
 
-  /* ---------- 2) Footer iletişim kartları ---------- */
+  /* ---------- 3) Vizyon / misyon kartları ---------- */
 
-  function buildContact() {
+  function buildAbout() {
     var box = document.createElement('div');
-    box.setAttribute('data-mj', 'footer-contact');
+    box.setAttribute('data-mj', 'footer-about');
 
     var html = '';
-    for (var i = 0; i < CONTACTS.length; i++) {
-      var c = CONTACTS[i];
+    for (var i = 0; i < ABOUT.length; i++) {
+      var a = ABOUT[i];
+      var p = '';
+      for (var j = 0; j < a.paragraflar.length; j++) {
+        p += '<p>' + a.paragraflar[j] + '</p>';
+      }
       html +=
-        '<div class="tb-card">' +
-          '<div class="tb-card-head">' + SVG[c.key] + '<span>' + c.baslik + '</span></div>' +
-          '<div class="tb-card-body">' +
-            '<a class="tb-mail" href="mailto:' + c.mail + '">' + c.mail + '</a>' +
-            '<button class="tb-copy" type="button" data-mail="' + c.mail + '" ' +
-            'aria-label="' + c.mail + ' adresini kopyala">' + SVG.kopyala + '</button>' +
-          '</div>' +
+        '<div class="tb-about">' +
+          '<h3>' + a.baslik + '</h3>' +
+          p +
         '</div>';
     }
     box.innerHTML = html;
-
-    var btns = box.querySelectorAll('.tb-copy');
-    for (var j = 0; j < btns.length; j++) {
-      btns[j].addEventListener('click', onCopy);
-    }
     return box;
   }
 
-  function onCopy() {
-    var btn = this;
-    var mail = btn.getAttribute('data-mail');
-    var eski = btn.innerHTML;
+  /* ---------- 3b) Resmi kanallar ---------- */
 
-    function bildir(basarili) {
-      btn.innerHTML = basarili ? SVG.onay : eski;
-      if (basarili) btn.classList.add('ok');
-      setTimeout(function () {
-        btn.innerHTML = eski;
-        btn.classList.remove('ok');
-      }, 1600);
-    }
-
-    // Not: navigator.clipboard yalnızca güvenli bağlamda ve gerçek kullanıcı
-    // etkileşiminde çalışır. Başarısız olursa eski textarea yöntemine düşüyoruz;
-    // o da olmazsa onay göstermiyoruz — yalancı başarı en kötü seçenek olurdu.
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(mail).then(
-        function () { bildir(true); },
-        function () { bildir(fallbackCopy(mail)); }
-      );
-    } else {
-      bildir(fallbackCopy(mail));
-    }
-  }
-
-  function fallbackCopy(text) {
-    var ta = document.createElement('textarea');
-    ta.value = text;
-    ta.setAttribute('readonly', '');
-    ta.style.position = 'fixed';
-    ta.style.opacity = '0';
-    document.body.appendChild(ta);
-    ta.select();
-    var ok = false;
-    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
-    document.body.removeChild(ta);
-    return ok;
-  }
-
-  function mountFooter() {
-    // Bloklar footer'a doğrudan eklenir; görsel sıralama custom.css'teki
-    // order kurallarıyla yapılır (bkz. "Footer dizilimi" kuralı).
-    var footer = document.querySelector('[data-mj="footer"]');
-    if (!footer) return;
-
-    var sea = footer.querySelector(':scope > [data-mj="footer-seal"]');
-    var pro = footer.querySelector(':scope > [data-mj="footer-promo"]');
-    var con = footer.querySelector(':scope > [data-mj="footer-contact"]');
-    var lic = footer.querySelector(':scope > [data-mj="footer-license"]');
-
-    // Dördü de yerindeyse dokunma — yoksa observer sonsuz döngüye girer.
-    if (sea && pro && con && lic) return;
-
-    if (sea) sea.remove();
-    if (pro) pro.remove();
-    if (con) con.remove();
-    if (lic) lic.remove();
-
-    footer.appendChild(buildFooterSeal());
-    footer.appendChild(buildPromo());
-    footer.appendChild(buildContact());
-    footer.appendChild(buildLicense());
-  }
-
-  /* ---------- 3) Footer promo kartları ---------- */
-
-  function buildPromo() {
+  function buildChannels() {
     var box = document.createElement('div');
-    box.setAttribute('data-mj', 'footer-promo');
+    box.setAttribute('data-mj', 'footer-channels');
 
-    var html = '';
-    for (var i = 0; i < PROMOS.length; i++) {
-      var p = PROMOS[i];
-      html +=
-        '<a class="tb-promo" href="' + p.href + '" target="_blank" rel="noopener noreferrer">' +
-          '<span class="tb-promo-ico">' + SVG[p.ikon] + '</span>' +
-          '<span class="tb-promo-txt">' +
-            '<span class="tb-promo-t">' + p.baslik + '</span>' +
-            '<span class="tb-promo-d">' + p.metin + '</span>' +
+    var kartlar = '';
+    for (var i = 0; i < CHANNELS.length; i++) {
+      var c = CHANNELS[i];
+      kartlar +=
+        '<a class="tb-ch" href="' + c.href + '" target="_blank" rel="noopener noreferrer">' +
+          '<span class="tb-ch-ico">' + SVG[c.ikon] + '</span>' +
+          '<span class="tb-ch-txt">' +
+            '<span class="tb-ch-label">' + c.etiket + '</span>' +
+            '<span class="tb-ch-value">' + c.deger + '</span>' +
           '</span>' +
-          '<span class="tb-promo-ok">' + SVG.ok + '</span>' +
+          '<span class="tb-ch-ok">' + SVG.disari + '</span>' +
         '</a>';
     }
-    box.innerHTML = html;
+
+    box.innerHTML =
+      '<div class="tb-ch-head">' +
+        '<span class="tb-ch-kicker">TacoBahis Resmi Kanalları</span>' +
+        '<strong class="tb-ch-title">Sosyal medya<br>hesaplarımız</strong>' +
+      '</div>' +
+      '<div class="tb-ch-list">' + kartlar + '</div>';
     return box;
   }
 
-  /* ---------- 4) Footer lisans rozeti (logonun üstü) ---------- */
+  /* ---------- 4) Footer marka satırı: rozet + logo yan yana ----------
 
-  function buildFooterSeal() {
-    var a = document.createElement('a');
-    a.setAttribute('data-mj', 'footer-seal');
-    a.setAttribute('href', VERIFY_URL);
-    a.setAttribute('target', '_blank');
-    a.setAttribute('rel', 'noopener noreferrer');
-    a.setAttribute('aria-label', 'Lisans doğrulama');
-    a.innerHTML =
-      '<img src="' + HEADER_SEAL_URL + '" alt="Anjouan Gambling Board — Geçerli Lisans">';
-    return a;
+     Logo React'in elemanı ve rozetle aynı satıra almak için onu taşımak
+     gerekirdi — React footer'ı yeniden çizerken kırılabilirdi. Onun yerine
+     orijinal footer-logo gizlenip (custom.css) burada bir kopyası basılıyor.
+     src ve href runtime'da orijinalden okunuyor; CMS'te logo değişirse
+     kopya da kendiliğinden takip eder. */
+
+  function buildFooterBrand() {
+    var orj = document.querySelector('[data-mj="footer-logo"]');
+    var img = orj && orj.querySelector('img');
+    if (!img) return null;
+
+    var box = document.createElement('div');
+    box.setAttribute('data-mj', 'footer-brand');
+    box.innerHTML =
+      '<a class="tb-brand-seal" href="' + VERIFY_URL + '" target="_blank" ' +
+      'rel="noopener noreferrer" aria-label="Lisans doğrulama">' +
+        '<img src="' + HEADER_SEAL_URL + '" alt="Anjouan Gambling Board — Geçerli Lisans">' +
+      '</a>' +
+      '<a class="tb-brand-logo" href="' + (orj.getAttribute('href') || '/') + '">' +
+        '<img src="' + img.getAttribute('src') + '" alt="TacoBahis">' +
+      '</a>';
+    return box;
   }
 
   /* ---------- 5) Header lisans rozeti ---------- */
