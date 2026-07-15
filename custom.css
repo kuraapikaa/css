@@ -80,24 +80,30 @@
   pointer-events:none;
   z-index:2;
 }
-/* sabit altın taban çerçeve */
+/* soft altın taban — çerçeve comet'ler arasında kaybolmasın (hafif) */
 [data-mj="widget-banner-link"]::before{
   background: linear-gradient(135deg,#CE8D36 0%,#F5C872 35.01%,#FFF0A3 60.01%,#998A5E 100%);
-  opacity:.85;
+  opacity:.38;
 }
-/* dönen parlak ışık huzmesi — dar yay, kenar boyunca akıyor */
+/* İKİ kuyruklu-yıldız (comet) kenar boyunca dolaşır — neon glow.
+   conic'te iki dar parlak yay (beyaz-sıcak tepe → altın → koyu altın kuyruk),
+   aralar şeffaf; @property açısı dönünce iki ışık kenarı turluyor.
+   (NarcosBahis ng-slider-neon-sweep efektinin uyarlaması.) */
 [data-mj="widget-banner-link"]::after{
   background: conic-gradient(from var(--tb-banner-angle),
-    transparent 0deg, transparent 55deg,
-    #F5C872 80deg, #FFF7D6 100deg, #FFFFFF 108deg, #FFF7D6 116deg, #F5C872 138deg,
-    transparent 165deg, transparent 360deg);
-  filter: drop-shadow(0 0 3px rgba(255,240,163,.6));
-  animation: tb-banner-sweep 3s linear infinite;
+    transparent 0deg, transparent 38deg,
+    rgba(255,255,255,.98) 48deg, #F2D58A 57deg, #8F6424 68deg,
+    transparent 84deg, transparent 212deg,
+    rgba(255,255,255,.9) 222deg, #C99843 232deg,
+    transparent 250deg, transparent 360deg);
+  filter: drop-shadow(0 0 4px rgba(242,213,138,.95)) drop-shadow(0 0 10px rgba(201,152,67,.6));
+  animation: tb-banner-sweep 4.2s linear infinite;
 }
 @keyframes tb-banner-sweep{ to{ --tb-banner-angle:360deg; } }
-/* Hareket hassasiyeti: parıltıyı durdur, sabit altın çerçeve kalsın */
+/* Hareket hassasiyeti: dolaşımı durdur, sabit altın çerçeve görünsün */
 @media (prefers-reduced-motion: reduce){
   [data-mj="widget-banner-link"]::after{ animation:none; opacity:0; }
+  [data-mj="widget-banner-link"]::before{ opacity:.7; }
 }
 
 /* 6c) Banner görselindeki baskılı koyu kenarı kırp
