@@ -39,3 +39,136 @@
     linear-gradient(#151515,#151515) padding-box,
     linear-gradient(135deg,#CE8D36 0%,#F5C872 35.01%,#FFF0A3 60.01%,#998A5E 100%) border-box !important;
 }
+
+/* 7) Logo — soft nefes animasyonu + altın arka ışıma */
+[data-mj="logo"]{
+  position: relative !important;
+  isolation: isolate;
+  animation: tb-logo-breathe 4.5s ease-in-out infinite;
+  transition: transform .35s ease, filter .35s ease;
+}
+[data-mj="logo"]::before{
+  content:"";
+  position:absolute;
+  inset:-45% -25%;
+  z-index:-1;
+  border-radius:50%;
+  background: radial-gradient(ellipse at 50% 50%,
+    rgba(245,200,114,.50) 0%,
+    rgba(206,141,54,.26) 42%,
+    rgba(206,141,54,0) 72%);
+  filter: blur(12px);
+  animation: tb-logo-glow 4.5s ease-in-out infinite;
+  pointer-events:none;
+}
+[data-mj="logo"]:hover{
+  transform: scale(1.04) !important;
+  filter: drop-shadow(0 0 8px rgba(255,240,163,.6));
+}
+[data-mj="logo"]:hover::before{ opacity:1 !important; }
+
+@keyframes tb-logo-breathe{
+  0%,100%{ transform: scale(1); }
+  50%    { transform: scale(1.025); }
+}
+@keyframes tb-logo-glow{
+  0%,100%{ opacity:.42; transform: scale(.94); }
+  50%    { opacity:.8;  transform: scale(1.07); }
+}
+
+/* 8) Footer lisans bloğu
+   NOT: Bu kural, footer'a eklenmiş
+   <div data-mj="footer-license"> ... </div>
+   HTML bloğunu biçimlendirir. HTML yoksa hiçbir şey görünmez. */
+[data-mj="footer-license"]{
+  text-align: left;            /* footer'daki text-align:center mirasını kır */
+  margin: 24px 16px 32px;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  border: 1px solid rgba(245,200,114,.22);
+  border-radius: 14px;
+  background: rgba(255,255,255,.02);
+}
+[data-mj="footer-license"] .tb-seal{
+  flex: 0 0 auto;
+  width: 96px;
+  height: 96px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,.04);
+  overflow: hidden;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+[data-mj="footer-license"] .tb-seal:hover{
+  transform: scale(1.04);
+  box-shadow: 0 0 18px rgba(245,200,114,.25);
+}
+[data-mj="footer-license"] .tb-seal img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+[data-mj="footer-license"] .tb-body{
+  flex:1 1 auto;
+  min-width:0;
+}
+[data-mj="footer-license"] .tb-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding: 5px 13px;
+  border: 1px solid rgba(245,200,114,.45);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: #F5C872;
+  margin-bottom: 11px;
+}
+[data-mj="footer-license"] .tb-text{
+  font-size: 13px;
+  line-height: 1.65;
+  color: rgba(255,255,255,.62);
+  margin: 0;
+}
+[data-mj="footer-license"] .tb-text b{
+  color:#F5C872;
+  font-weight:600;
+}
+[data-mj="footer-license"] .tb-text a{
+  color:#F5C872;
+  text-decoration:none;
+}
+[data-mj="footer-license"] .tb-text a:hover{
+  text-decoration:underline;
+}
+
+@media (max-width: 768px){
+  [data-mj="footer-license"]{
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 18px;
+  }
+  [data-mj="footer-license"] .tb-seal{
+    width: 76px;
+    height: 76px;
+  }
+}
+
+/* Hareket hassasiyeti olan kullanıcılar için tüm animasyonları durdur */
+@media (prefers-reduced-motion: reduce){
+  [data-mj="logo"],
+  [data-mj="logo"]::before{
+    animation: none !important;
+  }
+  [data-mj="widget-pages-item"],
+  [data-mj="footer-license"] .tb-seal{
+    transition: none !important;
+  }
+}
