@@ -15,7 +15,7 @@
 (function () {
   'use strict';
 
-  var SEAL_URL = 'SEAL_URL_BURAYA';
+  var SEAL_URL = 'https://i.ibb.co/nNhnhW7n/g-rsel-2026-07-15-043554819.png';
 
   var VERIFY_URL =
     'https://verification.anjouangamblingboard.org/s/' +
