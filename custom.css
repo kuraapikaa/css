@@ -4,6 +4,31 @@
    tüm aileyi indirmenin bedeli bu kadar başlık için gereksiz. */
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&display=swap');
 
+/* Sayfa arka planı — içerikten bağımsız sabit katman.
+   Opacity yalnızca görsele uygulanır; metinleri ve kartları soldurmaz. */
+body{
+  position:relative;
+  background-color:#060B2E !important;
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  background-image:url('https://i.ibb.co/9HMH0NcD/Olu-turulan-g-rsel-1-1.png');
+  background-repeat:no-repeat;
+  background-position:center top;
+  background-size:cover;
+  opacity:.35;
+  filter:brightness(1.16) contrast(1.08) saturate(1.05);
+  transform:translateZ(0);
+}
+#root{
+  position:relative;
+  z-index:1;
+}
+
 /* 1) Üst duyuru çubuğu metnini ortala (X butonuna dokunmadan) */
 [data-mj="announcement"] > div,
 [data-mj="announcement"] > div *{
