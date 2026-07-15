@@ -23,9 +23,9 @@
   // Footer rozeti: kalkan + "VALID" yazısı. 120px'te okunuyor.
   var SEAL_URL = 'https://i.ibb.co/nNhnhW7n/g-rsel-2026-07-15-043554819.png';
 
-  // Header rozeti: yazısız kalkan + onay tiki. Ayrı görsel olması şart —
-  // yazılı sürüm 34px'te okunaksız bir lekeye dönüşüyordu.
-  var HEADER_SEAL_URL = 'https://i.ibb.co/Q33Y12rq/anjouan-shield-check-128.png';
+  // Header + footer rozeti: yazısız kalkan, beyaz hilal/yıldızlar, onay tiki.
+  // Yazılı sürümden ayrı olması şart — o, 34px'te okunaksız bir lekeye dönüşüyordu.
+  var HEADER_SEAL_URL = 'https://i.ibb.co/YKVjFR8/anjouan-shield-check-256.png';
 
   var VERIFY_URL =
     'https://verification.anjouangamblingboard.org/s/' +
