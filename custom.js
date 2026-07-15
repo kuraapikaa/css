@@ -169,6 +169,7 @@
       for (var j = 0; j < a.paragraflar.length; j++) {
         p += '<p>' + a.paragraflar[j] + '</p>';
       }
+      if (i > 0) html += '<span class="tb-about-rule" aria-hidden="true"></span>';
       html +=
         '<div class="tb-about">' +
           '<h3>' + a.baslik + '</h3>' +
