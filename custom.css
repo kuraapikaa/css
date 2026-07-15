@@ -40,40 +40,53 @@
     linear-gradient(135deg,#CE8D36 0%,#F5C872 35.01%,#FFF0A3 60.01%,#998A5E 100%) border-box !important;
 }
 
-/* 7) Logo — soft nefes animasyonu + altın arka ışıma */
+/* 7) Logo — arkasında parıldayan yıldızlar
+   İki katman (::before / ::after) farklı konum ve zamanlamayla çalışır.
+   Tek katman olsaydı bütün yıldızlar aynı anda yanıp sönerdi; asenkron
+   olması parıltı hissini veren şey.
+
+   Yıldızlar SVG data-URI olarak gömülü — yuvarlak nokta (radial-gradient)
+   denendi ama bu boyutta parıltıdan çok toz gibi okunuyordu. */
 [data-mj="logo"]{
   position: relative !important;
   isolation: isolate;
-  animation: tb-logo-breathe 4.5s ease-in-out infinite;
-  transition: transform .35s ease, filter .35s ease;
+  transition: transform .35s ease;
 }
-[data-mj="logo"]::before{
+[data-mj="logo"]::before,
+[data-mj="logo"]::after{
   content:"";
   position:absolute;
-  inset:-45% -25%;
+  inset:-45% -20%;
   z-index:-1;
-  border-radius:50%;
-  background: radial-gradient(ellipse at 50% 50%,
-    rgba(245,200,114,.50) 0%,
-    rgba(206,141,54,.26) 42%,
-    rgba(206,141,54,0) 72%);
-  filter: blur(12px);
-  animation: tb-logo-glow 4.5s ease-in-out infinite;
   pointer-events:none;
+  background-repeat: no-repeat;
+}
+/* A grubu */
+[data-mj="logo"]::before{
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0c.6 6.3 5.1 10.8 12 12-6.9 1.2-11.4 5.7-12 12-.6-6.3-5.1-10.8-12-12C6.9 10.8 11.4 6.3 12 0z' fill='%23FFF0A3'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0c.6 6.3 5.1 10.8 12 12-6.9 1.2-11.4 5.7-12 12-.6-6.3-5.1-10.8-12-12C6.9 10.8 11.4 6.3 12 0z' fill='%23FFFFFF'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0c.6 6.3 5.1 10.8 12 12-6.9 1.2-11.4 5.7-12 12-.6-6.3-5.1-10.8-12-12C6.9 10.8 11.4 6.3 12 0z' fill='%23F5C872'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0c.6 6.3 5.1 10.8 12 12-6.9 1.2-11.4 5.7-12 12-.6-6.3-5.1-10.8-12-12C6.9 10.8 11.4 6.3 12 0z' fill='%23FFF0A3'/%3E%3C/svg%3E");
+  background-position: 6% 24%, 34% 78%, 72% 18%, 96% 66%;
+  background-size: 10px 10px, 6px 6px, 8px 8px, 7px 7px;
+  animation: tb-twinkle-a 3.2s ease-in-out infinite;
+}
+/* B grubu — farklı konumlar, kaydırılmış faz */
+[data-mj="logo"]::after{
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0c.6 6.3 5.1 10.8 12 12-6.9 1.2-11.4 5.7-12 12-.6-6.3-5.1-10.8-12-12C6.9 10.8 11.4 6.3 12 0z' fill='%23F5C872'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0c.6 6.3 5.1 10.8 12 12-6.9 1.2-11.4 5.7-12 12-.6-6.3-5.1-10.8-12-12C6.9 10.8 11.4 6.3 12 0z' fill='%23FFF0A3'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0c.6 6.3 5.1 10.8 12 12-6.9 1.2-11.4 5.7-12 12-.6-6.3-5.1-10.8-12-12C6.9 10.8 11.4 6.3 12 0z' fill='%23FFFFFF'/%3E%3C/svg%3E");
+  background-position: 18% 70%, 55% 8%, 88% 40%;
+  background-size: 7px 7px, 9px 9px, 5px 5px;
+  animation: tb-twinkle-b 4.1s ease-in-out infinite;
+  animation-delay: -1.6s;
 }
 [data-mj="logo"]:hover{
   transform: scale(1.04) !important;
-  filter: drop-shadow(0 0 8px rgba(255,240,163,.6));
 }
-[data-mj="logo"]:hover::before{ opacity:1 !important; }
 
-@keyframes tb-logo-breathe{
-  0%,100%{ transform: scale(1); }
-  50%    { transform: scale(1.025); }
+@keyframes tb-twinkle-a{
+  0%,100%{ opacity:.2; transform: scale(.9) rotate(-6deg); }
+  50%    { opacity:1;  transform: scale(1.06) rotate(4deg); }
 }
-@keyframes tb-logo-glow{
-  0%,100%{ opacity:.42; transform: scale(.94); }
-  50%    { opacity:.8;  transform: scale(1.07); }
+@keyframes tb-twinkle-b{
+  0%,100%{ opacity:.95; transform: scale(1.04) rotate(5deg); }
+  50%    { opacity:.15; transform: scale(.9) rotate(-5deg); }
 }
 
 /* 8) Footer lisans bloğu
@@ -188,15 +201,63 @@
   display: block;
 }
 
+/* 10) Üst nav — boşta / hover / aktif durumları
+   ÖNEMLİ: Renk kuralları .sl-navlink'e DEĞİL, içindeki span ve p'ye
+   uygulanır. Link'in kendi rengi çocuklara miras geçmiyor; metin p'de
+   duruyor ve kendi rengini tanımlıyor. <a>'ya yazmak hiçbir şey değiştirmez.
+
+   !important şart: sitenin kuralı .app-ltr-1f3kv97:hover > a > * ile
+   çocukları griye (#999) çeviriyor ve özgüllüğü bizimkinden yüksek. */
+[data-mj="header-nav-item"] .sl-navlink{
+  box-sizing: border-box;
+  border-radius: 10px;
+  border: 1px solid transparent;   /* aktifken sıçramasın diye boştayken de var */
+  transition: background-color .28s ease, transform .2s ease, box-shadow .28s ease;
+}
+[data-mj="header-nav-item"] .sl-navlink span,
+[data-mj="header-nav-item"] .sl-navlink p{
+  transition: color .28s ease;
+}
+
+/* hover */
+[data-mj="header-nav-item"] .sl-navlink:hover{
+  background-color: rgba(255,255,255,.07);
+  transform: translateY(-1px);
+}
+[data-mj="header-nav-item"] .sl-navlink:hover span,
+[data-mj="header-nav-item"] .sl-navlink:hover p{
+  color: #FFF0A3 !important;
+}
+
+/* aktif — .active-link ve aria-current birlikte hedeflenir, biri değişse
+   diğeri tutar. Gradient kenarlık nav zemini #191F4D üzerine kurulu. */
+[data-mj="header-nav-item"] .sl-navlink.active-link,
+[data-mj="header-nav-item"] .sl-navlink[aria-current="page"]{
+  background:
+    linear-gradient(#191F4D,#191F4D) padding-box,
+    linear-gradient(135deg,#CE8D36 0%,#F5C872 35.01%,#FFF0A3 60.01%,#998A5E 100%) border-box;
+  box-shadow: 0 0 12px rgba(245,200,114,.14);
+}
+[data-mj="header-nav-item"] .sl-navlink.active-link:hover,
+[data-mj="header-nav-item"] .sl-navlink[aria-current="page"]:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 0 16px rgba(245,200,114,.26);
+}
+
 /* Hareket hassasiyeti olan kullanıcılar için tüm animasyonları durdur */
 @media (prefers-reduced-motion: reduce){
-  [data-mj="logo"],
-  [data-mj="logo"]::before{
+  [data-mj="logo"]::before,
+  [data-mj="logo"]::after{
     animation: none !important;
+    opacity: .55 !important;
   }
   [data-mj="widget-pages-item"],
   [data-mj="header-call-button"],
+  [data-mj="header-nav-item"] .sl-navlink,
   [data-mj="footer-license"] .tb-seal{
     transition: none !important;
+  }
+  [data-mj="header-nav-item"] .sl-navlink:hover{
+    transform: none !important;
   }
 }
