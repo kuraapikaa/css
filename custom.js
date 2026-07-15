@@ -20,7 +20,12 @@
 
   /* ---------- Ayarlar ---------- */
 
+  // Footer rozeti: kalkan + "VALID" yazısı. 120px'te okunuyor.
   var SEAL_URL = 'https://i.ibb.co/nNhnhW7n/g-rsel-2026-07-15-043554819.png';
+
+  // Header rozeti: yazısız kalkan + onay tiki. Ayrı görsel olması şart —
+  // yazılı sürüm 34px'te okunaksız bir lekeye dönüşüyordu.
+  var HEADER_SEAL_URL = 'https://i.ibb.co/Q33Y12rq/anjouan-shield-check-128.png';
 
   var VERIFY_URL =
     'https://verification.anjouangamblingboard.org/s/' +
@@ -28,11 +33,27 @@
 
   var CALL_URL = 'https://tacoara.com';
   var TELEGRAM_URL = 'https://t.me/tacoresmi';
+  var MIRROR_URL = 'https://tacogir.com';
 
   var CONTACTS = [
     { key: 'reklam', baslik: 'Reklam ve Affiliate', mail: 'reklam@tacobahis.com' },
     { key: 'destek', baslik: 'Destek ve Yardım',    mail: 'destek@tacobahis.com' },
     { key: 'talep',  baslik: 'İstek ve Öneriler',   mail: 'talep@tacobahis.com'  }
+  ];
+
+  var PROMOS = [
+    {
+      ikon: 'globe',
+      href: MIRROR_URL,
+      baslik: 'Güncel Adres',
+      metin: 'Her zaman güncel adresimize <b>tacogir.com</b> adresinden ulaşabilirsiniz'
+    },
+    {
+      ikon: 'telegram',
+      href: TELEGRAM_URL,
+      baslik: 'Telegram Kanalı',
+      metin: 'Telegram kanalımıza katılın, <b>sürpriz hediyeler</b> kazanın!'
+    }
   ];
 
   /* ---------- İkonlar ---------- */
@@ -80,7 +101,20 @@
 
     onay:
       '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' +
-      '<path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>'
+      '<path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>',
+
+    globe:
+      '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' +
+      '<path d="M12 2a10 10 0 100 20 10 10 0 000-20zm6.9 6h-2.9a15.7 15.7 0 00-1.4-3.6A8 8 0 0118.9 8zM12 ' +
+      '4c.8 1.2 1.4 2.5 1.8 4h-3.6c.4-1.5 1-2.8 1.8-4zM4.3 14a8.2 8.2 0 010-4h3.4a16.6 16.6 0 000 4H4.3zm.8 ' +
+      '2h2.9c.3 1.3.8 2.5 1.4 3.6A8 8 0 015.1 16zm2.9-8H5.1a8 8 0 014.3-3.6A15.7 15.7 0 008 8zM12 20c-.8-1.2-1.4-2.5-1.8-4h3.6c-.4 ' +
+      '1.5-1 2.8-1.8 4zm2.2-6H9.8a14.6 14.6 0 010-4h4.4a14.6 14.6 0 010 4zm.3 5.6c.6-1.1 1.1-2.3 1.4-3.6h2.9a8 8 0 ' +
+      '01-4.3 3.6zm1.8-5.6a16.6 16.6 0 000-4h3.4a8.2 8.2 0 010 4h-3.4z"/></svg>',
+
+    ok:
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" ' +
+      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<path d="M5 12h14M13 6l6 6-6 6"/></svg>'
   };
 
   /* ---------- 1) Footer lisans bloğu ---------- */
@@ -178,26 +212,68 @@
   }
 
   function mountFooter() {
-    // DİKKAT: footer-content DEĞİL. Orası display:flex/row — bloklar yan
-    // sütun olarak sıkışır. Bir üst seviye "footer" display:block, doğru yer.
+    // Bloklar footer'a doğrudan eklenir; görsel sıralama custom.css'teki
+    // order kurallarıyla yapılır (bkz. "Footer dizilimi" kuralı).
     var footer = document.querySelector('[data-mj="footer"]');
     if (!footer) return;
 
-    var lic = footer.querySelector(':scope > [data-mj="footer-license"]');
+    var sea = footer.querySelector(':scope > [data-mj="footer-seal"]');
+    var pro = footer.querySelector(':scope > [data-mj="footer-promo"]');
     var con = footer.querySelector(':scope > [data-mj="footer-contact"]');
+    var lic = footer.querySelector(':scope > [data-mj="footer-license"]');
 
-    // İkisi de doğru sırada yerindeyse dokunma —
-    // yoksa observer sonsuz döngüye girer.
-    if (con && lic && con.nextElementSibling === lic && lic === footer.lastElementChild) return;
+    // Dördü de yerindeyse dokunma — yoksa observer sonsuz döngüye girer.
+    if (sea && pro && con && lic) return;
 
+    if (sea) sea.remove();
+    if (pro) pro.remove();
     if (con) con.remove();
     if (lic) lic.remove();
 
+    footer.appendChild(buildFooterSeal());
+    footer.appendChild(buildPromo());
     footer.appendChild(buildContact());
     footer.appendChild(buildLicense());
   }
 
-  /* ---------- 3) Header lisans rozeti ---------- */
+  /* ---------- 3) Footer promo kartları ---------- */
+
+  function buildPromo() {
+    var box = document.createElement('div');
+    box.setAttribute('data-mj', 'footer-promo');
+
+    var html = '';
+    for (var i = 0; i < PROMOS.length; i++) {
+      var p = PROMOS[i];
+      html +=
+        '<a class="tb-promo" href="' + p.href + '" target="_blank" rel="noopener noreferrer">' +
+          '<span class="tb-promo-ico">' + SVG[p.ikon] + '</span>' +
+          '<span class="tb-promo-txt">' +
+            '<span class="tb-promo-t">' + p.baslik + '</span>' +
+            '<span class="tb-promo-d">' + p.metin + '</span>' +
+          '</span>' +
+          '<span class="tb-promo-ok">' + SVG.ok + '</span>' +
+        '</a>';
+    }
+    box.innerHTML = html;
+    return box;
+  }
+
+  /* ---------- 4) Footer lisans rozeti (logonun üstü) ---------- */
+
+  function buildFooterSeal() {
+    var a = document.createElement('a');
+    a.setAttribute('data-mj', 'footer-seal');
+    a.setAttribute('href', VERIFY_URL);
+    a.setAttribute('target', '_blank');
+    a.setAttribute('rel', 'noopener noreferrer');
+    a.setAttribute('aria-label', 'Lisans doğrulama');
+    a.innerHTML =
+      '<img src="' + HEADER_SEAL_URL + '" alt="Anjouan Gambling Board — Geçerli Lisans">';
+    return a;
+  }
+
+  /* ---------- 5) Header lisans rozeti ---------- */
 
   function mountHeaderSeal() {
     if (document.querySelector('[data-mj="header-seal"]')) return;
@@ -213,7 +289,7 @@
     wrap.innerHTML =
       '<a data-mj="header-seal" href="' + VERIFY_URL + '" target="_blank" ' +
       'rel="noopener noreferrer" aria-label="Lisans doğrulama">' +
-      '<img src="' + SEAL_URL + '" alt="Anjouan Gambling Board — Geçerli Lisans">' +
+      '<img src="' + HEADER_SEAL_URL + '" alt="Anjouan Gambling Board — Geçerli Lisans">' +
       '</a>';
 
     // Logodan hemen sonra: logo → rozet → arama
@@ -279,6 +355,31 @@
     }
   }
 
+  /* ---------- Buton ölçüsünü megafona eşitle ---------- */
+
+  // Site medya sorgusu KULLANMIYOR: kırılma noktasını JS ile algılayıp
+  // megafona farklı bir Emotion sınıfı veriyor (masaüstü app-ltr-t43yhk /
+  // mobil app-ltr-yrnpgg → 40px/16px vs 32px/8px). Kopyalanacak bir @media
+  // yok ve kırılma noktasını tahmin edip sabitlemek kırılgan olurdu.
+  //
+  // Bu yüzden ölçüyü çalışma anında megafondan okuyup CSS değişkenlerine
+  // yazıyoruz. Site ne yaparsa yapsın butonlarımız takip eder.
+  function syncButtonSize() {
+    var ref = document.querySelector('[data-mj="header-special-button"]');
+    if (!ref) return;
+
+    var cs = getComputedStyle(ref);
+    if (cs.width === 'auto' || cs.width === '0px') return;
+
+    var icon = ref.querySelector('img, svg');
+    var root = document.documentElement;
+
+    root.style.setProperty('--tb-btn-size', cs.width);
+    root.style.setProperty('--tb-btn-radius', cs.borderTopLeftRadius);
+    root.style.setProperty('--tb-btn-pad', cs.paddingTop);
+    root.style.setProperty('--tb-btn-icon', icon ? getComputedStyle(icon).width : '24px');
+  }
+
   /* ---------- Bağlama ---------- */
 
   function mountAll() {
@@ -286,6 +387,7 @@
     mountHeaderSeal();
     mountHeaderButtons();
     tagAgeBadge();
+    syncButtonSize();
   }
 
   function start() {
@@ -293,6 +395,14 @@
     new MutationObserver(mountAll).observe(document.body, {
       childList: true,
       subtree: true
+    });
+
+    // Yeniden boyutlandırmada React megafonu değiştirir ama bu her zaman
+    // bir mutasyon üretmeyebilir — ölçü senkronunu ayrıca tetikliyoruz.
+    var t;
+    window.addEventListener('resize', function () {
+      clearTimeout(t);
+      t = setTimeout(syncButtonSize, 120);
     });
   }
 
