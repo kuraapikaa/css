@@ -208,6 +208,106 @@
     return box;
   }
 
+  /* ---------- 3c) Footer iletişim kartları ---------- */
+
+  function buildContact() {
+    var box = document.createElement('div');
+    box.setAttribute('data-mj', 'footer-contact');
+
+    var html = '';
+    for (var i = 0; i < CONTACTS.length; i++) {
+      var c = CONTACTS[i];
+      html +=
+        '<div class="tb-card">' +
+          '<div class="tb-card-head">' + SVG[c.key] + '<span>' + c.baslik + '</span></div>' +
+          '<div class="tb-card-body">' +
+            '<a class="tb-mail" href="mailto:' + c.mail + '">' + c.mail + '</a>' +
+            '<button class="tb-copy" type="button" data-mail="' + c.mail + '" ' +
+            'aria-label="' + c.mail + ' adresini kopyala">' + SVG.kopyala + '</button>' +
+          '</div>' +
+        '</div>';
+    }
+    box.innerHTML = html;
+
+    var btns = box.querySelectorAll('.tb-copy');
+    for (var j = 0; j < btns.length; j++) {
+      btns[j].addEventListener('click', onCopy);
+    }
+    return box;
+  }
+
+  function onCopy() {
+    var btn = this;
+    var mail = btn.getAttribute('data-mail');
+    var eski = btn.innerHTML;
+
+    function bildir(basarili) {
+      if (!basarili) return;          // yalancı başarı göstermiyoruz
+      btn.innerHTML = SVG.onay;
+      btn.classList.add('ok');
+      setTimeout(function () {
+        btn.innerHTML = eski;
+        btn.classList.remove('ok');
+      }, 1600);
+    }
+
+    // navigator.clipboard yalnızca güvenli bağlamda ve gerçek kullanıcı
+    // etkileşiminde çalışır; başarısızsa eski textarea yöntemine düşüyoruz.
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(mail).then(
+        function () { bildir(true); },
+        function () { bildir(fallbackCopy(mail)); }
+      );
+    } else {
+      bildir(fallbackCopy(mail));
+    }
+  }
+
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    return ok;
+  }
+
+  /* ---------- Footer bloklarını bağla ---------- */
+
+  function mountFooter() {
+    // Bloklar footer'a doğrudan eklenir; görsel sıralama custom.css'teki
+    // order kurallarıyla yapılır (bkz. "Footer dizilimi" kuralı).
+    var footer = document.querySelector('[data-mj="footer"]');
+    if (!footer) return;
+
+    var bra = footer.querySelector(':scope > [data-mj="footer-brand"]');
+    var abo = footer.querySelector(':scope > [data-mj="footer-about"]');
+    var chn = footer.querySelector(':scope > [data-mj="footer-channels"]');
+    var con = footer.querySelector(':scope > [data-mj="footer-contact"]');
+    var lic = footer.querySelector(':scope > [data-mj="footer-license"]');
+
+    // Hepsi yerindeyse dokunma — yoksa observer sonsuz döngüye girer.
+    if (bra && abo && chn && con && lic) return;
+
+    if (bra) bra.remove();
+    if (abo) abo.remove();
+    if (chn) chn.remove();
+    if (con) con.remove();
+    if (lic) lic.remove();
+
+    var brand = buildFooterBrand();
+    if (brand) footer.appendChild(brand);
+    footer.appendChild(buildAbout());
+    footer.appendChild(buildChannels());
+    footer.appendChild(buildContact());
+    footer.appendChild(buildLicense());
+  }
+
   /* ---------- 4) Footer marka satırı: rozet + logo yan yana ----------
 
      Logo React'in elemanı ve rozetle aynı satıra almak için onu taşımak
