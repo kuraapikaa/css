@@ -93,13 +93,12 @@
 }
 [data-mj="footer-license"] .tb-seal{
   flex: 0 0 auto;
-  width: 96px;
-  height: 96px;
+  width: 120px;
+  height: 120px;
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255,255,255,.04);
   overflow: hidden;
   transition: transform .3s ease, box-shadow .3s ease;
 }
@@ -156,8 +155,8 @@
     padding: 18px;
   }
   [data-mj="footer-license"] .tb-seal{
-    width: 76px;
-    height: 76px;
+    width: 92px;
+    height: 92px;
   }
 }
 
