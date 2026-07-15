@@ -100,6 +100,25 @@
   [data-mj="widget-banner-link"]::after{ animation:none; opacity:0; }
 }
 
+/* 6c) Banner görselindeki baskılı koyu kenarı kırp
+   CMS banner .webp'lerinin kenarında koyu/siyah bir bant baskılı
+   (ölçüldü: sol ~28px, sağ ~41px, üst ~13px, alt 0px — 1664×475 doğal).
+   Görsel kutuyu birebir dolduruyor ama bu koyu bant gold çerçeveyle
+   içerik arasında "boşluk" gibi görünüyordu. Görseli çerçeve oranında
+   asimetrik büyütüp overflow:hidden'a kırptırıyoruz — böylece parlak
+   içerik gold ring'e dayanır, metin kesilmez. Oranlar bu şablona göre;
+   CMS kenarsız görsele geçerse bu kural kaldırılabilir. */
+[data-mj="widget-banner-link"] img{
+  width: 104.2% !important;
+  height: 102.8% !important;
+  left: -1.7% !important;
+  top: -2.8% !important;
+  right: auto !important;
+  bottom: auto !important;
+  object-fit: cover !important;
+  object-position: center !important;
+}
+
 /* 7) Logo — arkasında parıldayan yıldızlar
    İki katman (::before / ::after) farklı konum ve zamanlamayla çalışır.
    Tek katman olsaydı bütün yıldızlar aynı anda yanıp sönerdi; asenkron
