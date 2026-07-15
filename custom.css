@@ -160,6 +160,34 @@
   }
 }
 
+/* 9) Header aranma talebi butonu (megafonun solunda)
+   NOT: Ölçüler megafon butonundan birebir alındı: 40x40, 16px köşe, #151515.
+   Sitenin kendi hash'li sınıfını (app-ltr-...) kullanmıyoruz — o sınıf
+   her derlemede değişebilir ve stil sessizce çökerdi. */
+[data-mj="header-call-button"]{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  border-radius: 16px;
+  background: #151515;
+  color: #F5C872;
+  cursor: pointer;
+  transition: transform .25s ease, box-shadow .25s ease, background-color .25s ease;
+}
+[data-mj="header-call-button"]:hover{
+  transform: scale(1.06);
+  background: #1d1d1d;
+  box-shadow: 0 0 14px rgba(245,200,114,.3);
+}
+[data-mj="header-call-button"] svg{
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
 /* Hareket hassasiyeti olan kullanıcılar için tüm animasyonları durdur */
 @media (prefers-reduced-motion: reduce){
   [data-mj="logo"],
@@ -167,6 +195,7 @@
     animation: none !important;
   }
   [data-mj="widget-pages-item"],
+  [data-mj="header-call-button"],
   [data-mj="footer-license"] .tb-seal{
     transition: none !important;
   }
