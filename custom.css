@@ -29,6 +29,30 @@ body::before{
   z-index:1;
 }
 
+/* /tr/bos — Taco Beni Ara başlığının altındaki skor tahmin uygulaması */
+.tb-score-prediction{
+  width:100%;
+  margin-top:20px;
+  overflow:hidden;
+  border:1px solid rgba(245,200,114,.34);
+  border-radius:14px;
+  background:#060B2E;
+  box-shadow:0 16px 42px rgba(0,0,0,.28);
+}
+.tb-score-prediction iframe{
+  display:block;
+  width:100%;
+  height:100vh;
+  border:0;
+  background:#060B2E;
+}
+@media (max-width: 900px){
+  .tb-score-prediction{
+    margin-top:14px;
+    border-radius:10px;
+  }
+}
+
 /* 1) Üst duyuru çubuğu metnini ortala (X butonuna dokunmadan) */
 [data-mj="announcement"] > div,
 [data-mj="announcement"] > div *{

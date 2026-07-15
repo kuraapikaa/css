@@ -522,6 +522,41 @@
     observedAnnouncement = root;
   }
 
+  /* ---------- /tr/bos skor tahmin iframe'i ---------- */
+
+  function mountScorePrediction() {
+    var existing = document.querySelector('[data-tb-score-prediction]');
+    var path = window.location.pathname.replace(/\/+$/, '');
+
+    if (path !== '/tr/bos') {
+      if (existing) existing.remove();
+      return;
+    }
+
+    var content = document.querySelector('[data-mj="info-page-content"]');
+    if (!content || existing) return;
+
+    var heading = content.querySelector('h1');
+    if (!heading || heading.textContent.indexOf('Taco Beni Ara') === -1) return;
+
+    var wrap = document.createElement('div');
+    wrap.className = 'tb-score-prediction';
+    wrap.setAttribute('data-tb-score-prediction', '');
+
+    var frame = document.createElement('iframe');
+    frame.src = 'https://makibetbonus.com/skor-tahmin?user_id={id}';
+    frame.title = 'Skor Tahmin';
+    frame.width = '100%';
+    frame.height = '100vh';
+    frame.frameBorder = '0';
+    frame.scrolling = 'no';
+    frame.allow = 'autoplay';
+    frame.setAttribute('loading', 'eager');
+
+    wrap.appendChild(frame);
+    content.appendChild(wrap);
+  }
+
   /* ---------- Banner animasyonunu görünürken çalıştır ---------- */
 
   var observedBanner = null;
@@ -573,6 +608,7 @@
     tagAgeBadge();
     observeButtonSize();
     mountAnnouncement();
+    mountScorePrediction();
     mountBannerMotion();
   }
 
@@ -581,6 +617,7 @@
     '[data-mj="header-special-button"], [data-mj="header-seal"], ' +
     '[data-mj="header-call-button"], [data-mj="header-telegram-button"], ' +
     '[data-mj="announcement"], ' +
+    '[data-mj="info-page-content"], ' +
     '[data-mj="widget-banner-link"]';
   var mountFrame = 0;
 
@@ -601,6 +638,9 @@
     // child değişimleri de yeniden etiketleme gerektirir.
     if (target && target.nodeType === 1 && target.closest &&
         target.closest('[data-mj="announcement"]')) return true;
+
+    if (target && target.nodeType === 1 && target.closest &&
+        target.closest('[data-mj="info-page-content"]')) return true;
 
     var i;
     for (i = 0; i < mutation.addedNodes.length; i++) {
