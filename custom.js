@@ -482,6 +482,46 @@
     buttonResizeObserver.observe(ref);
   }
 
+  /* ---------- Mobil duyuru metnini etiketle ---------- */
+
+  var observedAnnouncement = null;
+
+  function mountAnnouncement() {
+    var root = document.querySelector('[data-mj="announcement"]');
+
+    if (!root) {
+      observedAnnouncement = null;
+      return;
+    }
+    if (root === observedAnnouncement &&
+        root.querySelector('[data-tb-announcement-text]')) return;
+
+    var old = root.querySelector('[data-tb-announcement-text]');
+    if (old) old.removeAttribute('data-tb-announcement-text');
+
+    // Altyapı mesajı sürüme göre p, span veya div olarak basabiliyor.
+    // Kapatma düğmesini içermeyen en uzun metin düğümü mesajın kendisidir.
+    var candidates = root.querySelectorAll('p, span, div');
+    var message = null;
+    var messageLength = 0;
+
+    for (var i = 0; i < candidates.length; i++) {
+      var candidate = candidates[i];
+      if (candidate.closest('button, [role="button"]')) continue;
+      if (candidate.querySelector('button, [role="button"]')) continue;
+
+      var text = (candidate.textContent || '').replace(/\s+/g, ' ').trim();
+      if (text.length <= messageLength) continue;
+
+      message = candidate;
+      messageLength = text.length;
+    }
+
+    if (!message) return;
+    message.setAttribute('data-tb-announcement-text', '');
+    observedAnnouncement = root;
+  }
+
   /* ---------- Banner animasyonunu görünürken çalıştır ---------- */
 
   var observedBanner = null;
@@ -490,10 +530,13 @@
 
   function applyBannerMotionState() {
     if (!observedBanner) return;
-    observedBanner.style.setProperty(
-      '--tb-banner-play',
-      !document.hidden && bannerInView ? 'running' : 'paused'
-    );
+    var state = !document.hidden && bannerInView ? 'running' : 'paused';
+    observedBanner.style.setProperty('--tb-banner-play', state);
+
+    // Mobil animasyon link'in dışındaki slider item katmanında çalışır.
+    if (observedBanner.parentElement) {
+      observedBanner.parentElement.style.setProperty('--tb-banner-play', state);
+    }
   }
 
   function mountBannerMotion() {
@@ -529,6 +572,7 @@
     mountHeaderButtons();
     tagAgeBadge();
     observeButtonSize();
+    mountAnnouncement();
     mountBannerMotion();
   }
 
@@ -536,6 +580,7 @@
     '[data-mj="footer"], [data-mj="logo"], ' +
     '[data-mj="header-special-button"], [data-mj="header-seal"], ' +
     '[data-mj="header-call-button"], [data-mj="header-telegram-button"], ' +
+    '[data-mj="announcement"], ' +
     '[data-mj="widget-banner-link"]';
   var mountFrame = 0;
 
@@ -551,6 +596,11 @@
     // Footer içindeki değişimler marka kopyası ve özel blokları etkileyebilir.
     if (target && target.nodeType === 1 && target.closest &&
         target.closest('[data-mj="footer"]')) return true;
+
+    // Duyuru kabuğu önce, metni daha sonra render edilebildiği için içindeki
+    // child değişimleri de yeniden etiketleme gerektirir.
+    if (target && target.nodeType === 1 && target.closest &&
+        target.closest('[data-mj="announcement"]')) return true;
 
     var i;
     for (i = 0; i < mutation.addedNodes.length; i++) {

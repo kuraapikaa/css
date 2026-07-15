@@ -35,16 +35,18 @@
     overflow:hidden !important;
     align-items:center !important;
   }
-  [data-mj="announcement"] > div,
-  [data-mj="announcement"] > div *{
+  [data-mj="announcement"] > div{
     min-width:0 !important;
+    height:32px !important;
     max-height:32px !important;
-    overflow:hidden !important;
     justify-content:flex-start !important;
     text-align:left !important;
   }
-  [data-mj="announcement"] p{
+  /* Mesaj elemanı custom.js tarafından DOM etiketinden bağımsız işaretlenir.
+     Böylece altyapı p yerine span/div ürettiğinde marquee kaybolmaz. */
+  [data-mj="announcement"] [data-tb-announcement-text]{
     display:inline-block !important;
+    flex:0 0 auto !important;
     width:max-content !important;
     min-width:max-content !important;
     max-width:none !important;
@@ -57,7 +59,7 @@
     will-change:transform;
     animation:tb-announcement-marquee 19s linear infinite !important;
   }
-  [data-mj="announcement"] br{
+  [data-mj="announcement"] [data-tb-announcement-text] br{
     display:none !important;
   }
   body:has([data-mj="announcement"]) [data-mj="page-content"]{
@@ -65,7 +67,7 @@
   }
 }
 @media (max-width: 900px) and (prefers-reduced-motion: reduce){
-  [data-mj="announcement"] p{
+  [data-mj="announcement"] [data-tb-announcement-text]{
     animation:none !important;
     transform:none !important;
     will-change:auto;
@@ -133,9 +135,12 @@
 [data-mj="widget-banner-link"]::before{
   content:"";
   position:absolute;
-  inset:0;
+  /* Parent ve maske aynı sınırda iki kez anti-alias edilmesin: halka 1px
+     dışarı taşar, gerçek dış eğriyi yalnızca parent overflow'u kırpar. */
+  inset:-1px;
   border-radius:inherit;
-  padding:2.5px;
+  /* -1px taşma sonrası görünür iç kalınlık 3px olarak kalır. */
+  padding:4px;
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
           mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
@@ -177,10 +182,69 @@
   70%      { opacity:1; transform:translate3d(470%,0,0); }
   78%,100% { opacity:0; transform:translate3d(470%,0,0); }
 }
+/* Mobilde link'in dışındaki outline, aynı ölçüde overflow:hidden olan slider
+   item'ı tarafından tamamen kırpılıyordu. Link'i 3px içeri alıp sabit halka ve
+   kayan ışığı item'ın bu boş kalan dış şeridine çiziyoruz. Böylece animasyon
+   korunur ama görselin tek bir pikselinin dahi üstüne binmez. */
+@media (max-width: 900px){
+  [data-mj="widget-banner-link"]{
+    width:calc(100% - 6px) !important;
+    margin:3px !important;
+    border-radius:13px !important;
+    outline:0 !important;
+    animation:none !important;
+  }
+  [data-mj="widget-banner-link"]::before,
+  [data-mj="widget-banner-link"]::after{
+    display:none !important;
+  }
+  [data-mj="widget-banner-item"]{
+    isolation:isolate;
+    border-radius:16px !important;
+  }
+  [data-mj="widget-banner-item"]::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:2;
+    border-radius:inherit;
+    padding:3px;
+    background:linear-gradient(135deg,#CE8D36 0%,#F5C872 35.01%,#FFF0A3 60.01%,#998A5E 100%);
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;
+            mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+            mask-composite:exclude;
+    pointer-events:none;
+    opacity:.72;
+  }
+  [data-mj="widget-banner-item"]::after{
+    content:"";
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    z-index:3;
+    width:28%;
+    background:
+      linear-gradient(90deg,transparent,rgba(255,255,255,.96) 48%,#F2D58A 62%,transparent) top / 100% 3px no-repeat,
+      linear-gradient(90deg,transparent,#C99843 38%,rgba(255,255,255,.88) 54%,transparent) bottom / 100% 3px no-repeat;
+    filter:drop-shadow(0 0 5px rgba(242,213,138,.72));
+    pointer-events:none;
+    opacity:0;
+    transform:translate3d(-130%,0,0);
+    will-change:transform,opacity;
+    animation:tb-banner-sweep 6.8s cubic-bezier(.45,0,.55,1) infinite;
+    animation-play-state:var(--tb-banner-play,running);
+  }
+}
 /* Hareket hassasiyeti: dolaşımı durdur, sabit altın çerçeve görünsün */
 @media (prefers-reduced-motion: reduce){
+  [data-mj="widget-banner-link"]{
+    animation:none !important;
+  }
   [data-mj="widget-banner-link"]::after{ animation:none; opacity:0; }
   [data-mj="widget-banner-link"]::before{ opacity:.7; }
+  [data-mj="widget-banner-item"]::after{ animation:none; opacity:0; }
 }
 
 /* 6c) Banner görselindeki baskılı koyu kenarı kırp
@@ -829,6 +893,43 @@ button[name="search"]:hover::after{ opacity:1; }
   border-radius: 50%;
   background: rgba(245,200,114,.5);
   margin: 0 16px;
+}
+/* Mobil legal sayfalar — iki eşit kolon, bütün satırlar merkezde.
+   Tek kalan son bağlantı iki kolonu kaplayarak ortalanır. */
+@media (max-width: 900px){
+  [data-mj="footer-nav"]{
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    width:100% !important;
+    max-width:100% !important;
+    gap:8px 12px !important;
+    margin:0 auto !important;
+    padding:14px 16px !important;
+    box-sizing:border-box;
+    justify-content:stretch !important;
+  }
+  [data-mj="footer-nav-item"]{
+    min-width:0;
+    width:100%;
+    justify-content:center !important;
+    text-align:center !important;
+  }
+  [data-mj="footer-nav-item"] > a{
+    display:inline-flex !important;
+    align-items:center;
+    justify-content:center;
+    width:100%;
+    min-height:38px;
+    padding:7px 8px !important;
+    box-sizing:border-box;
+    text-align:center !important;
+  }
+  [data-mj="footer-nav-item"]:last-child:nth-child(odd){
+    grid-column:1 / -1;
+  }
+  [data-mj="footer-nav-item"]::after{
+    display:none !important;
+  }
 }
 /* 18+ ve dil seçiciyi taşıyan blok — dikey ve ortalı */
 /* 18+ solda, dil seçici sağda; altta saç teli çizgi (şablon 1a). */
