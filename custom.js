@@ -1,81 +1,173 @@
-/* ===== TacoBahis — custom.js =====
- *
- * NE YAPAR: Footer'ın en altına lisans bloğunu enjekte eder.
- *
- * NEDEN JS: Site bir React SPA. Blok sadece bir kez eklenirse, rota
- * değişiminde React footer'ı yeniden çizince kaybolur. Buradaki
- * MutationObserver bunu izler ve blok silinirse geri koyar.
- *
- * YAPILACAK: Aşağıdaki SEAL_URL'i rozet görselinin gerçek adresiyle değiştir.
- *
- * Biçimlendirme custom.css içindeki 8 numaralı kuraldan gelir —
- * bu dosya sadece HTML'i basar.
- */
+/* ===== TacoBahis — özel stiller ===== */
 
-(function () {
-  'use strict';
+/* 1) Üst duyuru çubuğu metnini ortala (X butonuna dokunmadan) */
+[data-mj="announcement"] > div,
+[data-mj="announcement"] > div *{
+  justify-content:center !important;
+  text-align:center !important;
+}
 
-  var SEAL_URL = 'https://i.ibb.co/nNhnhW7n/g-rsel-2026-07-15-043554819.png';
+/* 2) Ana menü grubunu yatayda ortala */
+[data-mj="header-nav-list"]{
+  justify-content:center !important;
+}
 
-  var VERIFY_URL =
-    'https://verification.anjouangamblingboard.org/s/' +
-    '93cdb2db440d85925f2939b5e3efe0acde1d6f2384d71ece13f3a940b3256e7fb4069a53385faa5b3cbb398224274d23';
+/* 3) Lig kart etiketlerini ortala (UEFA Şampiyonlar Ligi, Süper Lig, ...) */
+[data-mj="widget-game-card"] p{
+  text-align:center !important;
+}
 
-  var TEXT =
-    '<b>tacobahis.com</b>, <b>TacoBahis Entertainment Limited</b> tarafından işletilmektedir. ' +
-    'Kayıtlı adres: Hamchako, Mutsamudu, Autonomous Island of Anjouan, Union of Comoros. ' +
-    'Bu platform, 2005 tarihli Computer Gaming Licensing Act 007 uyarınca Anjouan Eyaleti ' +
-    'Offshore Finance Authority tarafından verilen <b>ALSI-202605014-FI1</b> numaralı lisans ' +
-    'ile faaliyet göstermektedir. Tüm lisanslı faaliyetler Anjouan Licensing Services Inc. denetimindedir. ';
+/* 4) Kategori kartlarına hover büyüme animasyonu (SPOR, EGT DIGITAL, SLOT, ...) */
+[data-mj="widget-pages-item"]{
+  transition: transform .25s ease, border-color .3s, background-color .3s !important;
+}
+[data-mj="widget-pages-item"]:hover{
+  transform: scale(1.05) !important;
+  z-index:2 !important;
+  position:relative !important;
+}
 
-  var SHIELD_SVG =
-    '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
-    'stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-    '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>';
+/* 5) Banner navigasyon kümesini (oklar + noktalar) hafif sola al */
+[direction="horizontal"]:has([aria-label="arrow_left"]){
+  transform: translateX(-28px) !important;
+}
 
-  function build() {
-    var box = document.createElement('div');
-    box.setAttribute('data-mj', 'footer-license');
-    box.innerHTML =
-      '<a class="tb-seal" href="' + VERIFY_URL + '" target="_blank" rel="noopener noreferrer">' +
-        '<img src="' + SEAL_URL + '" alt="Anjouan Gambling Board — Geçerli Lisans">' +
-      '</a>' +
-      '<div class="tb-body">' +
-        '<span class="tb-pill">' + SHIELD_SVG + 'Lisanslı Operatör</span>' +
-        '<p class="tb-text">' + TEXT +
-          '<a href="' + VERIFY_URL + '" target="_blank" rel="noopener noreferrer">Lisansı doğrula →</a>' +
-        '</p>' +
-      '</div>';
-    return box;
+/* 6) Banner oklarına gradient kenarlık (yuvarlak köşeyi korur) */
+[aria-label="arrow_left"], [aria-label="arrow_right"]{
+  border: 2px solid transparent !important;
+  background:
+    linear-gradient(#151515,#151515) padding-box,
+    linear-gradient(135deg,#CE8D36 0%,#F5C872 35.01%,#FFF0A3 60.01%,#998A5E 100%) border-box !important;
+}
+
+/* 7) Logo — soft nefes animasyonu + altın arka ışıma */
+[data-mj="logo"]{
+  position: relative !important;
+  isolation: isolate;
+  animation: tb-logo-breathe 4.5s ease-in-out infinite;
+  transition: transform .35s ease, filter .35s ease;
+}
+[data-mj="logo"]::before{
+  content:"";
+  position:absolute;
+  inset:-45% -25%;
+  z-index:-1;
+  border-radius:50%;
+  background: radial-gradient(ellipse at 50% 50%,
+    rgba(245,200,114,.50) 0%,
+    rgba(206,141,54,.26) 42%,
+    rgba(206,141,54,0) 72%);
+  filter: blur(12px);
+  animation: tb-logo-glow 4.5s ease-in-out infinite;
+  pointer-events:none;
+}
+[data-mj="logo"]:hover{
+  transform: scale(1.04) !important;
+  filter: drop-shadow(0 0 8px rgba(255,240,163,.6));
+}
+[data-mj="logo"]:hover::before{ opacity:1 !important; }
+
+@keyframes tb-logo-breathe{
+  0%,100%{ transform: scale(1); }
+  50%    { transform: scale(1.025); }
+}
+@keyframes tb-logo-glow{
+  0%,100%{ opacity:.42; transform: scale(.94); }
+  50%    { opacity:.8;  transform: scale(1.07); }
+}
+
+/* 8) Footer lisans bloğu
+   NOT: Bu kural, footer'a eklenmiş
+   <div data-mj="footer-license"> ... </div>
+   HTML bloğunu biçimlendirir. HTML yoksa hiçbir şey görünmez. */
+[data-mj="footer-license"]{
+  text-align: left;            /* footer'daki text-align:center mirasını kır */
+  margin: 24px 16px 32px;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  border: 1px solid rgba(245,200,114,.22);
+  border-radius: 14px;
+  background: rgba(255,255,255,.02);
+}
+[data-mj="footer-license"] .tb-seal{
+  flex: 0 0 auto;
+  width: 120px;
+  height: 120px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+[data-mj="footer-license"] .tb-seal:hover{
+  transform: scale(1.04);
+  box-shadow: 0 0 18px rgba(245,200,114,.25);
+}
+[data-mj="footer-license"] .tb-seal img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+[data-mj="footer-license"] .tb-body{
+  flex:1 1 auto;
+  min-width:0;
+}
+[data-mj="footer-license"] .tb-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding: 5px 13px;
+  border: 1px solid rgba(245,200,114,.45);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: #F5C872;
+  margin-bottom: 11px;
+}
+[data-mj="footer-license"] .tb-text{
+  font-size: 13px;
+  line-height: 1.65;
+  color: rgba(255,255,255,.62);
+  margin: 0;
+}
+[data-mj="footer-license"] .tb-text b{
+  color:#F5C872;
+  font-weight:600;
+}
+[data-mj="footer-license"] .tb-text a{
+  color:#F5C872;
+  text-decoration:none;
+}
+[data-mj="footer-license"] .tb-text a:hover{
+  text-decoration:underline;
+}
+
+@media (max-width: 768px){
+  [data-mj="footer-license"]{
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 18px;
   }
-
-  function mount() {
-    // DİKKAT: footer-content DEĞİL. Orası display:flex/row — blok yan sütun
-    // olarak sıkışır. Bir üst seviye olan "footer" display:block, doğru yer.
-    var footer = document.querySelector('[data-mj="footer"]');
-    if (!footer) return;
-
-    var existing = footer.querySelector(':scope > [data-mj="footer-license"]');
-
-    // Zaten yerindeyse dokunma — yoksa observer sonsuz döngüye girer.
-    if (existing && existing === footer.lastElementChild) return;
-    if (existing) existing.remove();
-
-    footer.appendChild(build());
+  [data-mj="footer-license"] .tb-seal{
+    width: 92px;
+    height: 92px;
   }
+}
 
-  function start() {
-    mount();
-    // React footer'ı yeniden çizdiğinde bloğu geri koy.
-    new MutationObserver(mount).observe(document.body, {
-      childList: true,
-      subtree: true
-    });
+/* Hareket hassasiyeti olan kullanıcılar için tüm animasyonları durdur */
+@media (prefers-reduced-motion: reduce){
+  [data-mj="logo"],
+  [data-mj="logo"]::before{
+    animation: none !important;
   }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', start);
-  } else {
-    start();
+  [data-mj="widget-pages-item"],
+  [data-mj="footer-license"] .tb-seal{
+    transition: none !important;
   }
-})();
+}
