@@ -53,6 +53,38 @@
     linear-gradient(135deg,#CE8D36 0%,#F5C872 35.01%,#FFF0A3 60.01%,#998A5E 100%) border-box !important;
 }
 
+/* 6b) Banner çerçevesi — dönen altın gradient outline
+   Görünür yuvarlak kutu [data-mj="widget-banner-link"] (16px köşe, overflow:hidden).
+   Üst katmanlar (slider/item) overflow:hidden → dışa taşan halka kırpılır,
+   bu yüzden halka içeri (inset:0) çiziliyor. Banner görseli link'in <img>
+   çocuğu (CSS background DEĞİL); ::after maske halkası görselin kenarına
+   biner, ortası maske ile boşaltıldığından görseli kapatmaz.
+   Padding-box/border-box değil maske yöntemi — <img>'i etkilememek için.
+   @property ile açı animasyonu = pürüzsüz dönüş (Chrome/Emotion SPA). */
+@property --tb-banner-angle{ syntax:"<angle>"; initial-value:0deg; inherits:false; }
+[data-mj="widget-banner-link"]{ position:relative !important; }
+[data-mj="widget-banner-link"]::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:16px;
+  padding:3px;
+  background: conic-gradient(from var(--tb-banner-angle),
+    #CE8D36, #F5C872, #FFF0A3, #998A5E, #CE8D36, #F5C872, #CE8D36);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask-composite: exclude;
+  pointer-events:none;
+  z-index:2;
+  animation: tb-banner-rotate 4s linear infinite;
+}
+@keyframes tb-banner-rotate{ to{ --tb-banner-angle:360deg; } }
+/* Hareket hassasiyeti: dönüşü durdur, halka sabit gradient olarak kalsın */
+@media (prefers-reduced-motion: reduce){
+  [data-mj="widget-banner-link"]::after{ animation:none; }
+}
+
 /* 7) Logo — arkasında parıldayan yıldızlar
    İki katman (::before / ::after) farklı konum ve zamanlamayla çalışır.
    Tek katman olsaydı bütün yıldızlar aynı anda yanıp sönerdi; asenkron
