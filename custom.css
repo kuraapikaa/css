@@ -17,12 +17,21 @@
   text-align:center !important;
 }
 
-/* 4) Kategori kartlarına hover büyüme animasyonu (SPOR, EGT DIGITAL, SLOT, ...) */
+/* 4) Kategori kartlarına hover büyüme + altın ışıma (SPOR, EGT DIGITAL, SLOT, ...)
+   NOT: Eski sürümdeki "border-color .3s" geçişi ölüydü — kartta
+   border: 1px solid transparent var ama hiçbir yerde renk atanmıyordu.
+   Kaldırıldı.
+
+   Işıma box-shadow değil drop-shadow: kart görselinin köşeleri şeffaf
+   (alpha=0) ve yuvarlaklık görselin içine çizili. box-shadow yuvarlak
+   görselin etrafına dikdörtgen bir ışık çizerdi; drop-shadow alfa
+   kanalını takip edip gerçek konturu sarıyor. */
 [data-mj="widget-pages-item"]{
-  transition: transform .25s ease, border-color .3s, background-color .3s !important;
+  transition: transform .25s ease, filter .3s ease !important;
 }
 [data-mj="widget-pages-item"]:hover{
   transform: scale(1.05) !important;
+  filter: drop-shadow(0 0 9px rgba(245,200,114,.5));
   z-index:2 !important;
   position:relative !important;
 }
@@ -173,35 +182,7 @@
   }
 }
 
-/* 9) Header aranma talebi butonu (megafonun solunda)
-   NOT: Ölçüler megafon butonundan birebir alındı: 40x40, 16px köşe, #151515.
-   Sitenin kendi hash'li sınıfını (app-ltr-...) kullanmıyoruz — o sınıf
-   her derlemede değişebilir ve stil sessizce çökerdi. */
-[data-mj="header-call-button"]{
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  padding: 8px;
-  border-radius: 16px;
-  background: #151515;
-  color: #F5C872;
-  cursor: pointer;
-  transition: transform .25s ease, box-shadow .25s ease, background-color .25s ease;
-}
-[data-mj="header-call-button"]:hover{
-  transform: scale(1.06);
-  background: #1d1d1d;
-  box-shadow: 0 0 14px rgba(245,200,114,.3);
-}
-[data-mj="header-call-button"] svg{
-  width: 24px;
-  height: 24px;
-  display: block;
-}
-
-/* 10) Üst nav — boşta / hover / aktif durumları
+/* 9) Üst nav — boşta / hover / aktif durumları
    ÖNEMLİ: Renk kuralları .sl-navlink'e DEĞİL, içindeki span ve p'ye
    uygulanır. Link'in kendi rengi çocuklara miras geçmiyor; metin p'de
    duruyor ve kendi rengini tanımlıyor. <a>'ya yazmak hiçbir şey değiştirmez.
@@ -244,6 +225,217 @@
   box-shadow: 0 0 16px rgba(245,200,114,.26);
 }
 
+/* 10) Footer 18+ rozeti
+   Bilerek altın YAPILMADI: bu bir yaş uyarısı, dekorasyon değil. Paletle
+   kaynaştırmak onu görünmez kılardı. Sorun rengin kırmızı olması değil,
+   koyu olmasıydı: rgb(182,0,25) lacivert üstünde 2.74 kontrast veriyordu
+   (büyük metin için gereken 3.0'ın bile altında). #FF4D5A ile 5.90.
+
+   data-mj="footer-age-badge" custom.js tarafından ekleniyor — sitede bu
+   rozetin hash'li sınıftan başka tutamağı yok. */
+[data-mj="footer-age-badge"]{
+  color: #FF4D5A !important;
+  border: 1px solid rgba(255,77,90,.45);
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-weight: 700 !important;
+  letter-spacing: .02em;
+}
+
+/* 11) Footer menüsünü ortala (Hakkımızda, Bize Ulaşın, ...)
+   Menü flex-wrap ile iki satıra kırılıyor ve justify-content: normal
+   olduğu için ikinci satır soldan başlayıp düzensiz duruyordu.
+
+   NOT: Bu, menüyü kendi kutusunda ortalar — kutunun merkezi 668,
+   sayfanın merkezi 720. Aradaki fark solundaki footer logosundan
+   geliyor. Sayfa merkezine tam oturtmak isterseniz footer-nav'a
+   flex:1 vermek gerekir, ama o da logo/menü ve menü/18+ boşluklarını
+   birbirinden farklı kılar. */
+[data-mj="footer-nav"]{
+  justify-content: center !important;
+}
+
+/* 12) Header ikon butonları — Telegram + aranma + promosyon + arama
+   Telegram ve aranma butonları custom.js tarafından ekleniyor.
+   Ölçüler megafon butonundan birebir alındı: 40x40, #151515.
+
+   Köşe yarıçapı bilerek "inherit" değil, her butonun kendi değeri
+   korunuyor: megafon ve bizimkiler 16px, arama 8px. Sitenin kendi
+   tutarsızlığı — eşitlemek isterseniz aşağıdaki radius'u açın. */
+[data-mj="header-call-button"],
+[data-mj="header-telegram-button"]{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  border-radius: 16px;
+  background: #151515;
+  color: #F5C872;
+  cursor: pointer;
+  transition: transform .25s ease, box-shadow .25s ease, background-color .25s ease;
+}
+[data-mj="header-call-button"]:hover,
+[data-mj="header-telegram-button"]:hover{
+  transform: scale(1.06);
+  background: #1d1d1d;
+  box-shadow: 0 0 14px rgba(245,200,114,.3);
+}
+[data-mj="header-call-button"] svg,
+[data-mj="header-telegram-button"] svg{
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+/* 13) İkon butonlara altın gradient kenarlık
+   ÖNEMLİ: 6. kuraldaki padding-box/border-box tekniği burada KULLANILAMAZ.
+   Megafon butonunun background'unda CMS'ten gelen bir görsel var; o teknik
+   background'u tamamen devraldığı için görseli siler. Maske yöntemi ::after
+   katmanında çalışır, background'a hiç dokunmaz. */
+[data-mj="header-special-button"],
+[data-mj="header-call-button"],
+[data-mj="header-telegram-button"],
+button[name="search"]{
+  position: relative !important;
+}
+[data-mj="header-special-button"]::after,
+[data-mj="header-call-button"]::after,
+[data-mj="header-telegram-button"]::after,
+button[name="search"]::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius: inherit;
+  padding:1px;
+  background: linear-gradient(135deg,#CE8D36 0%,#F5C872 35.01%,#FFF0A3 60.01%,#998A5E 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events:none;
+  opacity:.75;
+  transition: opacity .25s ease;
+}
+[data-mj="header-special-button"]:hover::after,
+[data-mj="header-call-button"]:hover::after,
+[data-mj="header-telegram-button"]:hover::after,
+button[name="search"]:hover::after{ opacity:1; }
+
+/* 14) Header lisans rozeti (logonun sağı)
+   Mobilde gizli: 500px genişlikte header'da logo, arama, Giriş, KAYIT ve
+   dil seçici zaten sıkışıyor. Rozet footer'da tam haliyle duruyor. */
+[data-mj="header-seal"]{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  transition: transform .25s ease, filter .25s ease;
+}
+[data-mj="header-seal"] img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+[data-mj="header-seal"]:hover{
+  transform: scale(1.08);
+  filter: drop-shadow(0 0 8px rgba(245,200,114,.45));
+}
+@media (max-width: 900px){
+  [data-mj="header-seal"]{ display: none; }
+}
+
+/* 15) Footer iletişim kartları (lisans bloğunun üstü)
+   Referans tasarımın gövdeleri beyazdı — o site açık temalı. Lacivert
+   footer'da üç beyaz dikdörtgen patlardı; yapı korunup palet çevrildi. */
+[data-mj="footer-contact"]{
+  text-align: left;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 24px 16px 0;
+}
+[data-mj="footer-contact"] .tb-card{
+  border: 1px solid rgba(245,200,114,.22);
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(255,255,255,.02);
+}
+[data-mj="footer-contact"] .tb-card-head{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: rgba(245,200,114,.09);
+  border-bottom: 1px solid rgba(245,200,114,.18);
+  color: #F5C872;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+[data-mj="footer-contact"] .tb-card-head svg{
+  width: 17px;
+  height: 17px;
+  flex: 0 0 auto;
+}
+[data-mj="footer-contact"] .tb-card-body{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+}
+[data-mj="footer-contact"] .tb-mail{
+  flex: 1 1 auto;
+  min-width: 0;
+  color: rgba(255,255,255,.82);
+  font-size: 14px;
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color .25s ease;
+}
+[data-mj="footer-contact"] .tb-mail:hover{
+  color: #F5C872;
+  text-decoration: underline;
+}
+[data-mj="footer-contact"] .tb-copy{
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(245,200,114,.3);
+  border-radius: 9px;
+  background: #151515;
+  color: #F5C872;
+  cursor: pointer;
+  transition: transform .2s ease, box-shadow .25s ease, color .2s ease, border-color .2s ease;
+}
+[data-mj="footer-contact"] .tb-copy:hover{
+  transform: scale(1.07);
+  box-shadow: 0 0 12px rgba(245,200,114,.3);
+}
+[data-mj="footer-contact"] .tb-copy svg{
+  width: 16px;
+  height: 16px;
+}
+/* kopyalandı geri bildirimi */
+[data-mj="footer-contact"] .tb-copy.ok{
+  color: #4ADE80;
+  border-color: rgba(74,222,128,.5);
+}
+@media (max-width: 900px){
+  [data-mj="footer-contact"]{
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Hareket hassasiyeti olan kullanıcılar için tüm animasyonları durdur */
 @media (prefers-reduced-motion: reduce){
   [data-mj="logo"]::before,
@@ -253,6 +445,10 @@
   }
   [data-mj="widget-pages-item"],
   [data-mj="header-call-button"],
+  [data-mj="header-telegram-button"],
+  [data-mj="header-seal"],
+  [data-mj="footer-contact"] .tb-copy,
+  button[name="search"],
   [data-mj="header-nav-item"] .sl-navlink,
   [data-mj="footer-license"] .tb-seal{
     transition: none !important;
