@@ -60,9 +60,11 @@
   ];
 
   // Resmi kanallar
+  var SUPPORT_MAIL = 'destek@tacobahis.com';
+
   var CHANNELS = [
-    { ikon: 'telegram', href: TELEGRAM_URL, etiket: 'Telegram', deger: '@tacoresmi' },
-    { ikon: 'globe',    href: MIRROR_URL,   etiket: 'Her zaman güncel', deger: 'tacogir.com' }
+    { rozet: 'TG',  href: TELEGRAM_URL, etiket: 'Telegram', deger: '@tacoresmi' },
+    { rozet: 'WWW', href: MIRROR_URL,   etiket: 'Her zaman güncel', deger: 'tacogir.com' }
   ];
 
   /* ---------- İkonlar ---------- */
@@ -191,7 +193,7 @@
       var c = CHANNELS[i];
       kartlar +=
         '<a class="tb-ch" href="' + c.href + '" target="_blank" rel="noopener noreferrer">' +
-          '<span class="tb-ch-ico">' + SVG[c.ikon] + '</span>' +
+          '<span class="tb-ch-ico">' + c.rozet + '</span>' +
           '<span class="tb-ch-txt">' +
             '<span class="tb-ch-label">' + c.etiket + '</span>' +
             '<span class="tb-ch-value">' + c.deger + '</span>' +
@@ -278,6 +280,18 @@
     return ok;
   }
 
+  /* ---------- 3d) Alt CTA barı ---------- */
+
+  function buildCta() {
+    var a = document.createElement('a');
+    a.setAttribute('data-mj', 'footer-cta');
+    a.setAttribute('href', 'mailto:' + SUPPORT_MAIL);
+    a.innerHTML =
+      '<span class="tb-cta-shine" aria-hidden="true"></span>' +
+      '<span class="tb-cta-txt">Bize Ulaşın: ' + SUPPORT_MAIL + '</span>';
+    return a;
+  }
+
   /* ---------- Footer bloklarını bağla ---------- */
 
   function mountFooter() {
@@ -291,15 +305,17 @@
     var chn = footer.querySelector(':scope > [data-mj="footer-channels"]');
     var con = footer.querySelector(':scope > [data-mj="footer-contact"]');
     var lic = footer.querySelector(':scope > [data-mj="footer-license"]');
+    var cta = footer.querySelector(':scope > [data-mj="footer-cta"]');
 
     // Hepsi yerindeyse dokunma — yoksa observer sonsuz döngüye girer.
-    if (bra && abo && chn && con && lic) return;
+    if (bra && abo && chn && con && lic && cta) return;
 
     if (bra) bra.remove();
     if (abo) abo.remove();
     if (chn) chn.remove();
     if (con) con.remove();
     if (lic) lic.remove();
+    if (cta) cta.remove();
 
     var brand = buildFooterBrand();
     if (brand) footer.appendChild(brand);
@@ -307,6 +323,7 @@
     footer.appendChild(buildChannels());
     footer.appendChild(buildContact());
     footer.appendChild(buildLicense());
+    footer.appendChild(buildCta());
   }
 
   /* ---------- 4) Footer marka satırı: rozet + logo yan yana ----------

@@ -291,10 +291,12 @@
   border-radius: 11px;
   background: transparent;
   color: #F5C872;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .02em;
   transition: border-color .25s ease;
 }
 [data-mj="footer-channels"] .tb-ch:hover .tb-ch-ico{ border-color: #F5C872; }
-[data-mj="footer-channels"] .tb-ch-ico svg{ width: 21px; height: 21px; }
 [data-mj="footer-channels"] .tb-ch-txt{ flex: 1 1 auto; min-width: 0; text-align: left; }
 [data-mj="footer-channels"] .tb-ch-label{
   display: block;
@@ -385,43 +387,23 @@
 
    data-mj="footer-age-badge" custom.js tarafından ekleniyor — sitede bu
    rozetin hash'li sınıftan başka tutamağı yok. */
+/* 18+ — şablon 1a: sade altın çerçeveli etiket */
 [data-mj="footer-age-badge"]{
   display: inline-flex !important;
   align-items: center;
-  gap: 8px;
-  padding: 6px 16px 6px 6px !important;   /* 40px yüksekliğe oturur — dil seçicisiyle aynı */
-  border: 1px solid rgba(255,255,255,.16) !important;
-  border-radius: 999px !important;
+  padding: 6px 13px !important;
+  border: 1px solid rgba(245,200,114,.5) !important;
+  border-radius: 8px !important;
   background: transparent !important;
-  font-size: 0 !important;                /* orijinal "18+" metnini gizler */
-  letter-spacing: 0 !important;
+  color: #F5C872 !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  letter-spacing: .05em !important;
   transition: border-color .25s ease, background-color .25s ease;
 }
-[data-mj="footer-age-badge"]::before{
-  content: "18+";
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex: 0 0 auto;
-  width: 26px;
-  height: 26px;
-  border: 1.5px solid #FF4D5A;
-  border-radius: 50%;
-  color: #FF4D5A;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0;
-}
-[data-mj="footer-age-badge"]::after{
-  content: "Sorumlu Oyun";
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: .02em;
-  color: rgba(255,255,255,.9);
-}
 [data-mj="footer-age-badge"]:hover{
-  border-color: rgba(255,77,90,.5) !important;
-  background: rgba(255,77,90,.06) !important;
+  border-color: #F5C872 !important;
+  background: rgba(245,200,114,.07) !important;
 }
 
 /* 11) Footer menüsünü ortala (Hakkımızda, Bize Ulaşın, ...)
@@ -660,13 +642,16 @@ button[name="search"]:hover::after{ opacity:1; }
   margin: 0 16px;
 }
 /* 18+ ve dil seçiciyi taşıyan blok — dikey ve ortalı */
+/* 18+ solda, dil seçici sağda; altta saç teli çizgi (şablon 1a). */
 [data-mj="footer"] .app-ltr-19zdw54{
   order: 3 !important;
   flex-direction: row !important;
   align-items: center !important;
-  justify-content: center !important;
+  justify-content: space-between !important;
   gap: 12px !important;
-  margin: 22px 0 0 !important;
+  margin: 0 16px !important;
+  padding: 22px 28px !important;
+  border-bottom: 1px solid rgba(245,200,114,.12);
 }
 [data-mj="footer"] hr{ order: 4 !important; }
 [data-mj="footer-bottom"]{ order: 5 !important; }
@@ -769,6 +754,37 @@ button[name="search"]:hover::after{ opacity:1; }
 }
 
 /* Hareket hassasiyeti olan kullanıcılar için tüm animasyonları durdur */
+/* Alt CTA barı — tam genişlik altın gradient, üstünden geçen parıltı */
+[data-mj="footer-cta"]{
+  order: 10 !important;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 22px;
+  margin-top: 8px;
+  background: linear-gradient(135deg,#FFF0A3,#CE8D36);
+  color: #0a1830;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: .01em;
+  text-decoration: none;
+  overflow: hidden;
+}
+[data-mj="footer-cta"] .tb-cta-txt{ position: relative; }
+[data-mj="footer-cta"] .tb-cta-shine{
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  background: linear-gradient(105deg, transparent, rgba(255,255,255,.5), transparent);
+  animation: tb-shimmer 4.5s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes tb-shimmer{
+  0%   { transform: translateX(-120%); }
+  100% { transform: translateX(220%); }
+}
+
 @media (prefers-reduced-motion: reduce){
   [data-mj="logo"]::before,
   [data-mj="logo"]::after{
@@ -785,4 +801,5 @@ button[name="search"]:hover::after{ opacity:1; }
     [data-mj="header-nav-item"] .sl-navlink:hover{
     transform: none !important;
   }
+  [data-mj="footer-cta"] .tb-cta-shine{ animation: none !important; opacity: 0; }
 }
