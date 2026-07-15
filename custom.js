@@ -46,15 +46,15 @@
     {
       baslik: 'Vizyonumuz',
       paragraflar: [
-        'TacoBahis olarak vizyonumuz, çevrim içi eğlencede güvenin adresi olmak. Sağlam teknik altyapı, açık iletişim ve oyuncuyu merkeze alan bir hizmet anlayışıyla sektörde kalıcı bir marka inşa ediyoruz.',
-        'Lisanslı ve denetlenen bir platform olarak, her adımda hesap verebilir olmayı ve oyuncularımızın haklarını korumayı temel alıyoruz.'
+        'TacoBahis olarak vizyonumuz; yenilikçi teknoloji, güçlü altyapı ve şeffaf hizmet anlayışıyla çevrim içi oyun ve spor bahisleri sektöründe güvenin ve kalitenin simgesi olmaktır.',
+        'Hızlı ödeme sistemleri, adil oyun politikası ve güçlü kullanıcı deneyimiyle global ölçekte tercih edilen, güvenli ve sürdürülebilir büyüyen lider bir marka olmayı hedefliyoruz.'
       ]
     },
     {
       baslik: 'Misyonumuz',
       paragraflar: [
-        'Üyelerimize kesintisiz erişim, rekabetçi oranlar ve hızlı ödeme deneyimi sunmak için çalışıyoruz. Her işlemde adalet, şeffaflık ve güvenlik önceliğimiz.',
-        'Amacımız basit: oyuncularımızın tek düşüncesi oyunun keyfi olsun; gerisini biz halledelim.'
+        'TacoBahis’in misyonu; üyelerine 7/24 kesintisiz hizmet sunmak, yüksek oranlar ve avantajlı kampanyalar sağlamak, hızlı ve güvenilir ödeme altyapısıyla memnuniyeti en üst seviyeye çıkarmaktır.',
+        'Şeffaflık, adalet ve güçlü teknolojik altyapı ile güvenli, hızlı ve sorunsuz bir oyun deneyimi sunmayı hedefler.'
       ]
     }
   ];
@@ -136,11 +136,11 @@
   /* ---------- 1) Footer lisans bloğu ---------- */
 
   var LICENSE_TEXT =
-    '<b>tacobahis.com</b>, <b>TacoBahis Entertainment Limited</b> tarafından işletilmektedir. ' +
-    'Kayıtlı adres: Hamchako, Mutsamudu, Autonomous Island of Anjouan, Union of Comoros. ' +
-    'Bu platform, 2005 tarihli Computer Gaming Licensing Act 007 uyarınca Anjouan Eyaleti ' +
-    'Offshore Finance Authority tarafından verilen <b>ALSI-202605014-FI1</b> numaralı lisans ' +
-    'ile faaliyet göstermektedir. Tüm lisanslı faaliyetler Anjouan Licensing Services Inc. denetimindedir.';
+    '<b>tacobahis.com</b>, Anjouan Birliği’nin Mutsamudu bölgesinde kayıtlı ' +
+    '<b>TacoBahis Entertainment Limited</b> tarafından işletilmektedir. Platform, Anjouan ' +
+    'Eyaleti Offshore Finance Authority tarafından Computer Gaming Licensing Act 007 of 2005 ' +
+    'kapsamında düzenlenen <b>ALSI-202605014-FI1</b> numaralı geçerli internet oyun lisansı ' +
+    'ile faaliyet göstermektedir.';
 
   function buildLicense() {
     var box = document.createElement('div');
