@@ -63,8 +63,8 @@
   var SUPPORT_MAIL = 'destek@tacobahis.com';
 
   var CHANNELS = [
-    { rozet: 'TG',  href: TELEGRAM_URL, etiket: 'Telegram', deger: '@tacoresmi' },
-    { rozet: 'WWW', href: MIRROR_URL,   etiket: 'Her zaman güncel', deger: 'tacogir.com' }
+    { ikon: 'telegram', href: TELEGRAM_URL, etiket: 'Telegram', deger: '@tacoresmi' },
+    { rozet: 'WWW',     href: MIRROR_URL,   etiket: 'Her zaman güncel', deger: 'tacogir.com' }
   ];
 
   /* ---------- İkonlar ---------- */
@@ -191,9 +191,10 @@
     var kartlar = '';
     for (var i = 0; i < CHANNELS.length; i++) {
       var c = CHANNELS[i];
+      var icoInner = c.ikon ? SVG[c.ikon] : c.rozet;
       kartlar +=
         '<a class="tb-ch" href="' + c.href + '" target="_blank" rel="noopener noreferrer">' +
-          '<span class="tb-ch-ico">' + c.rozet + '</span>' +
+          '<span class="tb-ch-ico' + (c.ikon ? ' tb-ch-ico--svg' : '') + '">' + icoInner + '</span>' +
           '<span class="tb-ch-txt">' +
             '<span class="tb-ch-label">' + c.etiket + '</span>' +
             '<span class="tb-ch-value">' + c.deger + '</span>' +
@@ -205,7 +206,7 @@
     box.innerHTML =
       '<div class="tb-ch-head">' +
         '<span class="tb-ch-kicker">TacoBahis Resmi Kanalları</span>' +
-        '<strong class="tb-ch-title">Sosyal medya<br>hesaplarımız</strong>' +
+        '<strong class="tb-ch-title">Sosyal medya hesaplarımız</strong>' +
       '</div>' +
       '<div class="tb-ch-list">' + kartlar + '</div>';
     return box;

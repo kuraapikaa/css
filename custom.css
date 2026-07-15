@@ -280,7 +280,13 @@
   border-top: 1px solid rgba(245,200,114,.14);
   text-align: left;
 }
-[data-mj="footer-channels"] .tb-ch-head{ align-self: center; padding-right: 8px; }
+/* Başlık bloğu: ortalı ama biraz sola yaslı (sağ boşluk fazla) */
+[data-mj="footer-channels"] .tb-ch-head{
+  align-self: center;
+  text-align: center;
+  padding-left: 0;
+  padding-right: 32px;
+}
 [data-mj="footer-channels"] .tb-ch-kicker{
   display: block;
   color: rgba(245,200,114,.8);
@@ -297,6 +303,7 @@
   font-size: 21px;
   font-weight: 600;
   line-height: 1.3;
+  white-space: nowrap;   /* tek satır — alt satıra kaymasın */
 }
 [data-mj="footer-channels"] .tb-ch-list{
   display: contents;   /* kolonlar doğrudan grid'e otursun */
@@ -344,6 +351,8 @@
   transition: border-color .25s ease;
 }
 [data-mj="footer-channels"] .tb-ch:hover .tb-ch-ico{ border-color: #F5C872; }
+/* Metin rozet yerine SVG ikon (ör. Telegram) */
+[data-mj="footer-channels"] .tb-ch-ico--svg svg{ width: 22px; height: 22px; }
 [data-mj="footer-channels"] .tb-ch-txt{ flex: 1 1 auto; min-width: 0; text-align: left; }
 [data-mj="footer-channels"] .tb-ch-label{
   display: block;
