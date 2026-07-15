@@ -62,12 +62,13 @@
 
    İKİ KATMAN:
    ::before = sabit altın taban (banner'a birebir oturan çerçeve, her zaman görünür)
-   ::after  = dönen parlak ışık huzmesi (conic'in dar parlak yayı @property ile döner)
-   Böylece çerçeve sürekli altın, üzerinde bir parıltı kenar boyunca akıyor. */
-@property --tb-banner-angle{ syntax:"<angle>"; initial-value:0deg; inherits:false; }
-[data-mj="widget-banner-link"]{ position:relative !important; }
-[data-mj="widget-banner-link"]::before,
-[data-mj="widget-banner-link"]::after{
+   ::after  = transform ile kayan, üst/alt kenardaki parlak ışık huzmesi
+   Böylece çerçeve sürekli altın, üzerinde aralıklı bir parıltı akıyor. */
+[data-mj="widget-banner-link"]{
+  position:relative !important;
+  isolation:isolate;
+}
+[data-mj="widget-banner-link"]::before{
   content:"";
   position:absolute;
   inset:0;
@@ -79,27 +80,40 @@
           mask-composite: exclude;
   pointer-events:none;
   z-index:2;
-}
-/* soft altın taban — çerçeve comet'ler arasında kaybolmasın (hafif) */
-[data-mj="widget-banner-link"]::before{
   background: linear-gradient(135deg,#CE8D36 0%,#F5C872 35.01%,#FFF0A3 60.01%,#998A5E 100%);
-  opacity:.38;
+  opacity:.55;
 }
-/* İKİ kuyruklu-yıldız (comet) kenar boyunca dolaşır — neon glow.
-   conic'te iki dar parlak yay (beyaz-sıcak tepe → altın → koyu altın kuyruk),
-   aralar şeffaf; @property açısı dönünce iki ışık kenarı turluyor.
-   (NarcosBahis ng-slider-neon-sweep efektinin uyarlaması.) */
+/* Compositor dostu ışık geçişi.
+   Eski sürüm her karede tam banner boyutunda conic-gradient + maskeyi yeniden
+   boyuyordu. Bu katman bir kez rasterize edilir; animasyonda yalnızca transform
+   ve opacity değişir. --tb-banner-play JS tarafından viewport/sekme durumuna
+   göre running veya paused yapılır. */
 [data-mj="widget-banner-link"]::after{
-  background: conic-gradient(from var(--tb-banner-angle),
-    transparent 0deg, transparent 38deg,
-    rgba(255,255,255,.98) 48deg, #F2D58A 57deg, #8F6424 68deg,
-    transparent 84deg, transparent 212deg,
-    rgba(255,255,255,.9) 222deg, #C99843 232deg,
-    transparent 250deg, transparent 360deg);
-  filter: drop-shadow(0 0 4px rgba(242,213,138,.95)) drop-shadow(0 0 10px rgba(201,152,67,.6));
-  animation: tb-banner-sweep 4.2s linear infinite;
+  content:"";
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  width:28%;
+  border-radius:16px;
+  background:
+    linear-gradient(90deg,transparent,rgba(255,255,255,.96) 48%,#F2D58A 62%,transparent) top / 100% 3px no-repeat,
+    linear-gradient(90deg,transparent,#C99843 38%,rgba(255,255,255,.88) 54%,transparent) bottom / 100% 3px no-repeat;
+  filter: drop-shadow(0 0 5px rgba(242,213,138,.72));
+  pointer-events:none;
+  z-index:3;
+  opacity:0;
+  transform:translate3d(-130%,0,0);
+  will-change:transform,opacity;
+  animation:tb-banner-sweep 6.8s cubic-bezier(.45,0,.55,1) infinite;
+  animation-play-state:var(--tb-banner-play,running);
 }
-@keyframes tb-banner-sweep{ to{ --tb-banner-angle:360deg; } }
+@keyframes tb-banner-sweep{
+  0%,18%   { opacity:0; transform:translate3d(-130%,0,0); }
+  24%      { opacity:1; }
+  70%      { opacity:1; transform:translate3d(470%,0,0); }
+  78%,100% { opacity:0; transform:translate3d(470%,0,0); }
+}
 /* Hareket hassasiyeti: dolaşımı durdur, sabit altın çerçeve görünsün */
 @media (prefers-reduced-motion: reduce){
   [data-mj="widget-banner-link"]::after{ animation:none; opacity:0; }
@@ -556,6 +570,15 @@
   display: block;
 }
 
+/* Çok dar mobil: ikincil dış kanal butonları header'ı taşırmasın.
+   JS sarmalayıcılara stabil data-tb-header-wrap tutamacı ekler. */
+@media (max-width: 340px){
+  [data-tb-header-wrap="telegram"],
+  [data-tb-header-wrap="call"]{
+    display:none !important;
+  }
+}
+
 /* 13) Promosyon butonu — hediye kutusu ikonu + hover
    Buton /tr/promotions'a gidiyor; megafon yerine hediye kutusu daha doğru.
 
@@ -850,38 +873,10 @@ button[name="search"]:hover::after{ opacity:1; }
   }
 }
 
-/* Alt CTA barı — referans tasarımda yok, gizlendi.
-   JS hâlâ elemanı basıyor (mountFooter guard'ı bozulmasın diye);
-   yalnızca görsel olarak kapatılıyor. Geri istenirse display satırını sil. */
-[data-mj="footer-cta"]{
-  order: 10 !important;
-  display: none !important;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 22px;
-  margin-top: 8px;
-  background: linear-gradient(135deg,#FFF0A3,#CE8D36);
-  color: #0a1830;
-  font-size: 17px;
-  font-weight: 800;
-  letter-spacing: .01em;
-  text-decoration: none;
-  overflow: hidden;
-}
-[data-mj="footer-cta"] .tb-cta-txt{ position: relative; }
-[data-mj="footer-cta"] .tb-cta-shine{
-  position: absolute;
-  inset: 0;
-  width: 40%;
-  background: linear-gradient(105deg, transparent, rgba(255,255,255,.5), transparent);
-  animation: tb-shimmer 4.5s ease-in-out infinite;
-  pointer-events: none;
-}
-@keyframes tb-shimmer{
-  0%   { transform: translateX(-120%); }
-  100% { transform: translateX(220%); }
+/* Klavye odağı — sitenin outline:none kurallarını erişilebilir bir halka ile aşar. */
+:is(a,button,input,select,textarea,[tabindex]):focus-visible{
+  outline:2px solid #FFF0A3 !important;
+  outline-offset:3px !important;
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -897,8 +892,15 @@ button[name="search"]:hover::after{ opacity:1; }
   [data-mj="header-seal"],
   [data-mj="footer-brand"] .tb-brand-seal,
   [data-mj="footer-contact"] .tb-copy,
-    [data-mj="header-nav-item"] .sl-navlink:hover{
+  [data-mj="header-nav-item"] .sl-navlink:hover{
     transform: none !important;
   }
-  [data-mj="footer-cta"] .tb-cta-shine{ animation: none !important; opacity: 0; }
+  [data-mj^="header-"],
+  [data-mj^="header-"] *,
+  [data-mj^="footer-"],
+  [data-mj^="footer-"] *{
+    transition-duration:.01ms !important;
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+  }
 }

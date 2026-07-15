@@ -60,8 +60,6 @@
   ];
 
   // Resmi kanallar
-  var SUPPORT_MAIL = 'destek@tacobahis.com';
-
   var CHANNELS = [
     { ikon: 'telegram', href: TELEGRAM_URL, etiket: 'Telegram', deger: '@tacoresmi' },
     { rozet: 'WWW',     href: MIRROR_URL,   etiket: 'Her zaman güncel', deger: 'tacogir.com' }
@@ -281,18 +279,6 @@
     return ok;
   }
 
-  /* ---------- 3d) Alt CTA barı ---------- */
-
-  function buildCta() {
-    var a = document.createElement('a');
-    a.setAttribute('data-mj', 'footer-cta');
-    a.setAttribute('href', 'mailto:' + SUPPORT_MAIL);
-    a.innerHTML =
-      '<span class="tb-cta-shine" aria-hidden="true"></span>' +
-      '<span class="tb-cta-txt">Bize Ulaşın: ' + SUPPORT_MAIL + '</span>';
-    return a;
-  }
-
   /* ---------- Footer bloklarını bağla ---------- */
 
   function mountFooter() {
@@ -308,23 +294,23 @@
     var lic = footer.querySelector(':scope > [data-mj="footer-license"]');
     var cta = footer.querySelector(':scope > [data-mj="footer-cta"]');
 
+    // Önceki sürümden kalmış gizli CTA varsa temizle.
+    if (cta) cta.remove();
+
     // Hepsi yerindeyse dokunma — yoksa observer sonsuz döngüye girer.
-    if (bra && abo && chn && con && lic && cta) return;
+    if (bra && abo && chn && con && lic) return;
 
     if (bra) bra.remove();
     if (abo) abo.remove();
     if (chn) chn.remove();
     if (con) con.remove();
     if (lic) lic.remove();
-    if (cta) cta.remove();
-
     var brand = buildFooterBrand();
     if (brand) footer.appendChild(brand);
     footer.appendChild(buildAbout());
     footer.appendChild(buildChannels());
     footer.appendChild(buildContact());
     footer.appendChild(buildLicense());
-    footer.appendChild(buildCta());
   }
 
   /* ---------- 4) Footer marka satırı: rozet + logo yan yana ----------
@@ -396,21 +382,33 @@
     var megaWrap = special.parentElement;
     if (!megaWrap || !megaWrap.parentElement) return;
 
+    var call = document.querySelector('[data-mj="header-call-button"]');
+    if (call && call.parentElement) {
+      call.parentElement.setAttribute('data-tb-header-wrap', 'call');
+    }
+
+    var telegram = document.querySelector('[data-mj="header-telegram-button"]');
+    if (telegram && telegram.parentElement) {
+      telegram.parentElement.setAttribute('data-tb-header-wrap', 'telegram');
+    }
+
     // Sırayla: Telegram → Aranma → Promosyon(megafon)
     // Sarmalayıcı sınıfı runtime'da megafondan kopyalanır; sabit yazsaydık
     // site yeni derleme yapıp hash'li sınıfı değiştirdiğinde boşluk bozulurdu.
-    if (!document.querySelector('[data-mj="header-call-button"]')) {
+    if (!call) {
       var cw = document.createElement('div');
       cw.className = megaWrap.className;
+      cw.setAttribute('data-tb-header-wrap', 'call');
       cw.appendChild(buildIconButton('header-call-button', CALL_URL, 'Aranma talebi', SVG.phone));
       megaWrap.parentElement.insertBefore(cw, megaWrap);
+      call = cw.querySelector('[data-mj="header-call-button"]');
     }
 
-    if (!document.querySelector('[data-mj="header-telegram-button"]')) {
-      var call = document.querySelector('[data-mj="header-call-button"]');
+    if (!telegram) {
       var callWrap = call ? call.parentElement : megaWrap;
       var tw = document.createElement('div');
       tw.className = megaWrap.className;
+      tw.setAttribute('data-tb-header-wrap', 'telegram');
       tw.appendChild(buildIconButton('header-telegram-button', TELEGRAM_URL, 'Telegram kanalımız', SVG.telegram));
       callWrap.parentElement.insertBefore(tw, callWrap);
     }
@@ -444,6 +442,8 @@
   //
   // Bu yüzden ölçüyü çalışma anında megafondan okuyup CSS değişkenlerine
   // yazıyoruz. Site ne yaparsa yapsın butonlarımız takip eder.
+  var buttonSizeSignature = '';
+
   function syncButtonSize() {
     var ref = document.querySelector('[data-mj="header-special-button"]');
     if (!ref) return;
@@ -453,11 +453,72 @@
 
     var icon = ref.querySelector('img, svg');
     var root = document.documentElement;
+    var iconWidth = icon ? getComputedStyle(icon).width : '24px';
+    var signature = [cs.width, cs.borderTopLeftRadius, cs.paddingTop, iconWidth].join('|');
+
+    // Aynı değerleri tekrar yazmak gereksiz style invalidation üretmesin.
+    if (signature === buttonSizeSignature) return;
+    buttonSizeSignature = signature;
 
     root.style.setProperty('--tb-btn-size', cs.width);
     root.style.setProperty('--tb-btn-radius', cs.borderTopLeftRadius);
     root.style.setProperty('--tb-btn-pad', cs.paddingTop);
-    root.style.setProperty('--tb-btn-icon', icon ? getComputedStyle(icon).width : '24px');
+    root.style.setProperty('--tb-btn-icon', iconWidth);
+  }
+
+  var observedButton = null;
+  var buttonResizeObserver = null;
+
+  function observeButtonSize() {
+    var ref = document.querySelector('[data-mj="header-special-button"]');
+    if (!ref) return;
+
+    syncButtonSize();
+    if (ref === observedButton || typeof ResizeObserver === 'undefined') return;
+
+    if (buttonResizeObserver) buttonResizeObserver.disconnect();
+    observedButton = ref;
+    buttonResizeObserver = new ResizeObserver(syncButtonSize);
+    buttonResizeObserver.observe(ref);
+  }
+
+  /* ---------- Banner animasyonunu görünürken çalıştır ---------- */
+
+  var observedBanner = null;
+  var bannerObserver = null;
+  var bannerInView = true;
+
+  function applyBannerMotionState() {
+    if (!observedBanner) return;
+    observedBanner.style.setProperty(
+      '--tb-banner-play',
+      !document.hidden && bannerInView ? 'running' : 'paused'
+    );
+  }
+
+  function mountBannerMotion() {
+    var banner = document.querySelector('[data-mj="widget-banner-link"]');
+
+    if (!banner) {
+      if (bannerObserver) bannerObserver.disconnect();
+      bannerObserver = null;
+      observedBanner = null;
+      return;
+    }
+    if (banner === observedBanner) return;
+
+    if (bannerObserver) bannerObserver.disconnect();
+    observedBanner = banner;
+    bannerInView = true;
+    applyBannerMotionState();
+
+    if (typeof IntersectionObserver === 'undefined') return;
+    bannerObserver = new IntersectionObserver(function (entries) {
+      if (!entries.length) return;
+      bannerInView = entries[0].isIntersecting;
+      applyBannerMotionState();
+    }, { threshold: 0.01 });
+    bannerObserver.observe(banner);
   }
 
   /* ---------- Bağlama ---------- */
@@ -467,15 +528,64 @@
     mountHeaderSeal();
     mountHeaderButtons();
     tagAgeBadge();
-    syncButtonSize();
+    observeButtonSize();
+    mountBannerMotion();
+  }
+
+  var MOUNT_SELECTOR =
+    '[data-mj="footer"], [data-mj="logo"], ' +
+    '[data-mj="header-special-button"], [data-mj="header-seal"], ' +
+    '[data-mj="header-call-button"], [data-mj="header-telegram-button"], ' +
+    '[data-mj="widget-banner-link"]';
+  var mountFrame = 0;
+
+  function nodeContainsMountTarget(node) {
+    if (!node || (node.nodeType !== 1 && node.nodeType !== 11)) return false;
+    if (node.matches && node.matches(MOUNT_SELECTOR)) return true;
+    return !!(node.querySelector && node.querySelector(MOUNT_SELECTOR));
+  }
+
+  function mutationIsRelevant(mutation) {
+    var target = mutation.target;
+
+    // Footer içindeki değişimler marka kopyası ve özel blokları etkileyebilir.
+    if (target && target.nodeType === 1 && target.closest &&
+        target.closest('[data-mj="footer"]')) return true;
+
+    var i;
+    for (i = 0; i < mutation.addedNodes.length; i++) {
+      if (nodeContainsMountTarget(mutation.addedNodes[i])) return true;
+    }
+    for (i = 0; i < mutation.removedNodes.length; i++) {
+      if (nodeContainsMountTarget(mutation.removedNodes[i])) return true;
+    }
+    return false;
+  }
+
+  function scheduleMount(mutations) {
+    var relevant = false;
+    for (var i = 0; i < mutations.length; i++) {
+      if (mutationIsRelevant(mutations[i])) {
+        relevant = true;
+        break;
+      }
+    }
+    if (!relevant || mountFrame) return;
+
+    mountFrame = requestAnimationFrame(function () {
+      mountFrame = 0;
+      mountAll();
+    });
   }
 
   function start() {
     mountAll();
-    new MutationObserver(mountAll).observe(document.body, {
+    new MutationObserver(scheduleMount).observe(document.body, {
       childList: true,
       subtree: true
     });
+
+    document.addEventListener('visibilitychange', applyBannerMotionState);
 
     // Yeniden boyutlandırmada React megafonu değiştirir ama bu her zaman
     // bir mutasyon üretmeyebilir — ölçü senkronunu ayrıca tetikliyoruz.
