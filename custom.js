@@ -6,6 +6,7 @@
  *   3) Header'a lisans rozeti (logonun sağı)
  *   4) Header'a Telegram + aranma talebi butonları
  *   5) Footer 18+ rozetini etiketler (CSS tutamağı için)
+ *   6) Ana sayfada kategori kartlarının altına güven/hizmet paneli
  *
  * NEDEN JS: Site bir React SPA. Elemanlar bir kez eklenirse rota
  * değişiminde React header/footer'ı yeniden çizince kaybolur.
@@ -128,7 +129,32 @@
     disari:
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" ' +
       'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-      '<path d="M7 17 17 7M9 7h8v8"/></svg>'
+      '<path d="M7 17 17 7M9 7h8v8"/></svg>',
+
+    trustPayment:
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" ' +
+      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<rect x="2.5" y="5" width="19" height="14" rx="3"/>' +
+      '<path d="M2.5 9h19M6.5 14.5h4"/></svg>',
+
+    trustOdds:
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" ' +
+      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<path d="m3 17 5.2-5.2 3.7 3.7L21 6.4"/>' +
+      '<path d="M15.5 6.4H21v5.5"/></svg>',
+
+    trustSupport:
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" ' +
+      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<path d="M4 13v-2a8 8 0 0 1 16 0v2"/>' +
+      '<path d="M6.5 17H5a2 2 0 0 1-2-2v-1a2 2 0 0 1 2-2h1.5v5Zm11 0H19a2 2 0 0 0 2-2v-1a2 2 0 0 0-2-2h-1.5v5Z"/>' +
+      '<path d="M17.5 17c-.7 2-2.4 3-5 3H11"/></svg>',
+
+    trustVerified:
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" ' +
+      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<path d="m12 2 2.4 2 3.1-.1.7 3 2.5 1.8-1.2 2.9 1.2 2.9-2.5 1.8-.7 3-3.1-.1-2.4 2-2.4-2-3.1.1-.7-3-2.5-1.8 1.2-2.9-1.2-2.9 2.5-1.8.7-3 3.1.1L12 2Z"/>' +
+      '<path d="m8.2 11.7 2.4 2.4 5.2-5.2"/></svg>'
   };
 
   /* ---------- 1) Footer lisans bloğu ---------- */
@@ -557,6 +583,72 @@
     content.appendChild(wrap);
   }
 
+  /* ---------- Ana sayfa güven ve hizmet paneli ---------- */
+
+  function buildTrustHub() {
+    var widget = document.createElement('section');
+    widget.id = 'taco-trust-hub';
+    widget.className = 'tb-trust-hub';
+    widget.setAttribute('data-tb-trust-hub', '');
+    widget.setAttribute('aria-labelledby', 'taco-trust-hub-title');
+    widget.innerHTML =
+      '<div class="tb-trust-head">' +
+        '<span class="tb-trust-eyebrow">TACOBAHİS PREMIUM</span>' +
+        '<h2 class="tb-trust-title" id="taco-trust-hub-title">GÜVENİN VE DENEYİMİN ADRESİ</h2>' +
+        '<p class="tb-trust-lead">Güçlü altyapı, hızlı işlemler ve her an yanınızda destek.</p>' +
+      '</div>' +
+      '<div class="tb-trust-grid" aria-label="TacoBahis güven ve hizmet bilgileri">' +
+        '<article class="tb-trust-card">' +
+          '<span class="tb-trust-icon-wrap"><span class="tb-trust-icon">' + SVG.trustPayment + '</span></span>' +
+          '<span class="tb-trust-copy"><strong class="tb-trust-value">HIZLI</strong>' +
+          '<span class="tb-trust-label">GÜVENİLİR ÖDEME</span></span>' +
+        '</article>' +
+        '<article class="tb-trust-card">' +
+          '<span class="tb-trust-icon-wrap"><span class="tb-trust-icon">' + SVG.trustOdds + '</span></span>' +
+          '<span class="tb-trust-copy"><strong class="tb-trust-value">YÜKSEK</strong>' +
+          '<span class="tb-trust-label">ORANLAR &amp; KAMPANYALAR</span></span>' +
+        '</article>' +
+        '<article class="tb-trust-card">' +
+          '<span class="tb-trust-icon-wrap"><span class="tb-trust-icon">' + SVG.trustSupport + '</span></span>' +
+          '<span class="tb-trust-copy"><strong class="tb-trust-value">7/24</strong>' +
+          '<span class="tb-trust-label">CANLI DESTEK</span></span>' +
+        '</article>' +
+        '<a class="tb-trust-card" href="' + VERIFY_URL + '" target="_blank" rel="noopener noreferrer" ' +
+        'aria-label="Resmi TacoBahis lisans doğrulamasını aç">' +
+          '<span class="tb-trust-icon-wrap"><span class="tb-trust-icon">' + SVG.trustVerified + '</span></span>' +
+          '<span class="tb-trust-copy"><strong class="tb-trust-value">RESMİ</strong>' +
+          '<span class="tb-trust-label">DOĞRULANMIŞ LİSANS</span></span>' +
+          '<span class="tb-trust-arrow" aria-hidden="true">↗</span>' +
+        '</a>' +
+      '</div>' +
+      '<p class="tb-trust-note">18+ • Sorumlu oyun • Bütçe ve zaman limitlerinizi belirleyin.</p>';
+    return widget;
+  }
+
+  function mountTrustHub() {
+    var widget = document.querySelector('[data-tb-trust-hub]');
+    var path = window.location.pathname.toLowerCase().replace(/\/+$/, '');
+    var isHome = path === '' || path === '/' || path === '/tr';
+
+    if (!isHome) {
+      if (widget) widget.remove();
+      return;
+    }
+
+    var main = document.querySelector('main[data-mj="page-content"]');
+    if (!main) return;
+
+    var pages = main.querySelector(':scope > [data-mj="widget-pages"]');
+    if (!pages) return;
+    if (!widget) widget = buildTrustHub();
+
+    // React ana sayfayı yeniden çizdiğinde paneli güncel kategori satırının
+    // hemen arkasına geri al; başka bir widget sırasına bağımlı kalma.
+    if (widget.parentElement !== main || widget.previousElementSibling !== pages) {
+      pages.insertAdjacentElement('afterend', widget);
+    }
+  }
+
   /* ---------- Banner animasyonunu görünürken çalıştır ---------- */
 
   var observedBanner = null;
@@ -609,6 +701,7 @@
     observeButtonSize();
     mountAnnouncement();
     mountScorePrediction();
+    mountTrustHub();
     mountBannerMotion();
   }
 
@@ -618,6 +711,7 @@
     '[data-mj="header-call-button"], [data-mj="header-telegram-button"], ' +
     '[data-mj="announcement"], ' +
     '[data-mj="info-page-content"], ' +
+    '[data-mj="widget-pages"], [data-tb-trust-hub], ' +
     '[data-mj="widget-banner-link"]';
   var mountFrame = 0;
 
