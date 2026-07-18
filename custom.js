@@ -191,7 +191,10 @@
     var box = document.createElement('div');
     box.setAttribute('data-mj', 'footer-about');
 
-    var html = '';
+    var html =
+      '<div class="tb-about-brand">' +
+        '<img src="' + TRUST_LOGO_URL + '" alt="TacoBahis" loading="lazy" decoding="async">' +
+      '</div>';
     for (var i = 0; i < ABOUT.length; i++) {
       var a = ABOUT[i];
       var p = '';
@@ -308,6 +311,21 @@
     return ok;
   }
 
+  function syncCopyrightYear(footer) {
+    var bottom = footer.querySelector('[data-mj="footer-bottom"]');
+    if (!bottom) return;
+
+    var text = (bottom.textContent || '').replace(/\s+/g, ' ').trim();
+    if (text.indexOf('TacoBahis') === -1 ||
+        text.indexOf('Tüm hakları saklıdır') === -1) return;
+
+    var walker = document.createTreeWalker(bottom, NodeFilter.SHOW_TEXT);
+    var node;
+    while ((node = walker.nextNode())) {
+      node.nodeValue = node.nodeValue.replace(/\b20\d{2}\b/g, '2023');
+    }
+  }
+
   /* ---------- Footer bloklarını bağla ---------- */
 
   function mountFooter() {
@@ -315,6 +333,7 @@
     // order kurallarıyla yapılır (bkz. "Footer dizilimi" kuralı).
     var footer = document.querySelector('[data-mj="footer"]');
     if (!footer) return;
+    syncCopyrightYear(footer);
 
     var bra = footer.querySelector(':scope > [data-mj="footer-brand"]');
     var abo = footer.querySelector(':scope > [data-mj="footer-about"]');
@@ -322,12 +341,13 @@
     var con = footer.querySelector(':scope > [data-mj="footer-contact"]');
     var lic = footer.querySelector(':scope > [data-mj="footer-license"]');
     var cta = footer.querySelector(':scope > [data-mj="footer-cta"]');
+    var aboLogo = abo && abo.querySelector('.tb-about-brand img');
 
     // Önceki sürümden kalmış gizli CTA varsa temizle.
     if (cta) cta.remove();
 
     // Hepsi yerindeyse dokunma — yoksa observer sonsuz döngüye girer.
-    if (bra && abo && chn && con && lic) return;
+    if (bra && abo && aboLogo && chn && con && lic) return;
 
     if (bra) bra.remove();
     if (abo) abo.remove();
