@@ -35,6 +35,9 @@
   var CALL_URL = 'https://tacoara.com';
   var TELEGRAM_URL = 'https://t.me/tacoresmi';
   var MIRROR_URL = 'https://tacogir.com';
+  var TRUST_LOGO_URL =
+    'https://tacobahis551.com/api/cmsgateway/api/v1.0/AssetsSite/' +
+    'eec59f1e-d34c-4401-848a-ef80e22e3b9c';
 
   var CONTACTS = [
     { key: 'reklam', baslik: 'Reklam ve Affiliate', mail: 'reklam@tacobahis.com' },
@@ -593,9 +596,10 @@
     widget.setAttribute('aria-labelledby', 'taco-trust-hub-title');
     widget.innerHTML =
       '<div class="tb-trust-head">' +
-        '<span class="tb-trust-eyebrow">TACOBAHİS PREMIUM</span>' +
+        '<img class="tb-trust-logo" src="' + TRUST_LOGO_URL + '" alt="TacoBahis" ' +
+        'loading="lazy" decoding="async">' +
         '<h2 class="tb-trust-title" id="taco-trust-hub-title">GÜVENİN VE DENEYİMİN ADRESİ</h2>' +
-        '<p class="tb-trust-lead">Güçlü altyapı, hızlı işlemler ve her an yanınızda destek.</p>' +
+        '<p class="tb-trust-lead">Güçlü altyapı, hızlı işlemler ve 7/24 destek.</p>' +
       '</div>' +
       '<div class="tb-trust-grid" aria-label="TacoBahis güven ve hizmet bilgileri">' +
         '<article class="tb-trust-card">' +
@@ -620,8 +624,7 @@
           '<span class="tb-trust-label">DOĞRULANMIŞ LİSANS</span></span>' +
           '<span class="tb-trust-arrow" aria-hidden="true">↗</span>' +
         '</a>' +
-      '</div>' +
-      '<p class="tb-trust-note">18+ • Sorumlu oyun • Bütçe ve zaman limitlerinizi belirleyin.</p>';
+      '</div>';
     return widget;
   }
 
