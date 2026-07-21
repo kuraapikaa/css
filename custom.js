@@ -571,34 +571,55 @@
     observedAnnouncement = root;
   }
 
-  /* ---------- /tr/sportest skor tahmin iframe'i ----------
+  /* ---------- Boş sayfalara gömülen uygulamalar ----------
 
-     Sayfa altyapıdan boş geliyor; içinde yalnızca
-     "There are no active Tournaments yet." bildirimi var.
-     Onu gizleyip iframe'i yerine koyuyoruz.
+     Altyapıdan boş/placeholder gelen sayfaların kendi içeriği gizlenip
+     yerine iframe konuyor. Hangi sayfaya ne gömüleceği PAGE_EMBEDS'te.
 
-     Bildirim metninden bulunuyor — sarmalayıcısının sınıfı (app-ltr-...)
-     hash'li ve her derlemede değişebilir, ona bağlanmak kırılgan olurdu.
-     Tutamak olarak stabil [data-mj="page-content"] kullanılıyor. */
+     Sayfaların yerleşik içeriği duruma göre değişiyor (ör. /tr/sportest
+     oturum açıkken "There are no active Tournaments yet.", kapalıyken
+     "Error Occurred" — bazen çıplak metin düğümü; /tr/testspor'da ise
+     oyun kataloğu modülü). Metni/hash'li sınıfı hedeflemek kırılgan
+     olurdu; stabil [data-mj="page-content"] kutusu işaretleniyor,
+     gizlemeyi custom.css yapıyor.
 
-  function mountScorePrediction() {
-    var existing = document.querySelector('[data-tb-score-prediction]');
+     ÖNEMLİ: page-content SPA rota değişiminde AYNI DOM düğümü kalıyor
+     (test edildi) — işaret kaldırılmazsa gömülü sayfadan çıkınca diğer
+     sayfaların içeriği de gizli kalır. Bu yüzden eşleşme yoksa
+     data-tb-embed-host mutlaka siliniyor. */
+
+  var PAGE_EMBEDS = [
+    { path: '/tr/sportest', src: 'https://tacolynon.up.railway.app/bonus?user_id={id}', baslik: 'Bonus' },
+    { path: '/tr/testspor', src: 'https://tacolynon.up.railway.app/?user_id={id}',      baslik: 'Taco Lynon' }
+  ];
+
+  function mountPageEmbeds() {
+    var existing = document.querySelector('[data-tb-page-embed]');
     var path = window.location.pathname.replace(/\/+$/, '');
 
-    if (path !== '/tr/sportest') {
+    var cfg = null;
+    for (var i = 0; i < PAGE_EMBEDS.length; i++) {
+      if (PAGE_EMBEDS[i].path === path) { cfg = PAGE_EMBEDS[i]; break; }
+    }
+
+    // Gömülü sayfa değiliz: iframe'i ve host işaretini temizle.
+    if (!cfg) {
       if (existing) existing.remove();
+      var host = document.querySelector('[data-tb-embed-host]');
+      if (host) host.removeAttribute('data-tb-embed-host');
       return;
+    }
+
+    // Bir gömülü sayfadan diğerine geçildiyse eski iframe'i tazele.
+    if (existing && existing.getAttribute('data-tb-page-embed') !== path) {
+      existing.remove();
+      existing = null;
     }
 
     var content = document.querySelector('[data-mj="page-content"]');
     if (!content) return;
 
-    // Sayfanın altyapıdan gelen içeriği duruma göre değişiyor:
-    // oturum açıkken "There are no active Tournaments yet.",
-    // kapalıyken "Error Occurred" — üstelik bazen doğrudan çıplak metin
-    // düğümü olarak. Metni hedeflemek yerine host kutuyu işaretliyoruz;
-    // gizleme custom.css'te (yazı boyutu sıfırlanır, iframe'de geri açılır).
-    // Zaten işaretliyse dokunmuyoruz — MutationObserver sonsuz dönmesin.
+    // Zaten işaretliyse dokunma — MutationObserver sonsuz dönmesin.
     if (!content.hasAttribute('data-tb-embed-host')) {
       content.setAttribute('data-tb-embed-host', '');
     }
@@ -606,12 +627,12 @@
     if (existing) return;
 
     var wrap = document.createElement('div');
-    wrap.className = 'tb-score-prediction';
-    wrap.setAttribute('data-tb-score-prediction', '');
+    wrap.className = 'tb-page-embed';
+    wrap.setAttribute('data-tb-page-embed', path);
 
     var frame = document.createElement('iframe');
-    frame.src = 'https://makibetbonus.com/skor-tahmin?user_id={id}';
-    frame.title = 'Skor Tahmin';
+    frame.src = cfg.src;
+    frame.title = cfg.baslik;
     frame.width = '100%';
     frame.height = '100vh';
     frame.frameBorder = '0';
@@ -740,7 +761,7 @@
     tagAgeBadge();
     observeButtonSize();
     mountAnnouncement();
-    mountScorePrediction();
+    mountPageEmbeds();
     mountTrustHub();
     mountBannerMotion();
   }

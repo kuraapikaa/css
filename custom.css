@@ -271,20 +271,21 @@ a.tb-trust-card:focus-visible{
   }
 }
 
-/* /tr/sportest — boş turnuva sayfasına gömülen skor tahmin uygulaması.
-   Sayfa altyapıdan boş geliyor: oturum açıkken "There are no active
-   Tournaments yet.", kapalıyken "Error Occurred" — bazen çıplak metin
-   düğümü olarak, o yüzden seçiciyle gizlenemiyor. custom.js host kutuyu
-   [data-tb-embed-host] ile işaretliyor; yazı boyutunu sıfırlayıp metni
-   görünmez kılıyoruz, iframe sarmalayıcısında geri açıyoruz.
-   Sayfanın tek amacı bu uygulamayı barındırmak, başka içeriği yok. */
-/* Element çocuklar seçiciyle gizlenir (bildirim kendi font-size'ını
-   tanımlayan bir <p> içinde, miras yoluyla gizlenemiyor);
-   font-size:0 ise çıplak metin düğümlerini ("Error Occurred") susturur. */
+/* Boş sayfalara gömülen uygulamalar (bkz. custom.js PAGE_EMBEDS).
+   Hedef sayfalar altyapıdan placeholder geliyor:
+     /tr/sportest → oturum açıkken "There are no active Tournaments yet.",
+                    kapalıyken "Error Occurred" (bazen çıplak metin düğümü)
+     /tr/testspor → boş oyun kataloğu modülü (arama, filtre, boş ızgara)
+   custom.js host kutuyu [data-tb-embed-host] ile işaretliyor, gizleme burada.
+
+   Element çocuklar seçiciyle gizlenir — placeholder metni kendi font-size'ını
+   tanımlayan bir <p> içinde olduğundan miras yoluyla gizlenemiyor;
+   font-size:0 ise çıplak metin düğümlerini ("Error Occurred") susturur.
+   Sarmalayıcımızda ikisi de geri açılır. */
 [data-tb-embed-host]{ font-size:0 !important; line-height:0 !important; }
-[data-tb-embed-host] > *:not(.tb-score-prediction){ display:none !important; }
-[data-tb-embed-host] > .tb-score-prediction{ font-size:16px; line-height:normal; }
-.tb-score-prediction{
+[data-tb-embed-host] > *:not(.tb-page-embed){ display:none !important; }
+[data-tb-embed-host] > .tb-page-embed{ font-size:16px; line-height:normal; }
+.tb-page-embed{
   width:100%;
   max-width:1432px;      /* banner kabıyla aynı — ortalı, altın çerçeve görünsün */
   margin:20px auto 0;
@@ -294,7 +295,7 @@ a.tb-trust-card:focus-visible{
   background:#060B2E;
   box-shadow:0 16px 42px rgba(0,0,0,.28);
 }
-.tb-score-prediction iframe{
+.tb-page-embed iframe{
   display:block;
   width:100%;
   height:100vh;
@@ -302,7 +303,7 @@ a.tb-trust-card:focus-visible{
   background:#060B2E;
 }
 @media (max-width: 900px){
-  .tb-score-prediction{
+  .tb-page-embed{
     margin-top:14px;
     border-radius:10px;
   }
