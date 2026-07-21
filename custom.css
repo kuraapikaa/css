@@ -271,10 +271,23 @@ a.tb-trust-card:focus-visible{
   }
 }
 
-/* /tr/bos — Taco Beni Ara başlığının altındaki skor tahmin uygulaması */
+/* /tr/sportest — boş turnuva sayfasına gömülen skor tahmin uygulaması.
+   Sayfa altyapıdan boş geliyor: oturum açıkken "There are no active
+   Tournaments yet.", kapalıyken "Error Occurred" — bazen çıplak metin
+   düğümü olarak, o yüzden seçiciyle gizlenemiyor. custom.js host kutuyu
+   [data-tb-embed-host] ile işaretliyor; yazı boyutunu sıfırlayıp metni
+   görünmez kılıyoruz, iframe sarmalayıcısında geri açıyoruz.
+   Sayfanın tek amacı bu uygulamayı barındırmak, başka içeriği yok. */
+/* Element çocuklar seçiciyle gizlenir (bildirim kendi font-size'ını
+   tanımlayan bir <p> içinde, miras yoluyla gizlenemiyor);
+   font-size:0 ise çıplak metin düğümlerini ("Error Occurred") susturur. */
+[data-tb-embed-host]{ font-size:0 !important; line-height:0 !important; }
+[data-tb-embed-host] > *:not(.tb-score-prediction){ display:none !important; }
+[data-tb-embed-host] > .tb-score-prediction{ font-size:16px; line-height:normal; }
 .tb-score-prediction{
   width:100%;
-  margin-top:20px;
+  max-width:1432px;      /* banner kabıyla aynı — ortalı, altın çerçeve görünsün */
+  margin:20px auto 0;
   overflow:hidden;
   border:1px solid rgba(245,200,114,.34);
   border-radius:14px;

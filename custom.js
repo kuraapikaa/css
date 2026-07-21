@@ -571,22 +571,39 @@
     observedAnnouncement = root;
   }
 
-  /* ---------- /tr/bos skor tahmin iframe'i ---------- */
+  /* ---------- /tr/sportest skor tahmin iframe'i ----------
+
+     Sayfa altyapıdan boş geliyor; içinde yalnızca
+     "There are no active Tournaments yet." bildirimi var.
+     Onu gizleyip iframe'i yerine koyuyoruz.
+
+     Bildirim metninden bulunuyor — sarmalayıcısının sınıfı (app-ltr-...)
+     hash'li ve her derlemede değişebilir, ona bağlanmak kırılgan olurdu.
+     Tutamak olarak stabil [data-mj="page-content"] kullanılıyor. */
 
   function mountScorePrediction() {
     var existing = document.querySelector('[data-tb-score-prediction]');
     var path = window.location.pathname.replace(/\/+$/, '');
 
-    if (path !== '/tr/bos') {
+    if (path !== '/tr/sportest') {
       if (existing) existing.remove();
       return;
     }
 
-    var content = document.querySelector('[data-mj="info-page-content"]');
-    if (!content || existing) return;
+    var content = document.querySelector('[data-mj="page-content"]');
+    if (!content) return;
 
-    var heading = content.querySelector('h1');
-    if (!heading || heading.textContent.indexOf('Taco Beni Ara') === -1) return;
+    // Sayfanın altyapıdan gelen içeriği duruma göre değişiyor:
+    // oturum açıkken "There are no active Tournaments yet.",
+    // kapalıyken "Error Occurred" — üstelik bazen doğrudan çıplak metin
+    // düğümü olarak. Metni hedeflemek yerine host kutuyu işaretliyoruz;
+    // gizleme custom.css'te (yazı boyutu sıfırlanır, iframe'de geri açılır).
+    // Zaten işaretliyse dokunmuyoruz — MutationObserver sonsuz dönmesin.
+    if (!content.hasAttribute('data-tb-embed-host')) {
+      content.setAttribute('data-tb-embed-host', '');
+    }
+
+    if (existing) return;
 
     var wrap = document.createElement('div');
     wrap.className = 'tb-score-prediction';
