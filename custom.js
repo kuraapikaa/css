@@ -644,6 +644,68 @@
     content.appendChild(wrap);
   }
 
+  /* ---------- Hesap panelindeki "Bonus Talep Et" modalına gömme ----------
+
+     Modal query parametresiyle açılıyor (t=bonus_offers). Sitenin kendi
+     bonus listesi gizlenip yerine bonus uygulaması konuyor.
+
+     Seçici YAPISAL: modalın son çocuğu sağ panel, onun son çocuğu da
+     içerik kutusu (ilki başlık şeridi). Ne hash'li app-ltr-* sınıfına ne de
+     "Bonus Talep Et" metnine bağlanıyoruz — sınıf her derlemede, metin dil
+     değişiminde değişir.
+
+     Temizlik şart: başka sekmeye geçilince (t≠bonus_offers) React aynı
+     içerik düğümünü yeniden kullanıyor; işaret kaldırılmazsa o sekmenin
+     içeriği de gizli kalır. */
+
+  var MODAL_EMBED = {
+    tab: 'bonus_offers',
+    src: 'https://tacolynon.up.railway.app/bonus?user_id={id}',
+    baslik: 'Bonus Talep'
+  };
+
+  function mountModalEmbed() {
+    var existing = document.querySelector('[data-tb-modal-embed]');
+    var onTab = window.location.search.indexOf('t=' + MODAL_EMBED.tab) !== -1;
+
+    if (!onTab) {
+      if (existing) existing.remove();
+      var stale = document.querySelector('[data-tb-modal-embed-host]');
+      if (stale) stale.removeAttribute('data-tb-modal-embed-host');
+      return;
+    }
+
+    var modal = document.querySelector('.modal');
+    if (!modal || modal.children.length < 2) return;
+
+    var right = modal.children[modal.children.length - 1];
+    if (!right || right.children.length < 2) return;
+
+    var host = right.children[right.children.length - 1];
+    if (!host) return;
+
+    // Zaten işaretliyse dokunma — MutationObserver sonsuz dönmesin.
+    if (!host.hasAttribute('data-tb-modal-embed-host')) {
+      host.setAttribute('data-tb-modal-embed-host', '');
+    }
+
+    if (existing) return;
+
+    var wrap = document.createElement('div');
+    wrap.className = 'tb-modal-embed';
+    wrap.setAttribute('data-tb-modal-embed', MODAL_EMBED.tab);
+
+    var frame = document.createElement('iframe');
+    frame.src = MODAL_EMBED.src;
+    frame.title = MODAL_EMBED.baslik;
+    frame.frameBorder = '0';
+    frame.allow = 'autoplay';
+    frame.setAttribute('loading', 'eager');
+
+    wrap.appendChild(frame);
+    host.appendChild(wrap);
+  }
+
   /* ---------- Ana sayfa güven ve hizmet paneli ---------- */
 
   function buildTrustHub() {
@@ -762,6 +824,7 @@
     observeButtonSize();
     mountAnnouncement();
     mountPageEmbeds();
+    mountModalEmbed();
     mountTrustHub();
     mountBannerMotion();
   }
