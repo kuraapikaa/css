@@ -588,9 +588,85 @@
      sayfaların içeriği de gizli kalır. Bu yüzden eşleşme yoksa
      data-tb-embed-host mutlaka siliniyor. */
 
+  /* ---------- Oyuncu kimliği (gömülü uygulamalar için) ----------
+
+     Lynon'da /api/v1/me aynı origin'den, oturum çerezi ile oyuncuyu döndürür.
+     Yanıtta SAYISAL ID YOK (doğrulandı, siteId 162) — elimizdeki kimlik
+     player.userName. Bonus uygulaması da ?username= bekliyor.
+     Yalnızca userName okunur; e-posta/ad/soyad hiçbir yere yazılmaz.
+
+     Akış:
+       - Başta bir kez sondaj. Sonuç gelmeden embed AÇILMAZ; parametresiz
+         açıp sonradan düzeltmek iframe'i baştan yüklerdi (formdaki veri uçar).
+       - Kullanıcı adı yoksa (giriş yok) embed parametresiz açılır, kullanıcı
+         adını elle girer.
+       - Sayfa açıkken giriş yapılmış olabilir: adı hâlâ bilmiyorsak yeni bir
+         mount sırasında sondaj TEKRARLANIR (kısıtlı).
+       - CANLI iframe'e asla dokunulmaz; yeni değer yalnızca yeni mount'ta.
+
+     Sondaj mountAll içinden tetikleniyor ve mountAll her DOM mutasyonunda
+     çalışıyor — sondajCalisiyor bayrağı ve PROBE_MIN_ARA olmadan istek
+     fırtınası olurdu. */
+
+  var PROBE_URL = '/api/v1/me';
+  var PROBE_TIMEOUT = 4000;    // sondaj takılırsa embed'i süresiz bekletme
+  var PROBE_MIN_ARA = 30000;   // iki sondaj arası en az süre
+
+  var oyuncuAdi = null;
+  var sondajBitti = false;
+  var sondajCalisiyor = false;
+  var sonSondaj = 0;
+
+  function sondajla(bitince) {
+    if (sondajCalisiyor) return;
+    sondajCalisiyor = true;
+    sonSondaj = Date.now();
+
+    var kapandi = false;
+    function bitir() {
+      if (kapandi) return;
+      kapandi = true;
+      sondajCalisiyor = false;
+      sondajBitti = true;
+      if (bitince) bitince();
+    }
+
+    // Ağ takılırsa embed hiç açılmasın istemiyoruz.
+    setTimeout(bitir, PROBE_TIMEOUT);
+
+    fetch(PROBE_URL, { credentials: 'include' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (me) {
+        var ad = me && me.player && me.player.userName;
+        if (ad) oyuncuAdi = ad;
+      })
+      .catch(function () { /* sessiz — sitenin akışını bozma */ })
+      .then(bitir);
+  }
+
+  // Embed açılabilir mi? Gerekiyorsa sondajı tetikler; sonuç gelince
+  // mountAll yeniden çalışıp embed'i açar.
+  function embedHazir() {
+    if (!sondajBitti) {
+      sondajla(mountAll);
+      return false;
+    }
+    if (!oyuncuAdi && Date.now() - sonSondaj > PROBE_MIN_ARA) {
+      sondajla(mountAll);
+      return false;
+    }
+    return true;
+  }
+
+  function embedUrl(src) {
+    if (!oyuncuAdi) return src;
+    return src + (src.indexOf('?') === -1 ? '?' : '&') +
+           'username=' + encodeURIComponent(oyuncuAdi);
+  }
+
   var PAGE_EMBEDS = [
-    { path: '/tr/sportest', src: 'https://tacolynon.up.railway.app/bonus?user_id={id}', baslik: 'Bonus' },
-    { path: '/tr/testspor', src: 'https://tacolynon.up.railway.app/?user_id={id}',      baslik: 'Taco Lynon' }
+    { path: '/tr/sportest', src: 'https://tacolynon.up.railway.app/bonus', baslik: 'Bonus' },
+    { path: '/tr/testspor', src: 'https://tacolynon.up.railway.app/',      baslik: 'Taco Lynon' }
   ];
 
   function mountPageEmbeds() {
@@ -626,12 +702,15 @@
 
     if (existing) return;
 
+    // Kimlik sondajı bitmeden açma — sonradan src değiştirmek reload demek.
+    if (!embedHazir()) return;
+
     var wrap = document.createElement('div');
     wrap.className = 'tb-page-embed';
     wrap.setAttribute('data-tb-page-embed', path);
 
     var frame = document.createElement('iframe');
-    frame.src = cfg.src;
+    frame.src = embedUrl(cfg.src);
     frame.title = cfg.baslik;
     frame.width = '100%';
     frame.height = '100vh';
@@ -660,7 +739,7 @@
 
   var MODAL_EMBED = {
     tab: 'bonus_offers',
-    src: 'https://tacolynon.up.railway.app/bonus?user_id={id}',
+    src: 'https://tacolynon.up.railway.app/bonus',
     baslik: 'Bonus Talep'
   };
 
@@ -691,12 +770,15 @@
 
     if (existing) return;
 
+    // Kimlik sondajı bitmeden açma — sonradan src değiştirmek reload demek.
+    if (!embedHazir()) return;
+
     var wrap = document.createElement('div');
     wrap.className = 'tb-modal-embed';
     wrap.setAttribute('data-tb-modal-embed', MODAL_EMBED.tab);
 
     var frame = document.createElement('iframe');
-    frame.src = MODAL_EMBED.src;
+    frame.src = embedUrl(MODAL_EMBED.src);
     frame.title = MODAL_EMBED.baslik;
     frame.frameBorder = '0';
     frame.allow = 'autoplay';
