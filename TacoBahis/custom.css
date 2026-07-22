@@ -1650,8 +1650,16 @@ button[name="search"]:hover::after{ opacity:1; }
   transform:translateY(-1px);
 }
 [data-mj="promotions-grid"]{ gap:18px !important; }
+/* Kart kutusu görselin GERÇEK oranına kilitli (Taco promo görselleri 692×336).
+   Platform <a>'ya sabit-px padding-top (aspect hack) veriyor; genişlik değişince
+   oran kayıyor ve height:auto görsel kutuya sığmıyordu (taşma/boşluk).
+   aspect-ratio + absolute-fill img → her genişlikte birebir oturur. */
 [data-mj="promotions-grid"] > a{
   display:block !important;
+  position:relative !important;
+  padding:0 !important;
+  height:auto !important;
+  aspect-ratio:692/336 !important;
   overflow:hidden !important;
   border:1px solid rgba(245,200,114,.20) !important;
   border-radius:18px !important;
@@ -1667,9 +1675,11 @@ button[name="search"]:hover::after{ opacity:1; }
 }
 [data-mj="promotions-grid"] img{
   display:block !important;
+  position:absolute !important;
+  inset:0 !important;
   width:100% !important;
-  height:auto !important;
-  border-radius:17px !important;
+  height:100% !important;
+  border-radius:inherit !important;
   object-fit:cover !important;
 }
 
