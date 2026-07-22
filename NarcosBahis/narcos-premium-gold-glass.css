@@ -5110,15 +5110,20 @@ footer {
   /* (2) CASINO OYUN SAYFASI SIYAH EKRAN: Narcos ≤620'de #root'u
      height:auto + main[data-mj="page-content"]'i flex:0 0 auto yapiyor (icerik
      sayfalari footer'a sikismasin diye — bkz. satir ~742 ve ~1017). Ama
-     /tr/game/... rotasinda bu, oyun kabugu zincirini (game-page -> ... -> iframe)
-     0px'e dusurup SIYAH EKRAN yapiyordu (iframe h=0). Cozum: sadece oyun
-     sayfasinda kabugu viewport'a kilitle + main'i buyut. Boylece platformun
-     height:100% zinciri cozulur ve iframe tam alani kaplar (Taco'daki davranis). */
-  #root:has([data-mj="game-page"]) {
+     oyun rotasinda bu, oyun kabugu zincirini (... -> iframe) 0px'e dusurup
+     SIYAH EKRAN yapiyordu (iframe h=0). Cozum: sadece oyun sayfasinda kabugu
+     viewport'a kilitle + main'i buyut. Boylece platformun height:100% zinciri
+     cozulur ve iframe tam alani kaplar (Taco'daki davranis).
+     NOT: Normal oyun /tr/game/<id> -> data-mj="game-page" markorunu tasir; ama
+     DEMO /tr/game/demo/<id> bu markoru TASIMAZ (kabuk duz <div>). Iki durumu da
+     yakalamak icin oyun iframe'ini (src ...\/api\/rgs) de hedefliyoruz. */
+  #root:has([data-mj="game-page"]),
+  #root:has(main[data-mj="page-content"] iframe[src*="/api/rgs"]) {
     height: 100dvh !important;
   }
 
-  main[data-mj="page-content"]:has([data-mj="game-page"]) {
+  main[data-mj="page-content"]:has([data-mj="game-page"]),
+  main[data-mj="page-content"]:has(iframe[src*="/api/rgs"]) {
     flex: 1 1 auto !important;
     min-height: 0 !important;
   }
