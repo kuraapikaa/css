@@ -448,9 +448,45 @@ a.tb-trust-card:focus-visible{
   }
 }
 
-/* 2) Ana menü grubunu yatayda ortala */
-[data-mj="header-nav-list"]{
-  justify-content:center !important;
+/* 2) Nav — tüm öğeler tek satırda (Narcos gibi).
+   Platform, "Daha Fazla"ya atılacak öğeleri SAYFA YÜKLENİRKEN, o anki nav
+   boyutlarına göre ölçüp belirliyor. Eski hâlde nav ortalı + 16px fonttu →
+   ~10 öğe sığmıyor → platform 3-4'ünü "Daha Fazla" dropdown'ına atıyordu.
+   Fontu küçültüp nav'ı sola-yaslı/tam-genişlik yapınca hepsi sığıyor →
+   platform hepsini ul'e basıyor, "Daha Fazla" oluşmuyor.
+   (Narcos'un tam CSS'i Taco'ya yüklenince nav'ın düzeldiği kanıtlandı;
+   bu blok o davranışın nav'a özel kısmı. Deploy + reload ile aktif olur —
+   mount-sonrası enjeksiyonla değil.) */
+@media (min-width: 621px){
+  [data-mj="header-nav-list"]{
+    justify-content:flex-start !important;
+    width:100% !important;
+    max-width:none !important;
+    padding-inline:clamp(8px, 1vw, 16px) !important;
+    box-sizing:border-box !important;
+  }
+  [data-mj="header-nav-list"] > ul{
+    display:flex !important;
+    flex:1 1 auto !important;
+    min-width:0 !important;
+    justify-content:flex-start !important;
+  }
+  [data-mj="header-nav-item"]{ flex:1 1 auto !important; min-width:0 !important; }
+  [data-mj="header-nav-item"] > a{
+    gap:clamp(2px, .14vw, 4px) !important;
+    padding-inline:clamp(5px, .55vw, 10px) !important;
+  }
+  [data-mj="header-nav-item"] p{
+    font-size:clamp(11px, .78vw, 14px) !important;
+    white-space:nowrap !important;
+  }
+  [data-mj="header-nav-item"] a > span{
+    width:clamp(15px, 1vw, 19px) !important;
+    height:clamp(15px, 1vw, 19px) !important;
+    flex:0 0 auto !important;
+  }
+  [data-mj="header-nav-item"] a > span svg,
+  [data-mj="header-nav-item"] a > span img{ width:100% !important; height:100% !important; }
 }
 
 /* 3) Lig kart etiketlerini ortala (UEFA Şampiyonlar Ligi, Süper Lig, ...) */
