@@ -473,16 +473,16 @@ a.tb-trust-card:focus-visible{
   }
   [data-mj="header-nav-item"]{ flex:1 1 auto !important; min-width:0 !important; }
   [data-mj="header-nav-item"] > a{
-    gap:clamp(2px, .14vw, 4px) !important;
-    padding-inline:clamp(5px, .55vw, 10px) !important;
+    gap:clamp(2px, .14vw, 3px) !important;
+    padding-inline:clamp(5px, .55vw, 9px) !important;
   }
   [data-mj="header-nav-item"] p{
-    font-size:clamp(11px, .78vw, 14px) !important;
+    font-size:clamp(11px, .75vw, 13px) !important;
     white-space:nowrap !important;
   }
   [data-mj="header-nav-item"] a > span{
-    width:clamp(15px, 1vw, 19px) !important;
-    height:clamp(15px, 1vw, 19px) !important;
+    width:clamp(15px, 1vw, 18px) !important;
+    height:clamp(15px, 1vw, 18px) !important;
     flex:0 0 auto !important;
   }
   [data-mj="header-nav-item"] a > span svg,
