@@ -1621,3 +1621,270 @@ button[name="search"]:hover::after{ opacity:1; }
     animation-iteration-count:1 !important;
   }
 }
+
+/* 19) Promosyonlar — liste + detay sayfası (Narcos'un premium tasarımı, Taco
+   lacivert-altın paletine uyarlandı). Liste: altın-pill sekmeler + hover'da
+   yükselen kartlar. Detay: altın gradyan başlık, banner altın çerçeveli kart,
+   içerik bloğu, ✦ bullet'lı madde kartları, "strong" paragrafı altın vurgulu
+   kutu. Palet literal hex (--tb-trust-* global değil, promo sayfasında yok). */
+[data-mj="promotions-page"]{
+  padding:18px clamp(12px,2vw,28px) 30px !important;
+}
+[data-mj="promotions-tabs"] button{
+  min-height:38px !important;
+  padding:0 18px !important;
+  color:rgba(235,239,255,.78) !important;
+  border:1px solid rgba(245,200,114,.22) !important;
+  border-radius:999px !important;
+  background:rgba(255,255,255,.05) !important;
+  font-weight:800 !important;
+  transition:color .2s ease,background .2s ease,border-color .2s ease,transform .2s ease !important;
+}
+[data-mj="promotions-tabs"] button.active,
+[data-mj="promotions-tabs"] button:hover,
+[data-mj="promotions-tabs"] button:focus-visible{
+  color:#10163a !important;
+  border-color:rgba(255,240,163,.92) !important;
+  background:linear-gradient(120deg,#CE8D36,#FFF0A3 58%,#CE8D36) !important;
+  box-shadow:0 6px 18px rgba(245,200,114,.24) !important;
+  transform:translateY(-1px);
+}
+[data-mj="promotions-grid"]{ gap:18px !important; }
+[data-mj="promotions-grid"] > a{
+  display:block !important;
+  overflow:hidden !important;
+  border:1px solid rgba(245,200,114,.20) !important;
+  border-radius:18px !important;
+  background:rgba(255,255,255,.035) !important;
+  box-shadow:0 12px 28px rgba(1,5,24,.30),inset 0 1px rgba(255,255,255,.08) !important;
+  transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease !important;
+}
+[data-mj="promotions-grid"] > a:hover,
+[data-mj="promotions-grid"] > a:focus-visible{
+  border-color:rgba(245,200,114,.72) !important;
+  box-shadow:0 16px 34px rgba(1,5,24,.44),0 0 22px rgba(245,200,114,.22) !important;
+  transform:translateY(-4px) !important;
+}
+[data-mj="promotions-grid"] img{
+  display:block !important;
+  width:100% !important;
+  height:auto !important;
+  border-radius:17px !important;
+  object-fit:cover !important;
+}
+
+/* --- promosyon detay --- */
+[data-mj="promotion-details"]{
+  width:min(1240px,calc(100% - 28px)) !important;
+  margin:26px auto 58px !important;
+  padding:clamp(16px,2.5vw,34px) !important;
+  box-sizing:border-box !important;
+  color:rgba(235,239,255,.9) !important;
+  border:1px solid rgba(245,200,114,.30) !important;
+  border-radius:28px !important;
+  background:
+    radial-gradient(circle at 12% 0%,rgba(245,200,114,.14),transparent 32rem),
+    radial-gradient(circle at 92% 100%,rgba(245,200,114,.07),transparent 28rem),
+    linear-gradient(145deg,rgba(18,40,95,.60),rgba(5,11,45,.95) 76%) !important;
+  box-shadow:0 30px 80px rgba(1,5,24,.46),inset 0 1px rgba(255,255,255,.10) !important;
+}
+[data-mj="promotion-details"] > a:first-child{
+  display:inline-flex !important;
+  align-items:center !important;
+  gap:7px !important;
+  margin:0 0 16px !important;
+  padding:8px 13px !important;
+  color:#F5C872 !important;
+  border:1px solid rgba(245,200,114,.35) !important;
+  border-radius:999px !important;
+  background:rgba(255,255,255,.05) !important;
+  box-shadow:inset 0 1px rgba(255,255,255,.10),0 8px 22px rgba(1,5,24,.20) !important;
+}
+[data-mj="promotion-header"]{
+  position:relative !important;
+  isolation:isolate !important;
+  overflow:hidden !important;
+  margin:0 !important;
+  padding:clamp(18px,2.8vw,34px) !important;
+  border:1px solid rgba(245,200,114,.30) !important;
+  border-radius:22px !important;
+  background:
+    linear-gradient(110deg,rgba(5,11,45,.88),rgba(38,60,120,.30)),
+    radial-gradient(circle at 84% 18%,rgba(245,200,114,.16),transparent 28rem) !important;
+  box-shadow:inset 0 1px rgba(255,255,255,.13),0 20px 44px rgba(1,5,24,.30) !important;
+}
+[data-mj="promotion-header"]::after{
+  content:"";
+  position:absolute;
+  left:8%; right:8%; bottom:0;
+  height:2px;
+  z-index:-1;
+  background:linear-gradient(90deg,transparent,#F5C872,#CE8D36,transparent);
+  box-shadow:0 0 18px rgba(245,200,114,.60);
+}
+[data-mj="promotion-header"] h1{
+  max-width:920px !important;
+  margin:0 auto 20px !important;
+  color:transparent !important;
+  text-align:center !important;
+  font-size:clamp(26px,4vw,48px) !important;
+  line-height:1.08 !important;
+  letter-spacing:.015em !important;
+  background:linear-gradient(100deg,#CE8D36,#F5C872 32%,#FFF6D0 52%,#E0B45C 78%,#FFF0A3) !important;
+  -webkit-background-clip:text !important;
+  background-clip:text !important;
+  filter:drop-shadow(0 7px 18px rgba(245,200,114,.22));
+}
+[data-mj="promotion-layout"],
+[data-mj="promotion-image"]{
+  width:100% !important;
+  min-width:0 !important;
+  border-radius:18px !important;
+}
+[data-mj="promotion-layout"]{
+  display:block !important;
+  overflow:hidden !important;
+  border:1px solid rgba(245,200,114,.26) !important;
+  background:rgba(1,5,24,.35) !important;
+  box-shadow:0 16px 42px rgba(1,5,24,.36),inset 0 1px rgba(255,255,255,.08) !important;
+}
+[data-mj="promotion-image"]{
+  overflow:hidden !important;
+  aspect-ratio:16/5 !important;
+  background:#050b2d !important;
+}
+[data-mj="promotion-image"] img{
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  min-height:0 !important;
+  object-fit:cover !important;
+  object-position:center !important;
+  border-radius:inherit !important;
+  transition:transform .45s ease,filter .45s ease !important;
+}
+[data-mj="promotion-layout"]:hover [data-mj="promotion-image"] img{
+  transform:scale(1.018) !important;
+  filter:saturate(1.08) brightness(1.05) !important;
+}
+[data-mj="promotion-details"] > div:not([data-mj="promotion-header"]){
+  margin-top:24px !important;
+  padding:clamp(18px,3vw,34px) !important;
+  color:rgba(235,239,255,.84) !important;
+  border:1px solid rgba(245,200,114,.20) !important;
+  border-radius:20px !important;
+  background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.018)) !important;
+  box-shadow:inset 0 1px rgba(255,255,255,.07),0 14px 34px rgba(1,5,24,.24) !important;
+}
+[data-mj="promotion-details"] > div:not([data-mj="promotion-header"]) > p{
+  max-width:980px !important;
+  margin:0 auto 15px !important;
+  color:rgba(235,239,255,.82) !important;
+  font-size:clamp(14px,1.2vw,17px) !important;
+  line-height:1.72 !important;
+}
+[data-mj="promotion-details"] > div:not([data-mj="promotion-header"]) > p:has(strong){
+  margin-top:25px !important;
+  padding:13px 16px !important;
+  color:#F5C872 !important;
+  border-left:3px solid #F5C872 !important;
+  border-radius:0 12px 12px 0 !important;
+  background:linear-gradient(90deg,rgba(245,200,114,.14),transparent) !important;
+  font-size:clamp(18px,1.7vw,25px) !important;
+  line-height:1.28 !important;
+}
+[data-mj="promotion-details"] > div:not([data-mj="promotion-header"]) ul{
+  display:grid !important;
+  gap:10px !important;
+  margin:12px auto 22px !important;
+  padding:0 !important;
+  list-style:none !important;
+  max-width:980px !important;
+}
+[data-mj="promotion-details"] > div:not([data-mj="promotion-header"]) li{
+  position:relative !important;
+  padding:14px 16px 14px 42px !important;
+  color:rgba(235,239,255,.86) !important;
+  border:1px solid rgba(245,200,114,.14) !important;
+  border-radius:12px !important;
+  background:rgba(255,255,255,.035) !important;
+}
+[data-mj="promotion-details"] > div:not([data-mj="promotion-header"]) li::before{
+  content:"✦";
+  position:absolute;
+  left:16px; top:14px;
+  color:#F5C872;
+  text-shadow:0 0 10px rgba(245,200,114,.58);
+}
+[data-mj="promotion-details"] > div:not([data-mj="promotion-header"]) > a{
+  display:inline-block !important;
+  width:calc(33.333% - 12px) !important;
+  margin:8px 8px 0 0 !important;
+  vertical-align:top !important;
+  overflow:hidden !important;
+  border:1px solid rgba(245,200,114,.24) !important;
+  border-radius:16px !important;
+  background:rgba(255,255,255,.04) !important;
+  box-shadow:0 12px 28px rgba(1,5,24,.28) !important;
+  transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease !important;
+}
+[data-mj="promotion-details"] > div:not([data-mj="promotion-header"]) > a:nth-last-child(1){
+  margin-right:0 !important;
+}
+[data-mj="promotion-details"] > div:not([data-mj="promotion-header"]) > a:hover{
+  transform:translateY(-3px) !important;
+  border-color:rgba(245,200,114,.66) !important;
+  box-shadow:0 16px 34px rgba(245,200,114,.24) !important;
+}
+[data-mj="promotion-details"] > div:not([data-mj="promotion-header"]) > a img{
+  display:block !important;
+  width:100% !important;
+  height:auto !important;
+  aspect-ratio:16/7 !important;
+  object-fit:cover !important;
+}
+@media (max-width: 620px){
+  [data-mj="promotion-details"]{
+    width:calc(100% - 16px) !important;
+    margin:16px auto 34px !important;
+    padding:12px !important;
+    border-radius:20px !important;
+  }
+  [data-mj="promotion-header"]{
+    padding:16px 12px 18px !important;
+    border-radius:16px !important;
+  }
+  [data-mj="promotion-header"] h1{
+    margin-bottom:14px !important;
+    font-size:clamp(23px,7vw,34px) !important;
+  }
+  [data-mj="promotion-image"]{
+    aspect-ratio:16/8 !important;
+    border-radius:12px !important;
+  }
+  [data-mj="promotion-details"] > div:not([data-mj="promotion-header"]){
+    margin-top:14px !important;
+    padding:14px !important;
+    border-radius:15px !important;
+  }
+  [data-mj="promotion-details"] > div:not([data-mj="promotion-header"]) > p{
+    font-size:14px !important;
+    line-height:1.62 !important;
+  }
+  [data-mj="promotion-details"] > div:not([data-mj="promotion-header"]) > p:has(strong){
+    margin-top:18px !important;
+    padding:11px 12px !important;
+    font-size:18px !important;
+  }
+  [data-mj="promotion-details"] > div:not([data-mj="promotion-header"]) li{
+    padding:12px 12px 12px 34px !important;
+    font-size:14px !important;
+  }
+  [data-mj="promotion-details"] > div:not([data-mj="promotion-header"]) li::before{
+    left:12px; top:12px;
+  }
+  [data-mj="promotion-details"] > div:not([data-mj="promotion-header"]) > a{
+    width:100% !important;
+    margin:8px 0 0 !important;
+  }
+}
