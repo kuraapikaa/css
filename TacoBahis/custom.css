@@ -351,6 +351,12 @@ a.tb-trust-card:focus-visible{
   to{ transform:translate3d(-100%,0,0); }
 }
 @media (max-width: 900px){
+  /* Üst boşluk fix (oyun/giriş sayfası): platform #root'a inline
+     padding-top:var(--site-header-height)=92px koyuyor — bu FIXED header'a yer
+     ayırmak için. Ama header'ı ≤900'de akışa aldığımız (position:relative) için
+     o 92px boş bant olarak kalıyor → üstte boşluk. Header kendi yerini tuttuğundan
+     offset gereksiz; sıfırla. */
+  #root{ padding-top:0 !important; }
   [data-mj="header"]{
     position:relative !important;
     display:flex !important;
