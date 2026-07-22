@@ -338,63 +338,110 @@ a.tb-trust-card:focus-visible{
   text-align:center !important;
 }
 
-/* Mobil duyuru — Narcos davranışı: sabit 32px şerit + tek satır marquee.
-   Altyapı bildirime yalnızca 32px yer ayırıyor; metin sarılıp yükseklik büyürse
-   fixed katman slider'ın üstünü kapatıyor. Yüksekliği kilitleyip metni yatay
-   kaydırıyoruz. Bildirim kapanınca :has() eşleşmesi de kalkar ve içerik boşluğu
-   otomatik olarak sıfırlanır. */
+/* Mobil duyuru (≤900px) — Narcos yaklaşımı.
+   SORUN: Announcement'ı taşıyan sarmalayıcı (header içinde) position:fixed ve
+   custom-header de fixed → announcement header'ı örtüp "kayıyordu". Eski çözüm
+   announcement'ı da fixed yapıyordu, çakışmayı çözmüyordu.
+   ÇÖZÜM: Header'ı flex-column yapıp announcement + custom-header sarmalayıcılarını
+   AKIŞA alıyoruz (order ile). Announcement 32px'lik şerit olarak custom-header'ın
+   ÜSTÜNE oturur, çakışma biter. Metin tek satır marquee ile yatay akar.
+   375px ve 800px'de doğrulandı. */
 @keyframes tb-announcement-marquee{
   from{ transform:translate3d(100vw,0,0); }
   to{ transform:translate3d(-100%,0,0); }
 }
 @media (max-width: 900px){
-  [data-mj="announcement"]{
-    position:fixed !important;
-    top:0 !important;
-    right:0 !important;
-    left:0 !important;
-    z-index:1201 !important;
+  [data-mj="header"]{
+    position:relative !important;
+    display:flex !important;
+    flex-direction:column !important;
+    gap:0 !important; row-gap:0 !important;
     width:100% !important;
-    height:32px !important;
-    min-height:32px !important;
-    max-height:32px !important;
+    height:auto !important;
+    min-height:92px !important;
+    max-height:none !important;
+    overflow:visible !important;
+  }
+  [data-mj="announcement"]{
+    position:relative !important;
+    inset:auto !important;
+    order:-1 !important;
+    flex:0 0 32px !important;
+    width:100% !important;
+    height:32px !important; min-height:32px !important; max-height:32px !important;
     padding:0 34px 0 8px !important;
     overflow:hidden !important;
     align-items:center !important;
+    transform:none !important;
+    z-index:1202 !important;
+  }
+  [data-mj="header"] > div:has(> [data-mj="announcement"]){
+    position:relative !important;
+    inset:auto !important; top:auto !important;
+    order:-1 !important;
+    flex:0 0 32px !important;
+    width:100% !important; max-width:none !important;
+    height:32px !important; min-height:32px !important;
+    margin:0 !important; padding:0 !important;
+    transform:none !important;
+    box-sizing:border-box !important;
+    z-index:1202 !important;
+  }
+  [data-mj="header"] > div:has(> [data-mj="custom-header"]){
+    position:relative !important;
+    inset:auto !important; top:auto !important;
+    order:0 !important;
+    flex:0 0 60px !important;
+    width:100% !important; max-width:none !important;
+    height:60px !important; min-height:60px !important;
+    margin:0 !important; padding:0 !important;
+    transform:none !important;
+    box-sizing:border-box !important;
+    z-index:1201 !important;
+  }
+  [data-mj="custom-header"]{
+    position:relative !important;
+    inset:auto !important;
+    order:1 !important;
+    flex:0 0 60px !important;
+    width:100% !important;
+    transform:none !important;
+    z-index:1201 !important;
+  }
+  [data-mj="header"] [aria-label="site-header"]{
+    position:relative !important;
+    inset:auto !important; top:auto !important;
+    transform:none !important;
   }
   [data-mj="announcement"] > div{
-    min-width:0 !important;
-    height:32px !important;
-    max-height:32px !important;
+    min-width:0 !important; max-width:100% !important;
+    height:32px !important; max-height:32px !important;
+    overflow:hidden !important;
     justify-content:flex-start !important;
     text-align:left !important;
   }
-  /* Mesaj elemanı custom.js tarafından DOM etiketinden bağımsız işaretlenir.
-     Böylece altyapı p yerine span/div ürettiğinde marquee kaybolmaz. */
-  [data-mj="announcement"] [data-tb-announcement-text]{
+  /* Mesaj = ilgili p (Narcos'ta da böyle). Metni tek satır yapıp sağdan sola
+     marquee ile kaydırıyoruz. */
+  [data-mj="announcement"] p{
     display:inline-block !important;
     flex:0 0 auto !important;
-    width:max-content !important;
-    min-width:max-content !important;
-    max-width:none !important;
+    width:max-content !important; min-width:max-content !important; max-width:none !important;
     height:32px !important;
     margin:0 !important;
-    white-space:nowrap !important;
+    font-size:10px !important;
     line-height:32px !important;
+    white-space:nowrap !important;
     overflow:visible !important;
     text-align:left !important;
     will-change:transform;
     animation:tb-announcement-marquee 19s linear infinite !important;
   }
-  [data-mj="announcement"] [data-tb-announcement-text] br{
+  [data-mj="announcement"] p br{
     display:none !important;
-  }
-  body:has([data-mj="announcement"]) [data-mj="page-content"]{
-    padding-top:32px !important;
   }
 }
 @media (max-width: 900px) and (prefers-reduced-motion: reduce){
-  [data-mj="announcement"] [data-tb-announcement-text]{
+  [data-mj="announcement"] p{
     animation:none !important;
     transform:none !important;
     will-change:auto;
