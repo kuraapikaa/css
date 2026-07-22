@@ -412,7 +412,7 @@ body::before {
   }
 
   [data-mj="header-nav-item"] > a {
-    gap: clamp(4px, .32vw, 6px) !important;
+    gap: clamp(2px, .14vw, 3px) !important;
     padding-inline: clamp(5px, .55vw, 9px) !important;
   }
 
