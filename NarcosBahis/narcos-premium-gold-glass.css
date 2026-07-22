@@ -1,0 +1,5094 @@
+/* =========================================================
+   NarcosBahis — Premium Gold Glass Theme
+   Gercek ve kararlı data-mj secicileri hedeflenmistir.
+   Mevcut custom.css dosyasinin SONUNA ekleyin.
+   ========================================================= */
+
+:root {
+  --ng-gold-1: #8f6424;
+  --ng-gold-2: #c99843;
+  --ng-gold-3: #f2d58a;
+  --ng-gold-4: #fff2bd;
+  --ng-ink: #070708;
+  --ng-grey-1: #111114;
+  --ng-grey-2: #1b1b20;
+  --ng-grey-3: #29292f;
+  --ng-line: rgba(242, 213, 138, 0.22);
+  --ng-glass: rgba(24, 24, 28, 0.72);
+  --ng-text: #f7f3e8;
+  --ng-muted: rgba(247, 243, 232, 0.64);
+  --ng-shadow: 0 18px 50px rgba(0, 0, 0, 0.42);
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  color: var(--ng-text) !important;
+  background-color: #070708 !important;
+  background-image:
+    linear-gradient(180deg, rgba(5,5,7,.18) 0%, rgba(7,7,9,.46) 56%, rgba(7,7,8,.78) 100%),
+    url("./narcos-premium-background-v2.webp") !important;
+  background-position: center top, center top !important;
+  background-repeat: no-repeat, no-repeat !important;
+  background-size: cover, cover !important;
+  background-attachment: fixed !important;
+}
+
+#root,
+main {
+  background-color: transparent !important;
+}
+
+/* ---------------- GLOBAL SAYFA DİLİ ---------------- */
+main {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  color: var(--ng-text) !important;
+}
+
+main h1,
+main h2,
+main h3,
+main h4 {
+  color: var(--ng-text) !important;
+  text-wrap: balance;
+}
+
+main button,
+main [role="button"],
+main a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+main input,
+main select,
+main textarea,
+main [role="textbox"] {
+  box-sizing: border-box !important;
+  color: #fff !important;
+  border: 1px solid rgba(242,213,138,.28) !important;
+  border-radius: 12px !important;
+  background: rgba(8,8,11,.68) !important;
+  outline: none !important;
+  transition: border-color .2s ease, box-shadow .2s ease, background .2s ease !important;
+}
+
+main input:focus,
+main select:focus,
+main textarea:focus,
+main [role="textbox"]:focus {
+  border-color: rgba(242,213,138,.82) !important;
+  box-shadow: 0 0 0 3px rgba(201,152,67,.14), 0 0 22px rgba(201,152,67,.16) !important;
+}
+
+main button,
+main [role="button"] {
+  border-radius: 11px !important;
+  transition: transform .2s ease, filter .2s ease, box-shadow .2s ease !important;
+}
+
+main button:hover,
+main [role="button"]:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+[data-mj$="-container"],
+[data-mj$="-section"],
+[data-mj$="-panel"] {
+  min-width: 0 !important;
+}
+
+/* ---------------- UST DUYURU / INFO TEXT ---------------- */
+[data-mj="announcement"] {
+  position: relative !important;
+  isolation: isolate;
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 60px;
+  padding: 10px 52px !important;
+  border-bottom: 1px solid rgba(242, 213, 138, .26);
+  background:
+    radial-gradient(circle at 50% -80%, rgba(242, 213, 138, .15), transparent 66%),
+    linear-gradient(110deg, rgba(10,10,13,.72), rgba(35,31,24,.58), rgba(10,10,13,.72)) !important;
+  box-shadow: inset 0 -1px rgba(255,255,255,.025), 0 8px 24px rgba(0,0,0,.20);
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+}
+
+[data-mj="announcement"] > div {
+  width: 100% !important;
+  max-width: 1440px;
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+/* Platform metni bir ek flex katmaninin icine yerlestiriyor. Bu katman
+   ortalanmadiginda paragraf sola yapisiyordu. */
+[data-mj="announcement"] > div > div:first-child {
+  display: flex !important;
+  flex: 1 1 100% !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  text-align: center !important;
+}
+
+/* Metin platform tarafinda bir yarim-genislik katmanina sariliyor. Dogrudan
+   paragraf ebeveynini tam genislik yaparak gercek sayfa merkezini kullan. */
+[data-mj="announcement"] div:has(> p) {
+  flex: 1 1 100% !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+[data-mj="announcement"] p,
+[data-mj="announcement"] p * {
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  background-image: linear-gradient(90deg, #b8812c 0%, #f2d58a 22%, #fff4c7 45%, #d49b39 68%, #fff0ad 88%, #b8812c 100%);
+  background-size: 240% auto;
+  background-position: 0% center;
+  -webkit-background-clip: text;
+  background-clip: text;
+  filter: drop-shadow(0 0 8px rgba(242,213,138,.20));
+  animation: ng-gold-text-flow 6s linear infinite;
+}
+
+[data-mj="announcement"] p {
+  flex: 1 1 100% !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  font-weight: 650;
+  line-height: 1.45;
+  text-align: center !important;
+  text-wrap: balance;
+}
+
+[data-mj="announcement"] a,
+[data-mj="announcement"] strong {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  background: none !important;
+  background-image: none !important;
+  animation: none !important;
+  filter: drop-shadow(0 0 8px rgba(255,255,255,.20));
+  font-weight: 850 !important;
+}
+
+[data-mj="announcement"] button[aria-label="close"] {
+  position: absolute !important;
+  top: 50% !important;
+  right: 10px !important;
+  z-index: 3;
+  transform: translateY(-50%) !important;
+  color: var(--ng-gold-3) !important;
+  border: 1px solid rgba(242,213,138,.18) !important;
+  background: rgba(255,255,255,.035) !important;
+}
+
+[data-mj="announcement"] button:not([aria-label="close"]) {
+  color: var(--ng-gold-3) !important;
+}
+
+@keyframes ng-gold-text-flow {
+  to { background-position: 240% center; }
+}
+
+@keyframes ng-mobile-info-marquee {
+  from { transform: translateX(35%); }
+  to { transform: translateX(-100%); }
+}
+
+/* Hafif premium doku */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.28;
+  background-image:
+    linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.014) 1px, transparent 1px);
+  background-size: 38px 38px;
+  -webkit-mask-image: linear-gradient(to bottom, #000, transparent 88%);
+  mask-image: linear-gradient(to bottom, #000, transparent 88%);
+}
+
+/* ---------------- HEADER ---------------- */
+[data-mj="header"] {
+  height: auto !important;
+  min-height: max-content !important;
+  overflow: visible !important;
+  background:
+    linear-gradient(180deg, rgba(7,8,12,.66), rgba(12,12,17,.42)) !important;
+  border-bottom: 1px solid rgba(242,213,138,.34) !important;
+  box-shadow: 0 12px 34px rgba(0,0,0,.30) !important;
+  backdrop-filter: blur(16px) saturate(125%);
+  -webkit-backdrop-filter: blur(16px) saturate(125%);
+}
+
+[data-mj="custom-header"] {
+  min-height: 64px !important;
+  overflow: visible !important;
+  background: rgba(10,10,14,.28) !important;
+}
+
+[aria-label="site-header"] {
+  isolation: isolate;
+  overflow: visible !important;
+  background: linear-gradient(110deg, rgba(18,18,23,.46), rgba(38,33,26,.30)) !important;
+  border-bottom: 1px solid var(--ng-line) !important;
+  box-shadow: 0 10px 35px rgba(0,0,0,.24), inset 0 1px rgba(255,255,255,.055) !important;
+  backdrop-filter: blur(18px) saturate(135%);
+  -webkit-backdrop-filter: blur(18px) saturate(135%);
+}
+
+[data-mj="header-nav"] {
+  min-height: 56px !important;
+  overflow: visible !important;
+  background: rgba(18,18,24,.42) !important;
+  border-bottom: 1px solid rgba(242,213,138,.16) !important;
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+}
+
+[aria-label="site-header"]::after {
+  content: "";
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: -1px;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--ng-gold-3), transparent);
+  box-shadow: 0 0 18px rgba(242, 213, 138, .38);
+}
+
+[data-mj="logo"] img {
+  filter: drop-shadow(0 5px 14px rgba(201, 152, 67, .22));
+}
+
+[data-mj="header-left"] {
+  gap: 8px !important;
+}
+
+.ng-header-license {
+  position: relative;
+  z-index: 2;
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
+  padding: 3px;
+  box-sizing: border-box;
+  pointer-events: auto;
+  border: 1px solid rgba(242,213,138,.52);
+  border-radius: 11px;
+  background: linear-gradient(145deg, rgba(255,255,255,.10), rgba(201,152,67,.16));
+  box-shadow: inset 0 1px rgba(255,255,255,.14), 0 7px 18px rgba(201,152,67,.20);
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+
+.ng-header-license:hover,
+.ng-header-license:focus-visible {
+  border-color: var(--ng-gold-4);
+  box-shadow: 0 10px 24px rgba(201,152,67,.34), 0 0 0 3px rgba(242,213,138,.10);
+  transform: translateY(-2px) scale(1.03);
+}
+
+.ng-header-license-image {
+  display: block;
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+}
+
+[data-mj="login-button"],
+[data-mj="register-button"],
+[data-mj="header-special-button"] {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px !important;
+  transition: transform .22s ease, box-shadow .22s ease, filter .22s ease !important;
+}
+
+[data-mj="login-button"] {
+  color: var(--ng-gold-3) !important;
+  border: 1px solid rgba(242, 213, 138, .56) !important;
+  background: rgba(255, 255, 255, .035) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.08), 0 6px 18px rgba(0,0,0,.2);
+  backdrop-filter: blur(10px);
+}
+
+[data-mj="register-button"] {
+  color: #17130b !important;
+  border: 1px solid rgba(255, 242, 189, .72) !important;
+  background: linear-gradient(135deg, var(--ng-gold-1), var(--ng-gold-3) 48%, var(--ng-gold-4) 72%, var(--ng-gold-2)) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.55), 0 8px 24px rgba(201, 152, 67, .25) !important;
+}
+
+[data-mj="login-button"]:hover,
+[data-mj="register-button"]:hover,
+[data-mj="header-special-button"]:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+  box-shadow: 0 10px 28px rgba(201, 152, 67, .30) !important;
+}
+
+/* ---------------- MASAUSTU HEADER SIGDIRMA ---------------- */
+@media (min-width: 621px) {
+  [data-mj="custom-header"],
+  [data-mj="header-nav-list"] {
+    width: calc(100% - 24px) !important;
+    max-width: 1760px !important;
+    margin-inline: auto !important;
+  }
+
+  [data-mj="header-left"] {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    min-width: max-content !important;
+    max-width: 245px !important;
+  }
+
+  [data-mj="header-center"] {
+    flex: 1 1 auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+  }
+
+  [data-mj="header-right"] {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+  }
+
+  /* Masaustunde logo + lisans rozeti en solda, aksiyonlar en sagda kalsin. */
+  [aria-label="site-header"] {
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  [aria-label="site-header"] [data-mj="header-left"] {
+    order: 1 !important;
+    margin-left: 0 !important;
+  }
+
+  [aria-label="site-header"] [data-mj="header-center"] {
+    order: 2 !important;
+  }
+
+  [aria-label="site-header"] [data-mj="header-right"] {
+    order: 3 !important;
+    margin-left: auto !important;
+  }
+
+  [data-mj="header-nav-list"] {
+    min-height: 40px !important;
+    overflow: visible !important;
+  }
+
+  [data-mj="header-nav-list"] > ul {
+    display: flex !important;
+    flex: 1 1 auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+  }
+
+  [data-mj="header-nav-item"] {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+  }
+
+  [data-mj="header-nav-item"] > a {
+    gap: clamp(4px, .32vw, 6px) !important;
+    padding-inline: clamp(5px, .55vw, 9px) !important;
+  }
+
+  [data-mj="header-nav-item"] p {
+    font-size: clamp(11px, .75vw, 13px) !important;
+    white-space: nowrap !important;
+  }
+
+  /* Nav ikonu bir <span> (img/svg DEGIL) — 12 nav ogesi tasip birbirine
+     girdigi icin ikon + font + bosluk kucultuldu. */
+  [data-mj="header-nav-item"] a > span {
+    width: clamp(15px, 1vw, 18px) !important;
+    height: clamp(15px, 1vw, 18px) !important;
+    flex: 0 0 auto !important;
+  }
+  [data-mj="header-nav-item"] a > span svg,
+  [data-mj="header-nav-item"] a > span img {
+    width: 100% !important;
+    height: 100% !important;
+  }
+}
+
+@media (min-width: 621px) and (max-width: 1400px) {
+  [data-mj="custom-header"],
+  [data-mj="header-nav-list"] {
+    width: calc(100% - 16px) !important;
+  }
+
+  [data-mj="header-nav-item"] > a {
+    padding-inline: 6px !important;
+  }
+}
+
+/* ---------------- GLASS KARTLAR ---------------- */
+[data-mj="widget-pages-item"],
+[data-mj="widget-game-card"] {
+  border: 1px solid rgba(242, 213, 138, .13) !important;
+  background: linear-gradient(145deg, rgba(255,255,255,.065), rgba(255,255,255,.018)) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.055), 0 14px 34px rgba(0,0,0,.25) !important;
+  backdrop-filter: blur(12px) saturate(120%);
+  -webkit-backdrop-filter: blur(12px) saturate(120%);
+  transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease !important;
+}
+
+/* Ana sayfadaki bes gorsel banner kendi gorseliyle temiz kalsin. */
+[data-mj="widget-pages-item"] {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+[data-mj="widget-pages-item"]:hover,
+[data-mj="widget-game-card"]:hover {
+  z-index: 2;
+  position: relative;
+  transform: translateY(-4px) scale(1.025) !important;
+  border-color: rgba(242, 213, 138, .44) !important;
+  box-shadow: 0 18px 45px rgba(0,0,0,.38), 0 0 24px rgba(201,152,67,.10) !important;
+}
+
+[data-mj="widget-pages-item"]:hover {
+  border-color: transparent !important;
+  box-shadow: 0 14px 34px rgba(0,0,0,.26) !important;
+}
+
+/* Sliderin yuvarlak koselerini eksiksiz takip eden gold/white neon. */
+@property --ng-neon-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+[data-mj="widget-multi-banner-slider"] {
+  --ng-neon-angle: 0deg;
+  position: relative !important;
+  isolation: isolate;
+  overflow: hidden !important;
+  border-radius: 18px !important;
+  box-shadow: 0 16px 44px rgba(0,0,0,.42), 0 0 24px rgba(201,152,67,.08) !important;
+}
+
+[data-mj="widget-multi-banner-slider"]::before,
+[data-mj="widget-multi-banner-slider"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+[data-mj="widget-multi-banner-slider"]::before {
+  padding: 2px;
+  background: conic-gradient(
+    from var(--ng-neon-angle),
+    transparent 0deg 38deg,
+    rgba(255,255,255,.98) 48deg,
+    var(--ng-gold-3) 57deg,
+    var(--ng-gold-1) 68deg,
+    transparent 84deg 212deg,
+    rgba(255,255,255,.85) 222deg,
+    var(--ng-gold-2) 232deg,
+    transparent 250deg 360deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  filter: none;
+  animation: none;
+}
+
+html.ng-effects-ready [data-mj="widget-multi-banner-slider"]::before {
+  filter: drop-shadow(0 0 4px rgba(242,213,138,.95)) drop-shadow(0 0 10px rgba(201,152,67,.68));
+  animation: ng-slider-neon-sweep 6.8s linear infinite;
+}
+
+[data-mj="widget-multi-banner-slider"]::after {
+  z-index: 7;
+  border: 1px solid rgba(242,213,138,.28);
+  box-shadow: inset 0 0 16px rgba(201,152,67,.09);
+}
+
+@keyframes ng-slider-neon-sweep {
+  to { --ng-neon-angle: 360deg; }
+}
+
+.ng-call-button {
+  position: static !important;
+  z-index: 4;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: 116px;
+  height: 42px;
+  padding: 0 11px;
+  color: #ffe9a3;
+  border: 1px solid rgba(242,213,138,.84);
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(17,15,12,.97), rgba(53,39,18,.95) 58%, rgba(18,16,13,.98));
+  box-shadow: 0 12px 30px rgba(201,152,67,.28), inset 0 1px rgba(255,255,255,.17), inset 0 -1px rgba(0,0,0,.56);
+  transform: none;
+  font: 850 11px/1 inherit;
+  letter-spacing: .06em;
+  text-shadow: 0 1px 8px rgba(242,213,138,.28);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+
+.ng-call-button:hover,
+.ng-call-button:focus-visible {
+  border-color: #fff0b1;
+  box-shadow: 0 14px 34px rgba(201,152,67,.42), inset 0 1px rgba(255,255,255,.23), 0 0 0 3px rgba(242,213,138,.10);
+  transform: translateY(-2px) scale(1.025);
+}
+
+.ng-call-button:active {
+  transform: scale(.96);
+}
+
+.ng-call-icon {
+  display: block;
+  flex: 0 0 24px;
+  width: 24px;
+  height: 24px;
+  padding: 5px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  object-fit: contain;
+  background: linear-gradient(145deg, #fff0ae, #d59b31 60%, #8e5d14);
+  box-shadow: inset 0 1px rgba(255,255,255,.72), 0 3px 9px rgba(201,152,67,.30);
+}
+
+.ng-call-label {
+  display: inline-block;
+  color: inherit;
+  font: inherit;
+  line-height: 1;
+}
+
+[aria-label="arrow_left"],
+[aria-label="arrow_right"] {
+  color: var(--ng-gold-3) !important;
+  border: 1px solid rgba(242, 213, 138, .42) !important;
+  background: linear-gradient(145deg, rgba(42,42,48,.92), rgba(17,17,20,.94)) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.08), 0 8px 22px rgba(0,0,0,.32) !important;
+  backdrop-filter: blur(10px);
+}
+
+/* ---------------- CASINO + PROMOTIONS PAGES ---------------- */
+[data-mj="game-catalog-module"] {
+  position: relative;
+  isolation: isolate;
+  padding: 18px clamp(12px, 2vw, 28px) 30px !important;
+  border: 1px solid rgba(242,213,138,.14) !important;
+  border-radius: 22px !important;
+  background:
+    radial-gradient(circle at 10% 0%, rgba(201,152,67,.13), transparent 28rem),
+    linear-gradient(145deg, rgba(255,255,255,.055), rgba(255,255,255,.012) 46%, rgba(201,152,67,.045)) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.07), 0 18px 42px rgba(0,0,0,.24) !important;
+}
+
+[data-mj="game-catalog-category-list"],
+[data-mj="game-catalog-provider-filter"],
+[data-mj="game-catalog-game-search"] {
+  border-color: rgba(242,213,138,.18) !important;
+  border-radius: 14px !important;
+}
+
+[data-mj="game-catalog-category-list-item"] {
+  color: rgba(255,255,255,.82) !important;
+  border-radius: 10px !important;
+  transition: color .2s ease, background .2s ease, transform .2s ease !important;
+}
+
+[data-mj="game-catalog-category-list-item"].active,
+[data-mj="game-catalog-category-list-item"]:hover,
+[data-mj="game-catalog-category-list-item"]:focus-visible {
+  color: #17130b !important;
+  background: linear-gradient(120deg, #c68c28, #ffe99d 58%, #b77b1e) !important;
+  transform: translateX(2px);
+}
+
+[data-mj="game-catalog-list"] {
+  gap: 14px !important;
+}
+
+[data-mj="game-catalog-card"] {
+  position: relative !important;
+  overflow: hidden !important;
+  height: auto !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  aspect-ratio: 427 / 576 !important;
+  border: 1px solid rgba(242,213,138,.18) !important;
+  border-radius: 15px !important;
+  background: linear-gradient(145deg, rgba(255,255,255,.075), rgba(255,255,255,.018)) !important;
+  box-shadow: 0 10px 24px rgba(0,0,0,.25), inset 0 1px rgba(255,255,255,.08) !important;
+  transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease !important;
+}
+
+@keyframes ng-game-card-neon-spin {
+  to { transform: rotate(360deg) scale(1.12); }
+}
+
+/* Masaüstünde her oyun kartının çevresinde dolaşan premium gold ışık. */
+@media (min-width: 621px) {
+  [data-mj="game-catalog-card"] {
+    isolation: isolate;
+    border-color: transparent !important;
+    background: transparent !important;
+  }
+
+  [data-mj="game-catalog-card"]::before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    inset: -7%;
+    pointer-events: none;
+    border-radius: inherit;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0deg 58deg,
+      rgba(183,123,30,.20) 76deg,
+      #ffe99d 92deg,
+      #b77b1e 106deg,
+      transparent 126deg 238deg,
+      rgba(242,213,138,.18) 258deg,
+      #fff4bd 274deg,
+      transparent 296deg 360deg
+    );
+    filter: drop-shadow(0 0 7px rgba(242,213,138,.55));
+    animation: none;
+  }
+
+  html.ng-effects-ready [data-mj="game-catalog-card"]:hover::before,
+  html.ng-effects-ready [data-mj="game-catalog-card"]:focus-within::before {
+    animation: ng-game-card-neon-spin 4.8s linear infinite;
+  }
+
+  [data-mj="game-catalog-card"]::after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    inset: 2px;
+    pointer-events: none;
+    border-radius: 13px;
+    background: linear-gradient(145deg, rgba(31,29,27,.98), rgba(12,12,14,.98));
+  }
+
+  [data-mj="game-catalog-card"] > img,
+  [data-mj="game-catalog-card"] > span[data-site-badge="true"] {
+    position: relative;
+    z-index: 1;
+  }
+
+  [data-mj="game-catalog-card"] > img {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-mj="game-catalog-card"]::before {
+    animation: none !important;
+  }
+}
+
+/* ---------------- SON DOKUNUSLAR: SIDEBAR, LIGLER VE FOOTER ---------------- */
+.ng-leagues-widget {
+  --ng-league-card-width: clamp(180px, 16vw, 280px) !important;
+}
+
+@media (max-width: 620px) {
+  /* Mobilde uygulama kökünün 100% yüksekliğe kilitlenmesi, footer'ın uzunluğu
+     nedeniyle main alanını 32px'e kadar daraltabiliyor. İçeriği doğal akışa bırak. */
+  html,
+  body {
+    height: auto !important;
+    min-height: 100% !important;
+  }
+
+  #root {
+    height: auto !important;
+    min-height: 100vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  main[data-mj="page-content"] {
+    flex: 0 0 auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  /* Yan/çoklu bannerlar kartın doğal oranını korusun; dar ekranda kırpılmasın. */
+  [data-mj="widget-multi-banner"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    padding-inline: 12px !important;
+  }
+
+  [data-mj="widget-multi-banner-slider"] {
+    width: 100% !important;
+    min-height: 0 !important;
+    aspect-ratio: 16 / 5 !important;
+    height: auto !important;
+  }
+
+  [data-mj="widget-multi-banner-slider"] > * {
+    height: 100% !important;
+    min-height: 0 !important;
+    aspect-ratio: auto !important;
+  }
+
+  [data-mj="widget-multi-banner-slider"] img,
+  [data-mj="widget-multi-banner-slider"] picture,
+  [data-mj="widget-multi-banner-slider"] picture img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+  }
+
+  html,
+  body,
+  #root,
+  main {
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+    overscroll-behavior-x: none !important;
+  }
+
+  .ng-sidebar-root,
+  .ng-sidebar-drawer,
+  .ng-sidebar-scroll,
+  [data-mj="mobile-nav-list"].ng-sidebar-nav {
+    max-width: 100vw !important;
+    min-width: 0 !important;
+    overflow-x: hidden !important;
+    overscroll-behavior-x: none !important;
+    touch-action: pan-y !important;
+  }
+
+  .ng-sidebar-drawer {
+    width: min(88vw, 360px) !important;
+  }
+
+  .ng-sidebar-scroll {
+    overflow-y: auto !important;
+  }
+
+  [data-mj="mobile-nav-list"].ng-sidebar-nav > ul,
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"],
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] > :is(a, div, span) {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .ng-leagues-widget {
+    --ng-league-card-width: 160px !important;
+  }
+}
+
+/* Image 2'deki duz koyu, sutunlu footer duzeni. */
+footer {
+  padding: 34px 16px 28px !important;
+  border-top: 1px solid rgba(242,213,138,.16) !important;
+  background: #151315 !important;
+  box-shadow: none !important;
+}
+
+footer::before {
+  display: none !important;
+}
+
+[data-mj="footer-content"] {
+  width: min(1000px, 100%) !important;
+  gap: 28px !important;
+}
+
+[data-mj="footer-top"] {
+  display: block !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+[data-mj="footer-logo"] {
+  display: none !important;
+}
+
+[data-mj="footer-nav"][hidden] {
+  display: none !important;
+}
+
+#narcos-footer-columns {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 30px;
+  width: 100%;
+  padding: 0 0 34px;
+}
+
+.ng-footer-column {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.ng-footer-column-title {
+  margin: 0 0 7px !important;
+  color: var(--ng-gold-3) !important;
+  font-size: 13px !important;
+  font-weight: 850 !important;
+  line-height: 1.2 !important;
+  letter-spacing: .10em !important;
+  text-transform: uppercase !important;
+}
+
+.ng-footer-column-link,
+.ng-footer-column-note {
+  display: block !important;
+  max-width: 100%;
+  overflow: hidden;
+  color: rgba(247,243,232,.62) !important;
+  font-size: 14px !important;
+  line-height: 1.35 !important;
+  text-decoration: none !important;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color .2s ease, transform .2s ease !important;
+}
+
+.ng-footer-column-link:hover,
+.ng-footer-column-link:focus-visible {
+  color: var(--ng-gold-3) !important;
+  transform: translateX(3px);
+}
+
+.ng-footer-column-note {
+  color: rgba(247,243,232,.38) !important;
+}
+
+#narcos-license-banner .ng-license-panel {
+  display: flex !important;
+  min-height: 0 !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 18px 0 0 !important;
+  border: 0 !important;
+  border-top: 1px solid rgba(242,213,138,.14) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+#narcos-license-banner .ng-license-panel::before {
+  display: none !important;
+}
+
+#narcos-license-banner .ng-license-copy {
+  display: contents !important;
+  text-align: center !important;
+}
+
+#narcos-license-banner .ng-license-eyebrow {
+  order: 1;
+  margin: 0 !important;
+  color: var(--ng-gold-3) !important;
+  font-size: 13px !important;
+  letter-spacing: .13em !important;
+}
+
+#narcos-license-banner .ng-license-badge-link {
+  order: 2;
+  width: 78px !important;
+  height: 78px !important;
+  padding: 3px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+#narcos-license-banner .ng-license-badge {
+  width: 70px !important;
+  height: 70px !important;
+}
+
+#narcos-license-banner .ng-license-title {
+  order: 3;
+  width: min(760px, 100%);
+  margin: 0 !important;
+  color: rgba(247,243,232,.42) !important;
+  text-align: center !important;
+  font-size: 11px !important;
+  line-height: 1.55 !important;
+}
+
+#narcos-license-banner .ng-license-action {
+  order: 4;
+  padding: 7px 11px !important;
+  color: var(--ng-gold-3) !important;
+  font-size: 11px !important;
+  border-color: rgba(242,213,138,.24) !important;
+  background: transparent !important;
+}
+
+@media (max-width: 620px) {
+  footer {
+    padding: 28px 14px 24px !important;
+  }
+
+  #narcos-footer-columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 18px;
+    padding-bottom: 24px;
+  }
+
+  .ng-footer-column-title {
+    font-size: 11px !important;
+  }
+
+  .ng-footer-column-link,
+  .ng-footer-column-note {
+    font-size: 12px !important;
+  }
+
+  #narcos-license-banner .ng-license-title {
+    font-size: 10px !important;
+  }
+
+  /* React kökünün viewport yüksekliği footer tarafından sıkıştırılmasın. */
+  html,
+  body {
+    height: auto !important;
+  }
+
+  #root {
+    height: auto !important;
+    min-height: 100vh !important;
+  }
+
+  main[data-mj="page-content"] {
+    flex: 0 0 auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  [data-mj="widget-multi-banner-item"] {
+    flex: 0 0 100% !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  [data-mj="widget-multi-banner-slider"] {
+    height: auto !important;
+    min-height: 0 !important;
+    aspect-ratio: 16 / 5 !important;
+  }
+
+  [data-mj="widget-multi-banner-slider"] img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+}
+
+[data-mj="game-catalog-card"]:hover,
+[data-mj="game-catalog-card"]:focus-visible {
+  border-color: rgba(242,213,138,.72) !important;
+  box-shadow: 0 16px 32px rgba(0,0,0,.38), 0 0 20px rgba(201,152,67,.22) !important;
+  transform: translateY(-4px) !important;
+}
+
+[data-mj="game-catalog-card"] > img {
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 14px !important;
+  transition: transform .3s ease, filter .3s ease !important;
+}
+
+[data-mj="game-catalog-card"]:hover > img {
+  filter: saturate(1.1) contrast(1.04) !important;
+  transform: scale(1.035) !important;
+}
+
+[data-mj="promotions-page"] {
+  padding: 18px clamp(12px, 2vw, 28px) 30px !important;
+}
+
+[data-mj="promotions-tabs"] button {
+  min-height: 38px !important;
+  padding: 0 18px !important;
+  color: rgba(255,255,255,.78) !important;
+  border: 1px solid rgba(242,213,138,.20) !important;
+  border-radius: 999px !important;
+  background: rgba(255,255,255,.045) !important;
+  font-weight: 800 !important;
+  transition: color .2s ease, background .2s ease, border-color .2s ease, transform .2s ease !important;
+}
+
+[data-mj="promotions-tabs"] button.active,
+[data-mj="promotions-tabs"] button:hover,
+[data-mj="promotions-tabs"] button:focus-visible {
+  color: #17130b !important;
+  border-color: rgba(255,239,173,.92) !important;
+  background: linear-gradient(120deg, #c68c28, #ffe99d 58%, #b77b1e) !important;
+  box-shadow: 0 6px 18px rgba(201,152,67,.22) !important;
+  transform: translateY(-1px);
+}
+
+[data-mj="promotions-grid"] {
+  gap: 18px !important;
+}
+
+[data-mj="promotions-grid"] > a {
+  display: block !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(242,213,138,.18) !important;
+  border-radius: 18px !important;
+  background: rgba(255,255,255,.035) !important;
+  box-shadow: 0 12px 28px rgba(0,0,0,.28), inset 0 1px rgba(255,255,255,.08) !important;
+  transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease !important;
+}
+
+[data-mj="promotions-grid"] > a:hover,
+[data-mj="promotions-grid"] > a:focus-visible {
+  border-color: rgba(242,213,138,.72) !important;
+  box-shadow: 0 16px 34px rgba(0,0,0,.4), 0 0 22px rgba(201,152,67,.20) !important;
+  transform: translateY(-4px) !important;
+}
+
+[data-mj="promotions-grid"] img {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  border-radius: 17px !important;
+  object-fit: cover !important;
+}
+
+/* ---------------- MOBILE PROVIDER SHEET ---------------- */
+@media (max-width: 620px) {
+  [data-mj="game-catalog-provider-bottom-sheet-content"] {
+    width: 100% !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(242,213,138,.45) !important;
+    border-bottom: 0 !important;
+    border-radius: 24px 24px 0 0 !important;
+    background:
+      radial-gradient(circle at 50% 0%, rgba(201,152,67,.20), transparent 22rem),
+      linear-gradient(145deg, rgba(35,31,25,.98), rgba(8,8,11,.99) 68%) !important;
+    box-shadow: 0 -18px 48px rgba(0,0,0,.55), inset 0 1px rgba(255,255,255,.10) !important;
+  }
+
+  [data-mj="game-catalog-provider-bottom-sheet-header"] {
+    min-height: 58px !important;
+    padding: 15px 18px 9px !important;
+    color: var(--ng-gold-3) !important;
+    border-bottom: 1px solid rgba(242,213,138,.18) !important;
+    background: linear-gradient(90deg, rgba(201,152,67,.14), transparent 72%) !important;
+  }
+
+  [data-mj="game-catalog-provider-bottom-sheet-header"]::before {
+    content: "";
+    display: block;
+    width: 42px;
+    height: 4px;
+    margin: -4px auto 10px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--ng-gold-2), var(--ng-gold-4));
+    box-shadow: 0 0 12px rgba(242,213,138,.36);
+  }
+
+  [data-mj="game-catalog-provider-bottom-sheet-header"] p {
+    margin: 0 !important;
+    text-align: center !important;
+    color: var(--ng-gold-4) !important;
+    font-size: 16px !important;
+    font-weight: 850 !important;
+    letter-spacing: .06em !important;
+    text-transform: uppercase !important;
+  }
+
+  [data-mj="game-catalog-provider-bottom-sheet-body"] {
+    padding: 12px 14px 18px !important;
+  }
+
+  [data-mj="game-catalog-provider-bottom-sheet-body"] > div:first-child {
+    margin: 0 0 11px !important;
+  }
+
+  [data-mj="game-catalog-provider-bottom-sheet-body"] > div:first-child > div {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 0 12px !important;
+    position: relative !important;
+    min-height: 44px !important;
+    border: 1px solid rgba(242,213,138,.22) !important;
+    border-radius: 13px !important;
+    background: rgba(7,7,9,.65) !important;
+    box-shadow: inset 0 1px rgba(255,255,255,.06) !important;
+  }
+
+  [data-mj="game-catalog-provider-bottom-sheet-body"] > div:first-child > div > div:first-child {
+    display: grid !important;
+    place-items: center !important;
+    flex: 0 0 28px !important;
+    width: 28px !important;
+    height: 28px !important;
+    position: static !important;
+  }
+
+  [data-mj="game-catalog-provider-bottom-sheet-search"] {
+    flex: 1 1 auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+    min-height: 42px !important;
+    margin: 0 !important;
+    padding: 0 4px !important;
+    color: #fff !important;
+    background: transparent !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    line-height: 42px !important;
+    text-align: left !important;
+  }
+
+  [data-mj="game-catalog-provider-bottom-sheet-search"]::placeholder {
+    color: rgba(255,255,255,.72) !important;
+    opacity: 1 !important;
+  }
+
+  [data-mj="game-catalog-provider-bottom-sheet-body"] [role="img"] {
+    color: var(--ng-gold-3) !important;
+  }
+
+  [data-mj="game-catalog-provider-bottom-sheet-sort"] {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    margin: 0 0 10px !important;
+    padding: 4px !important;
+    border: 1px solid rgba(242,213,138,.14) !important;
+    border-radius: 12px !important;
+    background: rgba(255,255,255,.035) !important;
+  }
+
+  [data-mj="game-catalog-provider-sort-popular"],
+  [data-mj="game-catalog-provider-sort-az"] {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 1 1 0 !important;
+    min-height: 32px !important;
+    border-radius: 8px !important;
+    color: rgba(255,255,255,.68) !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    letter-spacing: .05em !important;
+    text-transform: uppercase !important;
+  }
+
+  [data-mj="game-catalog-provider-sort-popular"] {
+    color: #17130b !important;
+    background: linear-gradient(120deg, #c68c28, #ffe99d 58%, #b77b1e) !important;
+    box-shadow: inset 0 1px rgba(255,255,255,.52) !important;
+  }
+
+  [data-mj="game-catalog-provider-sort-az"] {
+    gap: 5px !important;
+  }
+
+  [data-mj="game-catalog-provider-sort-az"] [role="img"] {
+    color: var(--ng-gold-3) !important;
+  }
+
+  [data-mj="game-catalog-provider-bottom-sheet-list"] {
+    max-height: calc(80dvh - 166px) !important;
+    padding: 2px !important;
+    scrollbar-width: thin;
+    scrollbar-color: var(--ng-gold-2) rgba(255,255,255,.06);
+  }
+
+  [data-mj="game-catalog-provider-list"] {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 9px !important;
+  }
+
+  [data-mj="game-catalog-provider-list"] > div {
+    margin: 0 !important;
+    min-width: 0 !important;
+  }
+
+  [data-mj="game-catalog-provider-item"] {
+    display: grid !important;
+    grid-template-rows: minmax(76px, 1fr) auto !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+    min-height: 132px !important;
+    padding: 9px !important;
+    box-sizing: border-box !important;
+    border: 1px solid rgba(242,213,138,.14) !important;
+    border-radius: 12px !important;
+    background: linear-gradient(145deg, rgba(255,255,255,.07), rgba(255,255,255,.018)) !important;
+    box-shadow: inset 0 1px rgba(255,255,255,.05), 0 7px 16px rgba(0,0,0,.22) !important;
+    transition: transform .18s ease, border-color .18s ease, background .18s ease !important;
+  }
+
+  [data-mj="game-catalog-provider-item"]:active,
+  [data-mj="game-catalog-provider-item"]:focus-within {
+    border-color: rgba(242,213,138,.72) !important;
+    background: linear-gradient(145deg, rgba(201,152,67,.20), rgba(255,255,255,.025)) !important;
+    transform: translateY(-1px) !important;
+  }
+
+  [data-mj="game-catalog-provider-item"] > div:first-child {
+    display: grid !important;
+    place-items: center !important;
+    width: 100% !important;
+    height: 76px !important;
+    min-height: 76px !important;
+    border: 1px solid rgba(242,213,138,.18) !important;
+    border-radius: 9px !important;
+    background: rgba(7,7,9,.70) !important;
+  }
+
+  [data-mj="game-catalog-provider-item"] > div:first-child img {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+  }
+
+  [data-mj="game-catalog-provider-item"] > div:last-child {
+    min-width: 0 !important;
+    padding: 0 2px 2px !important;
+    text-align: center !important;
+  }
+
+  [data-mj="game-catalog-provider-item"] p {
+    overflow: hidden !important;
+    margin: 0 !important;
+    color: rgba(255,255,255,.88) !important;
+    font-size: 11px !important;
+    font-weight: 750 !important;
+    line-height: 1.15 !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+}
+
+/* ---------------- FOOTER: GREY + GOLD ---------------- */
+footer {
+  position: relative;
+  /* Platformun footer'a verdigi yuzdelik yukseklik icerigi 80px'e
+     sikistiriyordu. Icerik kadar buyumesini ve kesilmemesini zorla. */
+  height: auto !important;
+  min-height: max-content !important;
+  overflow: visible !important;
+  box-sizing: border-box !important;
+  padding: 52px 20px 28px !important;
+  color: var(--ng-text) !important;
+  border-top: 1px solid rgba(242, 213, 138, .34) !important;
+  background:
+    radial-gradient(circle at 16% 0%, rgba(201, 152, 67, .18), transparent 26rem),
+    radial-gradient(circle at 86% 115%, rgba(242, 213, 138, .08), transparent 28rem),
+    linear-gradient(135deg, #29292f 0%, #19191e 38%, #24231f 68%, #111114 100%) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.06), 0 -16px 46px rgba(0,0,0,.28) !important;
+}
+
+footer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(115deg, transparent 16%, rgba(255,255,255,.025) 37%, transparent 55%),
+    linear-gradient(90deg, transparent, rgba(242,213,138,.10), transparent) top / 100% 1px no-repeat;
+}
+
+[data-mj="footer-content"] {
+  position: relative;
+  z-index: 1;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  align-items: start !important;
+  gap: 24px !important;
+  width: min(1220px, 100%) !important;
+  margin-inline: auto !important;
+}
+
+[data-mj="footer-content"] > [data-mj="footer-top"],
+[data-mj="footer-content"] > div:not([data-mj]),
+[data-mj="footer-content"] > hr,
+#narcos-values-panel,
+#narcos-social-panel,
+#narcos-license-banner,
+#narcos-contact-button {
+  grid-column: 1 / -1 !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+
+[data-mj="footer-content"] > div:not([data-mj]) {
+  justify-content: center !important;
+  flex-wrap: wrap !important;
+  gap: 16px !important;
+}
+
+[data-mj="footer-top"] {
+  gap: 28px !important;
+  padding: 24px !important;
+  border: 1px solid rgba(242, 213, 138, .16);
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(255,255,255,.055), rgba(255,255,255,.016));
+  box-shadow: inset 0 1px rgba(255,255,255,.06), var(--ng-shadow);
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+}
+
+[data-mj="footer-logo"] img {
+  filter: drop-shadow(0 7px 20px rgba(201, 152, 67, .24));
+}
+
+[data-mj="footer-nav"] {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(150px, 1fr));
+  gap: 12px 32px !important;
+  margin: 28px 0 !important;
+  padding: 28px !important;
+  border-block: 1px solid rgba(242,213,138,.12);
+}
+
+[data-mj="footer-nav-item"] a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(247, 243, 232, .72) !important;
+  text-decoration: none !important;
+  transition: color .2s ease, transform .2s ease !important;
+}
+
+[data-mj="footer-nav-item"] a::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  flex: 0 0 5px;
+  border-radius: 50%;
+  background: var(--ng-gold-2);
+  box-shadow: 0 0 10px rgba(242,213,138,.38);
+}
+
+[data-mj="footer-nav-item"] a:hover {
+  color: var(--ng-gold-3) !important;
+  transform: translateX(4px);
+}
+
+[data-mj="footer-bottom"] {
+  gap: 20px !important;
+  color: var(--ng-muted) !important;
+}
+
+[data-mj="social-links"] a {
+  border: 1px solid rgba(242,213,138,.16);
+  border-radius: 10px;
+  background: rgba(255,255,255,.035);
+  box-shadow: inset 0 1px rgba(255,255,255,.05);
+  transition: transform .2s ease, border-color .2s ease, background .2s ease !important;
+}
+
+[data-mj="social-links"] a:hover {
+  transform: translateY(-3px);
+  border-color: rgba(242,213,138,.5);
+  background: rgba(201,152,67,.10);
+}
+
+[data-mj="footer-copyright"] {
+  color: rgba(247,243,232,.52) !important;
+}
+
+/* 18+ premium gold rozet */
+#narcos-age-badge {
+  min-width: 74px;
+  min-height: 42px;
+  box-sizing: border-box;
+  justify-content: center !important;
+  color: #17130b !important;
+  font-weight: 900 !important;
+  letter-spacing: .4px;
+  border: 1px solid rgba(255,242,189,.72) !important;
+  border-radius: 11px !important;
+  background: linear-gradient(135deg, var(--ng-gold-1), var(--ng-gold-3) 52%, var(--ng-gold-4)) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.58), 0 9px 24px rgba(201,152,67,.22) !important;
+}
+
+/* ---------------- VIZYON / MISYON DOUBLE BANNER ---------------- */
+#narcos-values-panel {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.ng-value-card {
+  position: relative;
+  min-width: 0;
+  padding: clamp(22px, 3vw, 38px);
+  overflow: hidden;
+  text-align: center;
+  border: 1px solid rgba(217, 171, 59, .48);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 50% -35%, rgba(242,213,138,.13), transparent 56%),
+    linear-gradient(145deg, rgba(13,13,19,.92), rgba(23,22,28,.86));
+  box-shadow: inset 0 1px rgba(255,255,255,.055), 0 16px 38px rgba(0,0,0,.28);
+  backdrop-filter: blur(16px) saturate(125%);
+  -webkit-backdrop-filter: blur(16px) saturate(125%);
+}
+
+.ng-value-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 12%;
+  right: 12%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--ng-gold-3), transparent);
+  box-shadow: 0 0 18px rgba(242,213,138,.32);
+}
+
+.ng-value-card h3 {
+  margin: 0 0 16px;
+  color: var(--ng-gold-3);
+  font-size: clamp(19px, 1.8vw, 27px);
+  font-weight: 900;
+  letter-spacing: .5px;
+  text-shadow: 0 0 18px rgba(242,213,138,.16);
+}
+
+.ng-value-card p {
+  margin: 0;
+  color: rgba(255,255,255,.91);
+  font-size: clamp(13px, 1.05vw, 16px);
+  font-weight: 650;
+  line-height: 1.62;
+}
+
+.ng-value-card p + p {
+  margin-top: 12px;
+}
+
+/* ---------------- SOSYAL MEDYA / GUNCEL ADRES ---------------- */
+#narcos-social-panel {
+  display: grid;
+  grid-template-columns: minmax(190px, .72fr) repeat(2, minmax(220px, 1fr));
+  align-items: stretch;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid rgba(242,213,138,.18);
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(255,255,255,.055), rgba(255,255,255,.018));
+  box-shadow: inset 0 1px rgba(255,255,255,.055), 0 14px 34px rgba(0,0,0,.22);
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+}
+
+.ng-social-heading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  padding: 8px 12px;
+}
+
+.ng-social-kicker {
+  color: var(--ng-gold-2);
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 1.7px;
+  text-transform: uppercase;
+}
+
+.ng-social-title {
+  color: #fffaf0;
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.ng-social-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 13px 15px;
+  color: var(--ng-text) !important;
+  text-decoration: none !important;
+  border: 1px solid rgba(242,213,138,.15);
+  border-radius: 12px;
+  background: rgba(8,8,10,.24);
+  transition: transform .2s ease, border-color .2s ease, background .2s ease;
+}
+
+.ng-social-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(242,213,138,.48);
+  background: rgba(201,152,67,.09);
+}
+
+.ng-social-icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  color: #17130b;
+  font-size: 18px;
+  font-weight: 900;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--ng-gold-1), var(--ng-gold-3), var(--ng-gold-4));
+  box-shadow: inset 0 1px rgba(255,255,255,.56), 0 7px 18px rgba(201,152,67,.20);
+}
+
+.ng-social-image {
+  display: block;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.ng-social-copy {
+  min-width: 0;
+}
+
+.ng-social-label,
+.ng-social-value {
+  display: block;
+}
+
+.ng-social-label {
+  margin-bottom: 3px;
+  color: var(--ng-muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+}
+
+.ng-social-value {
+  overflow: hidden;
+  color: var(--ng-gold-3);
+  font-size: 14px;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ng-social-arrow {
+  color: var(--ng-gold-3);
+  font-size: 18px;
+  transition: transform .2s ease;
+}
+
+.ng-social-card:hover .ng-social-arrow {
+  transform: translate(2px, -2px);
+}
+
+.ng-contact-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  gap: 10px;
+  width: fit-content;
+  max-width: 100%;
+  margin: 2px auto 0;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  color: #17130b !important;
+  text-decoration: none !important;
+  border: 1px solid rgba(255,242,189,.78);
+  border-radius: 999px;
+  background: linear-gradient(120deg, #b77b1e, #ffe99d 55%, #c68c28);
+  box-shadow: inset 0 1px rgba(255,255,255,.62), 0 10px 24px rgba(201,152,67,.24);
+  font-size: 13px;
+  font-weight: 850;
+  letter-spacing: .04em;
+  transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+}
+
+.ng-contact-button:hover,
+.ng-contact-button:focus-visible {
+  filter: brightness(1.08);
+  box-shadow: inset 0 1px rgba(255,255,255,.78), 0 14px 32px rgba(201,152,67,.38), 0 0 0 3px rgba(242,213,138,.10);
+  transform: translateY(-2px);
+}
+
+.ng-contact-icon {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  color: #17130b;
+  border-radius: 50%;
+  background: transparent;
+  line-height: 1;
+}
+
+.ng-contact-image {
+  display: block;
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+.ng-contact-copy {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---------------- LISANS BANDI ---------------- */
+#narcos-license-banner {
+  margin: 0 !important;
+}
+
+#narcos-license-banner .ng-license-panel {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 22px;
+  min-height: 132px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px 24px;
+  overflow: hidden;
+  color: var(--ng-text);
+  border: 1px solid rgba(242, 213, 138, .42);
+  border-radius: 16px;
+  background:
+    linear-gradient(105deg, rgba(65,65,72,.82), rgba(32,32,37,.88) 45%, rgba(82,67,39,.68));
+  box-shadow:
+    inset 0 1px rgba(255,255,255,.10),
+    inset 0 -1px rgba(0,0,0,.35),
+    0 16px 38px rgba(0,0,0,.34),
+    0 0 28px rgba(201,152,67,.07);
+  backdrop-filter: blur(18px) saturate(130%);
+  -webkit-backdrop-filter: blur(18px) saturate(130%);
+  transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+}
+
+#narcos-license-banner .ng-license-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(110deg, transparent 15%, rgba(255,255,255,.09) 38%, transparent 55%);
+  transform: translateX(-115%);
+  transition: transform .65s ease;
+}
+
+#narcos-license-banner .ng-license-panel:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255,242,189,.72);
+  box-shadow: 0 20px 46px rgba(0,0,0,.42), 0 0 34px rgba(201,152,67,.13);
+}
+
+#narcos-license-banner .ng-license-panel:hover::before {
+  transform: translateX(115%);
+}
+
+.ng-license-badge-link {
+  display: grid;
+  place-items: center;
+  width: 94px;
+  height: 94px;
+  padding: 5px;
+  box-sizing: border-box;
+  border: 1px solid rgba(255,242,189,.34);
+  border-radius: 16px;
+  background: rgba(5,5,7,.36);
+  box-shadow: inset 0 1px rgba(255,255,255,.08), 0 10px 28px rgba(0,0,0,.32);
+  transition: transform .2s ease, border-color .2s ease;
+}
+
+.ng-license-badge-link:hover {
+  transform: translateY(-2px) scale(1.025);
+  border-color: rgba(255,242,189,.68);
+}
+
+.ng-license-badge {
+  display: block;
+  width: 82px;
+  height: 82px;
+  object-fit: contain;
+}
+
+.ng-license-copy {
+  min-width: 0;
+}
+
+.ng-license-eyebrow {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--ng-gold-3);
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+}
+
+.ng-license-title {
+  margin: 0;
+  color: rgba(255,255,255,.84);
+  font-size: clamp(12px, .95vw, 14px);
+  font-weight: 600;
+  line-height: 1.65;
+}
+
+.ng-license-title a {
+  color: var(--ng-gold-3) !important;
+  font-weight: 800;
+  text-decoration: underline;
+  text-decoration-color: rgba(242,213,138,.42);
+  text-underline-offset: 3px;
+}
+
+.ng-license-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  white-space: nowrap;
+  color: var(--ng-gold-3);
+  font-size: 12px;
+  font-weight: 750;
+  text-decoration: none;
+  border: 1px solid rgba(242,213,138,.28);
+  border-radius: 10px;
+  background: rgba(0,0,0,.18);
+}
+
+.ng-license-action::after {
+  content: "→";
+  font-size: 16px;
+  transition: transform .2s ease;
+}
+
+.ng-license-panel:hover .ng-license-action::after {
+  transform: translateX(3px);
+}
+
+/* ---------------- RESPONSIVE ---------------- */
+@media (max-width: 900px) {
+  [data-mj="footer-nav"] {
+    grid-template-columns: repeat(2, minmax(140px, 1fr));
+  }
+
+  #narcos-social-panel {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  #narcos-values-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .ng-social-heading {
+    grid-column: 1 / -1;
+    text-align: center;
+  }
+}
+
+@media (max-width: 620px) {
+  body {
+    background-attachment: scroll !important;
+  }
+
+  footer {
+    height: auto !important;
+    min-height: max-content !important;
+    overflow: visible !important;
+    padding: 34px 14px 84px !important;
+  }
+
+  /* Merit mobil yapisindaki 30px flash bar'in Narcos gold-glass uyarlamasi. */
+  [data-mj="announcement"] {
+    height: 32px !important;
+    min-height: 32px !important;
+    max-height: 32px !important;
+    padding: 0 34px 0 8px !important;
+    overflow: hidden !important;
+    z-index: 2 !important;
+  }
+
+  [data-mj="announcement"] > div {
+    max-width: 100% !important;
+    overflow: hidden !important;
+  }
+
+  [data-mj="announcement"] > div > div:first-child {
+    width: 100% !important;
+    overflow: hidden !important;
+  }
+
+  [data-mj="announcement"] > div > div:first-child > div,
+  [data-mj="announcement"] > div > div:first-child > div > div,
+  [data-mj="announcement"] div:has(> p) {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+  }
+
+  [data-mj="announcement"] p {
+    display: inline-block !important;
+    flex: none !important;
+    width: max-content !important;
+    min-width: max-content !important;
+    max-width: none !important;
+    font-size: 10px !important;
+    line-height: 32px !important;
+    white-space: nowrap !important;
+    text-align: left !important;
+    text-wrap: nowrap !important;
+    will-change: transform;
+    animation: ng-mobile-info-marquee 19s linear infinite !important;
+  }
+
+  [data-mj="announcement"] p br {
+    display: none;
+  }
+
+  [data-mj="announcement"] button[aria-label="close"] {
+    right: 4px !important;
+    width: 24px !important;
+    height: 24px !important;
+  }
+
+  [data-mj="header"] {
+    z-index: 1150 !important;
+    max-width: 100vw !important;
+    overflow: visible !important;
+  }
+
+  [data-mj="header-nav"] {
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+  }
+
+  [data-mj="custom-header"],
+  [aria-label="site-header"] {
+    height: 60px !important;
+    min-height: 60px !important;
+    padding: 10px 12px !important;
+    background: linear-gradient(110deg, rgba(8,8,12,.88), rgba(31,27,22,.72)) !important;
+    backdrop-filter: blur(16px) saturate(130%);
+    -webkit-backdrop-filter: blur(16px) saturate(130%);
+  }
+
+  [data-mj="header-left"] {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    padding-left: 52px !important;
+    padding-right: 0 !important;
+    box-sizing: border-box !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    pointer-events: none;
+  }
+
+  [data-mj="header-left"] > button[aria-label="menu"] {
+    position: absolute !important;
+    left: 12px !important;
+    width: 32px !important;
+    height: 32px !important;
+    pointer-events: auto;
+  }
+
+  [data-mj="header-left"] [data-mj="logo"] {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 96px !important;
+    height: 36px !important;
+    pointer-events: auto;
+  }
+
+  [data-mj="header-left"] [data-mj="logo"] img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+  }
+
+  [data-mj="header-center"] {
+    display: none !important;
+  }
+
+  [data-mj="header-right"] {
+    position: absolute !important;
+    top: 50% !important;
+    right: 8px !important;
+    width: auto !important;
+    gap: 4px !important;
+    transform: translateY(-50%) !important;
+  }
+
+  [data-mj="header-right"] [role="combobox"] {
+    display: none !important;
+  }
+
+  [data-mj="header-right"] > div:has([data-mj="header-special-button"]) {
+    display: none !important;
+  }
+
+  [data-mj="login-button"] {
+    min-width: 48px !important;
+    padding-inline: 8px !important;
+  }
+
+  [data-mj="register-button"] {
+    min-width: 56px !important;
+    padding-inline: 8px !important;
+  }
+
+  .ng-call-button {
+    position: static !important;
+    z-index: 4;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    flex: 0 0 36px;
+    width: 36px;
+    height: 34px;
+    padding: 0;
+    color: #ffe9a3;
+    border: 1px solid rgba(242,213,138,.84);
+    border-radius: 11px;
+    background: linear-gradient(135deg, rgba(17,15,12,.97), rgba(53,39,18,.95) 58%, rgba(18,16,13,.98));
+    box-shadow: 0 9px 24px rgba(201,152,67,.30), inset 0 1px rgba(255,255,255,.16);
+    transform: none;
+    font: 850 9px/1 inherit;
+    letter-spacing: .045em;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  .ng-call-button:active {
+    transform: scale(.96);
+  }
+
+  .ng-call-icon {
+    flex: 0 0 21px;
+    width: 21px;
+    height: 21px;
+    padding: 4px;
+    border-radius: 7px;
+  }
+
+  .ng-call-label {
+    display: none !important;
+  }
+
+  [data-mj="page-content"] {
+    padding-top: 32px !important;
+  }
+
+  [data-mj="widget-multi-banner"],
+  [data-mj="page-content"] [data-mj$="-container"] {
+    padding-inline: 12px !important;
+  }
+
+  [data-mj="widget-multi-banner-slider"],
+  [data-mj="widget-multi-banner-slider"] > * {
+    border-radius: 16px !important;
+  }
+
+  [data-mj="bottom-nav"] {
+    padding-bottom: 72px !important;
+  }
+
+  [data-mj="bottom-nav"] > * {
+    left: 8px !important;
+    right: 8px !important;
+    bottom: 8px !important;
+    width: auto !important;
+    height: 56px !important;
+    border: 1px solid rgba(242,213,138,.28) !important;
+    border-radius: 18px !important;
+    background: rgba(16,16,21,.86) !important;
+    box-shadow: 0 14px 34px rgba(0,0,0,.42), inset 0 1px rgba(255,255,255,.055) !important;
+    backdrop-filter: blur(16px) saturate(125%);
+    -webkit-backdrop-filter: blur(16px) saturate(125%);
+  }
+
+  [data-mj="bottom-nav"] [data-mj="bottom-nav-item"] {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    width: auto !important;
+    justify-content: center !important;
+    gap: 3px !important;
+    overflow: hidden !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+  }
+
+  [data-mj="bottom-nav"] > * > div {
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
+  }
+
+  [data-mj="bottom-nav"] [data-mj="bottom-nav-item"] > span:first-child {
+    display: block !important;
+    flex: 0 0 22px !important;
+    width: 22px !important;
+    min-width: 22px !important;
+    height: 22px !important;
+    min-height: 22px !important;
+    max-width: 22px !important;
+    max-height: 22px !important;
+    margin: 0 auto !important;
+    background-color: var(--ng-gold-3) !important;
+    background-size: contain !important;
+    -webkit-mask-size: contain !important;
+    mask-size: contain !important;
+    -webkit-mask-position: center !important;
+    mask-position: center !important;
+    -webkit-mask-repeat: no-repeat !important;
+    mask-repeat: no-repeat !important;
+  }
+
+  [data-mj="bottom-nav"] [data-mj="bottom-nav-item"] {
+    font-size: 9px !important;
+    line-height: 1 !important;
+  }
+
+  [data-mj="bottom-nav"],
+  [data-mj="bottom-nav"] *,
+  [data-mj="header-nav"],
+  [data-mj="header-nav"] * {
+    text-transform: uppercase !important;
+    letter-spacing: .035em !important;
+    font-weight: 750 !important;
+  }
+
+  .ng-sidebar-root {
+    background: rgba(3,3,6,.52) !important;
+    backdrop-filter: blur(7px) !important;
+    -webkit-backdrop-filter: blur(7px) !important;
+  }
+
+  .ng-sidebar-drawer {
+    border-right: 1px solid rgba(242,213,138,.44) !important;
+    background:
+      radial-gradient(circle at 18% 7%, rgba(201,152,67,.20), transparent 22rem),
+      linear-gradient(155deg, rgba(28,26,25,.98), rgba(7,7,10,.985) 62%, rgba(18,15,11,.98)) !important;
+    box-shadow: 16px 0 42px rgba(0,0,0,.56), inset -1px 0 rgba(255,255,255,.035) !important;
+  }
+
+  .ng-sidebar-drawer [aria-label="arrow_left"] {
+    width: 38px !important;
+    height: 38px !important;
+    border: 1px solid rgba(255,230,145,.72) !important;
+    border-radius: 50% !important;
+    color: #17130b !important;
+    background: linear-gradient(135deg, #b77b1e, #ffe99d 58%, #c68c28) !important;
+    box-shadow: 0 7px 22px rgba(201,152,67,.35) !important;
+  }
+
+  .ng-sidebar-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: var(--ng-gold-2) rgba(255,255,255,.05);
+  }
+
+  [data-mj="mobile-nav-list"].ng-sidebar-nav {
+    margin: 0 12px !important;
+    padding: 9px !important;
+    border: 1px solid rgba(242,213,138,.16) !important;
+    border-radius: 18px !important;
+    background: linear-gradient(145deg, rgba(255,255,255,.055), rgba(255,255,255,.012)) !important;
+    box-shadow: inset 0 1px rgba(255,255,255,.045), 0 14px 34px rgba(0,0,0,.26) !important;
+  }
+
+  [data-mj="mobile-nav-list"].ng-sidebar-nav > ul {
+    display: grid !important;
+    gap: 6px !important;
+  }
+
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] {
+    margin: 0 !important;
+    background: transparent !important;
+  }
+
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] > :is(a, div, span) {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    min-height: 44px !important;
+    padding: 6px 14px !important;
+    border: 1px solid rgba(242,213,138,.10) !important;
+    border-radius: 12px !important;
+    color: rgba(255,255,255,.92) !important;
+    background: linear-gradient(110deg, rgba(255,255,255,.05), rgba(255,255,255,.012)) !important;
+    text-transform: uppercase !important;
+    font-size: 13px !important;
+    line-height: 1.1 !important;
+    font-weight: 800 !important;
+    letter-spacing: .045em !important;
+    transition: transform .2s ease, color .2s ease, border-color .2s ease, background .2s ease !important;
+  }
+
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] > :is(a, div, span):hover,
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] > :is(a, div, span):focus-visible {
+    color: var(--ng-gold-3) !important;
+    border-color: rgba(242,213,138,.46) !important;
+    background: linear-gradient(110deg, rgba(201,152,67,.18), rgba(255,255,255,.025)) !important;
+    transform: translateX(3px);
+  }
+
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] > :is(a, div, span) > span:first-child {
+    display: block !important;
+    flex: 0 0 24px !important;
+    width: 24px !important;
+    min-width: 24px !important;
+    height: 24px !important;
+    min-height: 24px !important;
+    color: var(--ng-gold-3) !important;
+    background-color: var(--ng-gold-3) !important;
+    background-size: contain !important;
+    -webkit-mask-size: contain !important;
+    mask-size: contain !important;
+    -webkit-mask-position: center !important;
+    mask-position: center !important;
+    -webkit-mask-repeat: no-repeat !important;
+    mask-repeat: no-repeat !important;
+  }
+
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] > :is(a, div, span) * {
+    font-family: inherit !important;
+    font-size: inherit !important;
+    line-height: inherit !important;
+    font-weight: inherit !important;
+  }
+
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] svg,
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] i,
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] [role="img"] {
+    color: var(--ng-gold-3) !important;
+    fill: var(--ng-gold-3) !important;
+    stroke: var(--ng-gold-3) !important;
+    background-color: var(--ng-gold-3) !important;
+  }
+
+  [data-mj="footer-content"] {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 18px !important;
+  }
+
+  [data-mj="footer-top"] {
+    padding: 18px !important;
+    border-radius: 14px;
+  }
+
+  [data-mj="footer-nav"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px !important;
+    padding: 18px 10px !important;
+    text-align: center;
+  }
+
+  [data-mj="footer-nav-item"] a {
+    justify-content: center;
+  }
+
+  #narcos-values-panel {
+    gap: 10px;
+  }
+
+  .ng-value-card {
+    padding: 22px 16px;
+    border-radius: 14px;
+  }
+
+  .ng-value-card h3 {
+    margin-bottom: 12px;
+  }
+
+  #narcos-social-panel {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .ng-social-heading {
+    grid-column: auto;
+    padding: 5px 8px 8px;
+  }
+
+  .ng-social-title {
+    font-size: 16px;
+  }
+
+  .ng-header-license {
+    flex-basis: 38px;
+    width: 38px;
+    height: 38px;
+    padding: 2px;
+    border-radius: 10px;
+  }
+
+  .ng-header-license-image {
+    width: 32px;
+    height: 32px;
+  }
+
+  .ng-contact-button {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 14px;
+    font-size: 11px;
+    letter-spacing: .025em;
+  }
+
+  #narcos-license-banner .ng-license-panel {
+    grid-template-columns: 1fr;
+    gap: 13px;
+    padding: 15px;
+  }
+
+  .ng-license-badge-link {
+    justify-self: center;
+    width: 94px;
+    height: 94px;
+  }
+
+  .ng-license-copy {
+    text-align: center;
+  }
+
+  .ng-license-title {
+    font-size: 12px;
+    line-height: 1.58;
+  }
+
+  .ng-license-action {
+    justify-self: stretch;
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 360px) {
+  .ng-call-button {
+    left: 48px;
+    width: 34px;
+    padding: 0;
+  }
+
+  .ng-call-icon {
+    flex-basis: 22px;
+    width: 22px;
+    height: 22px;
+    padding: 4px;
+  }
+
+  .ng-call-label,
+  [data-mj="login-button"] {
+    display: none !important;
+  }
+
+  [data-mj="header-left"] [data-mj="logo"] {
+    width: 78px !important;
+  }
+}
+
+/* =========================================================
+   2026-07-17: isolated header, page background and game hub fixes
+   ========================================================= */
+
+/* The artwork stays behind the viewport at every scroll position without
+   changing #root/main dimensions or the platform's document flow. */
+body {
+  isolation: isolate;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-color: #070708;
+  background-image:
+    linear-gradient(180deg, rgba(5,5,7,.18) 0%, rgba(7,7,9,.46) 56%, rgba(7,7,8,.78) 100%),
+    url("./narcos-premium-background-v2.webp");
+  background-position: center top, center top;
+  background-repeat: no-repeat, no-repeat;
+  background-size: cover, cover;
+}
+
+/* Desktop: remove only the anonymous max-width wrapper around the top row. */
+@media (min-width: 621px) {
+  [data-mj="header"] > div:has(> [data-mj="custom-header"]) {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  [data-mj="custom-header"] {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+  }
+}
+
+/* Mobile homepage: the platform wrapper reserved 56px above a 60px row,
+   leaving a visible 24px gap after the 32px announcement. */
+@media (max-width: 620px) {
+  body::after {
+    background-image:
+      linear-gradient(180deg, rgba(5,5,7,.22) 0%, rgba(7,7,9,.50) 56%, rgba(7,7,8,.82) 100%),
+      url("./narcos-premium-background-v2-mobile.webp");
+  }
+
+  html.ng-home-route [data-mj="header"] {
+    gap: 0 !important;
+    row-gap: 0 !important;
+    min-height: 92px !important;
+  }
+
+  html.ng-home-route [data-mj="header"] > div:has(> [data-mj="custom-header"]) {
+    position: relative !important;
+    inset: auto !important;
+    top: auto !important;
+    order: 0 !important;
+    flex: 0 0 60px !important;
+    width: 100% !important;
+    max-width: none !important;
+    height: 60px !important;
+    min-height: 60px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transform: none !important;
+    box-sizing: border-box !important;
+  }
+
+  html.ng-home-route [data-mj="custom-header"] {
+    margin: 0 !important;
+  }
+}
+
+/* Homepage-only premium trust and experience widget. */
+#narcos-game-hub {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  box-sizing: border-box;
+  width: min(calc(100% - 32px), 1432px);
+  margin: 18px auto 24px;
+  padding: clamp(17px, 2vw, 27px);
+  border: 1px solid transparent;
+  border-radius: 24px;
+  background:
+    linear-gradient(145deg, rgba(13,13,16,.96), rgba(34,28,19,.88)) padding-box,
+    linear-gradient(110deg, #8f6424, #fff2bd, #c99843, #8f6424) border-box;
+  background-size: 100% 100%, 300% 100%;
+  box-shadow: 0 18px 48px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,242,189,.09);
+  animation: none;
+}
+
+#narcos-game-hub::before {
+  content: "";
+  position: absolute;
+  inset: -52% 8% auto;
+  height: 170px;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(ellipse, rgba(242,213,138,.18), transparent 70%);
+  filter: blur(18px);
+}
+
+.ng-trust-head {
+  margin: 0 auto 17px;
+  text-align: center;
+}
+
+.ng-trust-eyebrow {
+  color: var(--ng-gold-3);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .22em;
+}
+
+.ng-trust-title {
+  margin: 5px 0 3px !important;
+  color: transparent !important;
+  font-size: clamp(20px, 2vw, 31px) !important;
+  background: linear-gradient(90deg, #c99843, #fff2bd, #c99843);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.ng-trust-lead {
+  margin: 0;
+  color: var(--ng-muted);
+  font-size: 14px;
+}
+
+.ng-trust-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.ng-trust-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+  min-height: 108px;
+  padding: 16px;
+  overflow: hidden;
+  color: #fff;
+  text-decoration: none;
+  border: 1px solid rgba(242,213,138,.20);
+  border-radius: 17px;
+  background:
+    radial-gradient(circle at 12% 20%, rgba(242,213,138,.10), transparent 42%),
+    linear-gradient(135deg, rgba(255,255,255,.055), rgba(201,152,67,.07));
+  box-shadow: inset 0 1px rgba(255,255,255,.045), 0 10px 24px rgba(0,0,0,.20);
+  transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+}
+
+.ng-trust-card::after {
+  content: "";
+  position: absolute;
+  inset: -80% -45%;
+  pointer-events: none;
+  background: linear-gradient(105deg, transparent 42%, rgba(255,242,189,.20) 50%, transparent 58%);
+  transform: translateX(-58%);
+  animation: none;
+}
+
+@media (min-width: 621px) {
+  html.ng-effects-ready #narcos-game-hub {
+    animation: ng-trust-border 9s linear infinite;
+  }
+
+  html.ng-effects-ready .ng-trust-card::after {
+    animation: ng-trust-shine 7.5s ease-in-out infinite;
+  }
+}
+
+a.ng-trust-card:hover,
+a.ng-trust-card:focus-visible {
+  transform: translateY(-3px);
+  border-color: rgba(255,242,189,.66);
+  box-shadow: 0 13px 30px rgba(201,152,67,.18), inset 0 1px rgba(255,255,255,.07);
+  outline: none;
+}
+
+.ng-trust-icon-wrap {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  flex: 0 0 58px;
+  border: 1px solid rgba(255,242,189,.26);
+  border-radius: 17px;
+  background: linear-gradient(145deg, rgba(242,213,138,.16), rgba(8,8,11,.82));
+  box-shadow: inset 0 1px rgba(255,255,255,.08), 0 9px 22px rgba(0,0,0,.30);
+}
+
+.ng-trust-icon {
+  display: block;
+  width: 31px;
+  height: 31px;
+  background: linear-gradient(135deg, #b77b1e, #fff2bd 55%, #c98f2b);
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  filter: drop-shadow(0 0 7px rgba(242,213,138,.32));
+}
+
+.ng-trust-icon-members {
+  -webkit-mask-image: url("./narcos-members-icon.png");
+  mask-image: url("./narcos-members-icon.png");
+}
+
+.ng-trust-icon-experience {
+  -webkit-mask-image: url("./narcos-experience-icon.png");
+  mask-image: url("./narcos-experience-icon.png");
+}
+
+.ng-trust-icon-support {
+  -webkit-mask-image: url("./narcos-support-icon.png");
+  mask-image: url("./narcos-support-icon.png");
+}
+
+.ng-trust-icon-verified {
+  -webkit-mask-image: url("./narcos-verified-icon.png");
+  mask-image: url("./narcos-verified-icon.png");
+}
+
+.ng-trust-copy {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.ng-trust-value {
+  color: var(--ng-gold-4);
+  font-size: clamp(16px, 1.45vw, 25px);
+  font-weight: 900;
+  line-height: 1.08;
+  letter-spacing: .015em;
+  text-shadow: 0 4px 14px rgba(0,0,0,.36);
+}
+
+.ng-trust-label {
+  color: rgba(247,243,232,.72);
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: .09em;
+}
+
+.ng-trust-arrow {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  color: var(--ng-gold-3);
+  font-size: 16px;
+}
+
+.ng-trust-note {
+  margin: 13px 0 0;
+  color: rgba(247,243,232,.52);
+  font-size: 10px;
+  text-align: center;
+}
+
+@keyframes ng-trust-border {
+  to { background-position: 0 0, 300% 0; }
+}
+
+@keyframes ng-trust-shine {
+  0%, 70%, 100% { transform: translateX(-58%); }
+  84% { transform: translateX(58%); }
+}
+
+@media (max-width: 920px) {
+  .ng-trust-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  #narcos-game-hub {
+    width: calc(100% - 24px);
+    margin: 12px auto 18px;
+    padding: 14px 10px;
+    border-radius: 18px;
+    animation: none;
+  }
+
+  #narcos-game-hub::before {
+    filter: none;
+  }
+
+  .ng-trust-head {
+    margin-bottom: 11px;
+  }
+
+  .ng-trust-eyebrow {
+    font-size: 9px;
+  }
+
+  .ng-trust-title {
+    font-size: 17px !important;
+  }
+
+  .ng-trust-lead {
+    font-size: 10px;
+  }
+
+  .ng-trust-grid {
+    gap: 7px;
+  }
+
+  .ng-trust-card {
+    grid-template-columns: 42px minmax(0, 1fr);
+    gap: 8px;
+    min-height: 82px;
+    padding: 9px 8px;
+    border-radius: 13px;
+  }
+
+  .ng-trust-card::after {
+    display: none;
+  }
+
+  .ng-trust-icon-wrap {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+  }
+
+  .ng-trust-icon {
+    width: 24px;
+    height: 24px;
+    filter: none;
+  }
+
+  .ng-trust-value {
+    font-size: 13px;
+  }
+
+  .ng-trust-label {
+    font-size: 8px;
+    letter-spacing: .055em;
+  }
+
+  .ng-trust-arrow {
+    top: 6px;
+    right: 7px;
+    font-size: 12px;
+  }
+
+  .ng-trust-note {
+    font-size: 8px;
+    line-height: 1.35;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #narcos-game-hub,
+  .ng-trust-card::after {
+    animation: none !important;
+  }
+
+  .ng-trust-card {
+    transition: none;
+  }
+}
+
+/* ---------------- LIGLER WIDGET KARTLARI ---------------- */
+.ng-leagues-widget {
+  --ng-league-card-width: clamp(240px, 26vw, 360px);
+}
+
+.ng-leagues-widget [data-mj="widget-collection-slider-list"] {
+  gap: 16px !important;
+  overflow: hidden !important;
+}
+
+.ng-leagues-widget [data-mj="widget-collection-slider-item"] {
+  flex: 0 0 var(--ng-league-card-width) !important;
+  width: var(--ng-league-card-width) !important;
+  min-width: var(--ng-league-card-width) !important;
+  max-width: var(--ng-league-card-width) !important;
+}
+
+.ng-leagues-widget [data-mj="widget-collection-slider-item"] > a {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(242,213,138,.26) !important;
+  border-radius: 18px !important;
+  background: linear-gradient(145deg, rgba(255,255,255,.07), rgba(255,255,255,.018)) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.10), 0 12px 30px rgba(0,0,0,.28) !important;
+  transition: transform .24s ease, border-color .24s ease, box-shadow .24s ease !important;
+}
+
+.ng-leagues-widget [data-mj="widget-collection-slider-item"] > a:hover {
+  transform: translateY(-3px) !important;
+  border-color: rgba(242,213,138,.68) !important;
+  box-shadow: 0 16px 34px rgba(201,152,67,.25), inset 0 1px rgba(255,255,255,.14) !important;
+}
+
+.ng-leagues-widget [data-mj="widget-collection-slider-item"] img {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 592 / 288 !important;
+  object-fit: cover !important;
+  object-position: center !important;
+}
+
+.ng-leagues-widget [data-mj="widget-collection-slider-item"] strong {
+  display: block !important;
+  min-height: 0 !important;
+  padding: 7px 10px 9px !important;
+  color: var(--ng-gold-3) !important;
+  text-align: center !important;
+  font-size: 13px !important;
+  line-height: 1.2 !important;
+}
+
+@media (max-width: 620px) {
+  .ng-leagues-widget {
+    --ng-league-card-width: 220px;
+  }
+
+  .ng-leagues-widget [data-mj="widget-collection-slider-list"] {
+    gap: 10px !important;
+  }
+
+  .ng-leagues-widget [data-mj="widget-collection-slider-item"] > a {
+    border-radius: 14px !important;
+  }
+
+  .ng-leagues-widget [data-mj="widget-collection-slider-item"] strong {
+    padding: 6px 8px 8px !important;
+    font-size: 12px !important;
+  }
+}
+
+/* ---------------- PROMOSYON DETAY SAYFASI ---------------- */
+[data-mj="promotion-details"] {
+  width: min(1240px, calc(100% - 28px)) !important;
+  margin: 26px auto 58px !important;
+  padding: clamp(16px, 2.5vw, 34px) !important;
+  box-sizing: border-box !important;
+  color: var(--ng-text) !important;
+  border: 1px solid rgba(242,213,138,.30) !important;
+  border-radius: 28px !important;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(201,152,67,.18), transparent 32rem),
+    radial-gradient(circle at 92% 100%, rgba(242,213,138,.08), transparent 28rem),
+    linear-gradient(145deg, rgba(31,28,24,.92), rgba(8,8,11,.95) 76%) !important;
+  box-shadow: 0 30px 80px rgba(0,0,0,.42), inset 0 1px rgba(255,255,255,.10) !important;
+}
+
+[data-mj="promotion-details"] > a:first-child {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  margin: 0 0 16px !important;
+  padding: 8px 13px !important;
+  color: var(--ng-gold-3) !important;
+  border: 1px solid rgba(242,213,138,.35) !important;
+  border-radius: 999px !important;
+  background: rgba(255,255,255,.05) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.10), 0 8px 22px rgba(0,0,0,.18) !important;
+}
+
+[data-mj="promotion-header"] {
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: clamp(18px, 2.8vw, 34px) !important;
+  border: 1px solid rgba(242,213,138,.30) !important;
+  border-radius: 22px !important;
+  background:
+    linear-gradient(110deg, rgba(12,12,15,.88), rgba(70,49,20,.28)),
+    radial-gradient(circle at 84% 18%, rgba(242,213,138,.18), transparent 28rem) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.13), 0 20px 44px rgba(0,0,0,.28) !important;
+}
+
+[data-mj="promotion-header"]::after {
+  content: "";
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: 0;
+  height: 2px;
+  z-index: -1;
+  background: linear-gradient(90deg, transparent, var(--ng-gold-3), var(--ng-gold-1), transparent);
+  box-shadow: 0 0 18px rgba(242,213,138,.60);
+}
+
+[data-mj="promotion-header"] h1 {
+  max-width: 920px !important;
+  margin: 0 auto 20px !important;
+  color: transparent !important;
+  text-align: center !important;
+  font-size: clamp(26px, 4vw, 48px) !important;
+  line-height: 1.08 !important;
+  letter-spacing: .015em !important;
+  background: linear-gradient(100deg, var(--ng-gold-1), var(--ng-gold-3) 32%, #fff5c8 52%, var(--ng-gold-2) 78%, var(--ng-gold-4)) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  filter: drop-shadow(0 7px 18px rgba(201,152,67,.22));
+}
+
+[data-mj="promotion-layout"],
+[data-mj="promotion-image"] {
+  width: 100% !important;
+  min-width: 0 !important;
+  border-radius: 18px !important;
+}
+
+[data-mj="promotion-layout"] {
+  display: block !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(242,213,138,.26) !important;
+  background: rgba(0,0,0,.30) !important;
+  box-shadow: 0 16px 42px rgba(0,0,0,.32), inset 0 1px rgba(255,255,255,.08) !important;
+}
+
+[data-mj="promotion-image"] {
+  overflow: hidden !important;
+  aspect-ratio: 16 / 5 !important;
+  background: #0a0a0d !important;
+}
+
+[data-mj="promotion-image"] img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  border-radius: inherit !important;
+  transition: transform .45s ease, filter .45s ease !important;
+}
+
+[data-mj="promotion-layout"]:hover [data-mj="promotion-image"] img {
+  transform: scale(1.018) !important;
+  filter: saturate(1.08) brightness(1.05) !important;
+}
+
+[data-mj="promotion-details"] > div:not([data-mj="promotion-header"]) {
+  margin-top: 24px !important;
+  padding: clamp(18px, 3vw, 34px) !important;
+  color: rgba(247,243,232,.84) !important;
+  border: 1px solid rgba(242,213,138,.20) !important;
+  border-radius: 20px !important;
+  background: linear-gradient(145deg, rgba(255,255,255,.055), rgba(255,255,255,.018)) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.07), 0 14px 34px rgba(0,0,0,.22) !important;
+}
+
+[data-mj="promotion-details"] > div:not([data-mj="promotion-header"]) > p {
+  max-width: 980px !important;
+  margin: 0 auto 15px !important;
+  color: rgba(247,243,232,.82) !important;
+  font-size: clamp(14px, 1.2vw, 17px) !important;
+  line-height: 1.72 !important;
+}
+
+[data-mj="promotion-details"] > div:not([data-mj="promotion-header"]) > p:has(strong) {
+  margin-top: 25px !important;
+  padding: 13px 16px !important;
+  color: var(--ng-gold-3) !important;
+  border-left: 3px solid var(--ng-gold-3) !important;
+  border-radius: 0 12px 12px 0 !important;
+  background: linear-gradient(90deg, rgba(201,152,67,.16), transparent) !important;
+  font-size: clamp(18px, 1.7vw, 25px) !important;
+  line-height: 1.28 !important;
+}
+
+[data-mj="promotion-details"] > div:not([data-mj="promotion-header"]) ul {
+  display: grid !important;
+  gap: 10px !important;
+  margin: 12px auto 22px !important;
+  padding: 0 !important;
+  list-style: none !important;
+  max-width: 980px !important;
+}
+
+[data-mj="promotion-details"] > div:not([data-mj="promotion-header"]) li {
+  position: relative !important;
+  padding: 14px 16px 14px 42px !important;
+  color: rgba(247,243,232,.86) !important;
+  border: 1px solid rgba(242,213,138,.14) !important;
+  border-radius: 12px !important;
+  background: rgba(255,255,255,.035) !important;
+}
+
+[data-mj="promotion-details"] > div:not([data-mj="promotion-header"]) li::before {
+  content: "✦";
+  position: absolute;
+  left: 16px;
+  top: 14px;
+  color: var(--ng-gold-3);
+  text-shadow: 0 0 10px rgba(242,213,138,.58);
+}
+
+[data-mj="promotion-details"] > div:not([data-mj="promotion-header"]) > a {
+  display: inline-block !important;
+  width: calc(33.333% - 12px) !important;
+  margin: 8px 8px 0 0 !important;
+  vertical-align: top !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(242,213,138,.24) !important;
+  border-radius: 16px !important;
+  background: rgba(255,255,255,.04) !important;
+  box-shadow: 0 12px 28px rgba(0,0,0,.24) !important;
+  transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease !important;
+}
+
+[data-mj="promotion-details"] > div:not([data-mj="promotion-header"]) > a:nth-last-child(1) {
+  margin-right: 0 !important;
+}
+
+[data-mj="promotion-details"] > div:not([data-mj="promotion-header"]) > a:hover {
+  transform: translateY(-3px) !important;
+  border-color: rgba(242,213,138,.66) !important;
+  box-shadow: 0 16px 34px rgba(201,152,67,.24) !important;
+}
+
+[data-mj="promotion-details"] > div:not([data-mj="promotion-header"]) > a img {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 16 / 7 !important;
+  object-fit: cover !important;
+}
+
+@media (max-width: 620px) {
+  [data-mj="promotion-details"] {
+    width: calc(100% - 16px) !important;
+    margin: 16px auto 34px !important;
+    padding: 12px !important;
+    border-radius: 20px !important;
+  }
+
+  [data-mj="promotion-header"] {
+    padding: 16px 12px 18px !important;
+    border-radius: 16px !important;
+  }
+
+  [data-mj="promotion-header"] h1 {
+    margin-bottom: 14px !important;
+    font-size: clamp(23px, 7vw, 34px) !important;
+  }
+
+  [data-mj="promotion-image"] {
+    aspect-ratio: 16 / 8 !important;
+    border-radius: 12px !important;
+  }
+
+  [data-mj="promotion-details"] > div:not([data-mj="promotion-header"]) {
+    margin-top: 14px !important;
+    padding: 14px !important;
+    border-radius: 15px !important;
+  }
+
+  [data-mj="promotion-details"] > div:not([data-mj="promotion-header"]) > p {
+    font-size: 14px !important;
+    line-height: 1.62 !important;
+  }
+
+  [data-mj="promotion-details"] > div:not([data-mj="promotion-header"]) > p:has(strong) {
+    margin-top: 18px !important;
+    padding: 11px 12px !important;
+    font-size: 18px !important;
+  }
+
+  [data-mj="promotion-details"] > div:not([data-mj="promotion-header"]) li {
+    padding: 12px 12px 12px 34px !important;
+    font-size: 14px !important;
+  }
+
+  [data-mj="promotion-details"] > div:not([data-mj="promotion-header"]) li::before {
+    left: 12px;
+    top: 12px;
+  }
+
+  [data-mj="promotion-details"] > div:not([data-mj="promotion-header"]) > a {
+    width: 100% !important;
+    margin: 8px 0 0 !important;
+  }
+}
+
+/* ---------------- PREMIUM EK SAYFALAR ---------------- */
+.ng-campaign-main {
+  min-height: 560px !important;
+  padding: 28px clamp(14px, 4vw, 64px) 56px !important;
+}
+
+.ng-campaign-page {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  padding: clamp(24px, 4vw, 58px);
+  box-sizing: border-box;
+  overflow: hidden;
+  color: var(--ng-text);
+  border: 1px solid rgba(242,213,138,.28);
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(201,152,67,.20), transparent 32rem),
+    radial-gradient(circle at 100% 100%, rgba(242,213,138,.10), transparent 28rem),
+    linear-gradient(145deg, rgba(35,31,25,.94), rgba(8,8,11,.96) 72%);
+  box-shadow: 0 28px 70px rgba(0,0,0,.38), inset 0 1px rgba(255,255,255,.10);
+}
+
+.ng-campaign-hero {
+  max-width: 780px;
+  margin: 0 auto 30px;
+  text-align: center;
+}
+
+.ng-campaign-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 5px 12px;
+  color: #17130b;
+  border: 1px solid rgba(255,242,189,.65);
+  border-radius: 999px;
+  background: linear-gradient(120deg, #b77b1e, #ffe99d 58%, #c68c28);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .09em;
+}
+
+.ng-campaign-hero h1 {
+  margin: 18px 0 12px;
+  font-size: clamp(30px, 5vw, 58px);
+  line-height: 1;
+  letter-spacing: .035em;
+  text-shadow: 0 8px 28px rgba(201,152,67,.20);
+}
+
+.ng-campaign-hero p {
+  margin: 0 auto;
+  max-width: 720px;
+  color: rgba(255,255,255,.72);
+  font-size: clamp(14px, 1.5vw, 18px);
+  line-height: 1.7;
+}
+
+.ng-campaign-line {
+  display: block;
+  width: min(260px, 80%);
+  height: 2px;
+  margin: 24px auto 0;
+  background: linear-gradient(90deg, transparent, var(--ng-gold-3), transparent);
+  box-shadow: 0 0 18px rgba(242,213,138,.38);
+}
+
+.ng-campaign-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 22px;
+}
+
+.ng-campaign-grid article,
+.ng-campaign-note,
+.ng-campaign-stats > div {
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid rgba(242,213,138,.18);
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(255,255,255,.075), rgba(255,255,255,.018));
+  box-shadow: inset 0 1px rgba(255,255,255,.06), 0 12px 28px rgba(0,0,0,.22);
+}
+
+.ng-campaign-grid article h2 {
+  margin: 10px 0 8px;
+  font-size: clamp(18px, 2vw, 25px);
+}
+
+.ng-campaign-grid article p,
+.ng-campaign-note span {
+  margin: 0;
+  color: rgba(255,255,255,.68);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.ng-campaign-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  color: #17130b;
+  border-radius: 13px;
+  background: linear-gradient(135deg, #b77b1e, #ffe99d 56%, #c68c28);
+  box-shadow: 0 8px 20px rgba(201,152,67,.23), inset 0 1px rgba(255,255,255,.58);
+  font-size: 19px;
+  font-weight: 900;
+}
+
+.ng-campaign-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+  padding: 22px;
+  border: 1px solid rgba(242,213,138,.18);
+  border-radius: 18px;
+  background: rgba(7,7,10,.36);
+}
+
+.ng-campaign-form label {
+  display: grid;
+  gap: 7px;
+  color: rgba(255,255,255,.72);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .03em;
+}
+
+.ng-campaign-form label:nth-last-of-type(1),
+.ng-campaign-form .ng-campaign-button {
+  grid-column: 1 / -1;
+}
+
+.ng-campaign-form input,
+.ng-campaign-form textarea {
+  width: 100%;
+  padding: 12px 13px;
+  font: inherit;
+  resize: vertical;
+}
+
+.ng-campaign-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  min-height: 44px;
+  padding: 0 22px;
+  color: #17130b !important;
+  text-decoration: none !important;
+  border: 1px solid rgba(255,242,189,.76) !important;
+  border-radius: 999px !important;
+  background: linear-gradient(120deg, #b77b1e, #ffe99d 56%, #c68c28) !important;
+  box-shadow: 0 10px 24px rgba(201,152,67,.25), inset 0 1px rgba(255,255,255,.58);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .055em;
+}
+
+.ng-campaign-button-secondary {
+  margin-top: 18px;
+}
+
+.ng-campaign-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 18px 0;
+}
+
+.ng-campaign-stats > div {
+  display: grid;
+  gap: 5px;
+  text-align: center;
+}
+
+.ng-campaign-stats strong {
+  color: var(--ng-gold-3);
+  font-size: clamp(23px, 3vw, 35px);
+  letter-spacing: .06em;
+}
+
+.ng-campaign-stats span {
+  color: rgba(255,255,255,.65);
+  font-size: 12px;
+  font-weight: 750;
+  text-transform: uppercase;
+}
+
+.ng-campaign-note {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  align-items: center;
+  margin-top: 18px;
+}
+
+.ng-campaign-note strong {
+  color: var(--ng-gold-3);
+  font-size: 13px;
+}
+
+.ng-campaign-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  grid-column: 1 / -1 !important;
+  width: 100%;
+  padding: 12px 0 0;
+}
+
+.ng-campaign-links a {
+  padding: 9px 13px;
+  color: var(--ng-gold-3) !important;
+  text-decoration: none !important;
+  border: 1px solid rgba(242,213,138,.22);
+  border-radius: 999px;
+  background: rgba(255,255,255,.035);
+  font-size: 11px;
+  font-weight: 850;
+}
+
+.ng-campaign-links a:hover,
+.ng-campaign-links a:focus-visible {
+  border-color: rgba(242,213,138,.68);
+  background: rgba(201,152,67,.14);
+}
+
+@media (max-width: 620px) {
+  .ng-campaign-main {
+    padding: 18px 10px 42px !important;
+  }
+
+  .ng-campaign-page {
+    padding: 24px 14px;
+    border-radius: 20px;
+  }
+
+  .ng-campaign-grid,
+  .ng-campaign-form,
+  .ng-campaign-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .ng-campaign-form label:nth-last-of-type(1),
+  .ng-campaign-form .ng-campaign-button {
+    grid-column: auto;
+  }
+
+  .ng-campaign-button {
+    width: 100%;
+  }
+
+  .ng-campaign-stats > div {
+    padding: 15px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* ---------------- FINAL OVERRIDES ---------------- */
+.ng-leagues-widget {
+  --ng-league-card-width: clamp(160px, 14vw, 250px) !important;
+}
+
+@media (max-width: 620px) {
+  html,
+  body,
+  #root,
+  main,
+  .ng-sidebar-root,
+  .ng-sidebar-drawer,
+  .ng-sidebar-scroll,
+  [data-mj="mobile-nav-list"].ng-sidebar-nav {
+    max-width: 100vw !important;
+    min-width: 0 !important;
+    overflow-x: hidden !important;
+    overscroll-behavior-x: none !important;
+    touch-action: pan-y !important;
+  }
+
+  .ng-sidebar-drawer {
+    width: min(86vw, 340px) !important;
+  }
+
+  .ng-sidebar-scroll {
+    overflow-y: auto !important;
+  }
+
+  [data-mj="mobile-nav-list"].ng-sidebar-nav > ul,
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"],
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] > :is(a, div, span) {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .ng-leagues-widget {
+    --ng-league-card-width: 148px !important;
+  }
+}
+
+/* Header'daki GIF/promosyon butonunu premium altın gradyana taşı. */
+[data-mj="header-special-button"] {
+  color: #17130b !important;
+  border: 1px solid rgba(255, 242, 189, .78) !important;
+  background-image: none !important;
+  background: linear-gradient(135deg, #9b6a1b 0%, #d6a63d 38%, #fff0ae 64%, #c78c27 100%) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.58), 0 8px 24px rgba(201,152,67,.30) !important;
+}
+
+[data-mj="header-special-button"] img,
+[data-mj="header-special-button"] [role="img"] {
+  filter: brightness(.26) saturate(.9) contrast(1.2) !important;
+}
+
+[data-mj="header-special-button"]:hover,
+[data-mj="header-special-button"]:focus-visible {
+  background: linear-gradient(135deg, #b77b1e 0%, #ffe99d 58%, #d39a2f 100%) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.72), 0 12px 30px rgba(201,152,67,.46) !important;
+}
+
+footer {
+  padding: 32px 16px 26px !important;
+  background: #151315 !important;
+  border-top: 1px solid rgba(242,213,138,.16) !important;
+  box-shadow: none !important;
+}
+
+footer::before {
+  display: none !important;
+}
+
+[data-mj="footer-content"] {
+  width: min(1000px, 100%) !important;
+  gap: 26px !important;
+}
+
+[data-mj="footer-top"] {
+  display: block !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+[data-mj="footer-logo"] {
+  display: none !important;
+}
+
+[data-mj="footer-nav"][hidden] {
+  display: none !important;
+}
+
+#narcos-footer-columns {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 28px !important;
+  width: 100% !important;
+  padding: 0 0 30px !important;
+}
+
+.ng-footer-column {
+  display: flex !important;
+  min-width: 0 !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 11px !important;
+}
+
+.ng-footer-column-title {
+  margin: 0 0 6px !important;
+  color: var(--ng-gold-3) !important;
+  font-size: 13px !important;
+  font-weight: 850 !important;
+  letter-spacing: .095em !important;
+  text-transform: uppercase !important;
+}
+
+.ng-footer-column-link,
+.ng-footer-column-note {
+  display: block !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+  color: rgba(247,243,232,.62) !important;
+  font-size: 14px !important;
+  line-height: 1.35 !important;
+  text-decoration: none !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.ng-footer-column-link:hover,
+.ng-footer-column-link:focus-visible {
+  color: var(--ng-gold-3) !important;
+  transform: translateX(3px);
+}
+
+#narcos-license-banner .ng-license-panel {
+  display: flex !important;
+  min-height: 0 !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 11px !important;
+  padding: 16px 0 0 !important;
+  border: 0 !important;
+  border-top: 1px solid rgba(242,213,138,.14) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+#narcos-license-banner .ng-license-panel::before {
+  display: none !important;
+}
+
+#narcos-license-banner .ng-license-copy {
+  display: contents !important;
+}
+
+#narcos-license-banner .ng-license-eyebrow {
+  order: 1;
+  margin: 0 !important;
+  color: var(--ng-gold-3) !important;
+  text-align: center !important;
+  font-size: 13px !important;
+  letter-spacing: .12em !important;
+}
+
+#narcos-license-banner .ng-license-badge-link {
+  order: 2;
+  width: 76px !important;
+  height: 76px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+#narcos-license-banner .ng-license-badge {
+  width: 68px !important;
+  height: 68px !important;
+}
+
+#narcos-license-banner .ng-license-title {
+  order: 3;
+  width: min(760px, 100%) !important;
+  margin: 0 !important;
+  color: rgba(247,243,232,.42) !important;
+  text-align: center !important;
+  font-size: 11px !important;
+  line-height: 1.5 !important;
+}
+
+#narcos-license-banner .ng-license-action {
+  order: 4;
+  padding: 6px 10px !important;
+  color: var(--ng-gold-3) !important;
+  font-size: 11px !important;
+  background: transparent !important;
+}
+
+@media (max-width: 620px) {
+  footer {
+    padding: 26px 14px 22px !important;
+  }
+
+  #narcos-footer-columns {
+    display: block !important;
+    width: min(100%, 460px) !important;
+    margin: 0 auto !important;
+    padding: 18px 0 22px !important;
+    border-top: 1px solid rgba(255,255,255,.14) !important;
+    border-bottom: 1px solid rgba(255,255,255,.14) !important;
+  }
+
+  .ng-footer-column {
+    display: block !important;
+    margin: 0 0 24px !important;
+    text-align: center !important;
+  }
+
+  .ng-footer-column:last-child {
+    margin-bottom: 0 !important;
+  }
+
+  .ng-footer-column-title {
+    margin: 0 0 12px !important;
+    font-size: 11px !important;
+    line-height: 1.2 !important;
+    text-align: center !important;
+  }
+
+  .ng-footer-column-link,
+  .ng-footer-column-note {
+    display: inline-block !important;
+    max-width: none !important;
+    overflow: visible !important;
+    padding: 0 9px !important;
+    color: rgba(247,243,232,.56) !important;
+    font-size: 12px !important;
+    line-height: 1.45 !important;
+    text-align: center !important;
+    text-overflow: clip !important;
+    white-space: nowrap !important;
+    vertical-align: middle !important;
+  }
+
+  .ng-footer-column-link:not(:last-child),
+  .ng-footer-column-note:not(:last-child) {
+    border-right: 1px solid rgba(255,255,255,.16) !important;
+  }
+
+  #narcos-license-banner .ng-license-title {
+    font-size: 10px !important;
+  }
+
+  /* Tüm sidebar ikonlarını aynı gold mask rengine getir. */
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] span[style*="mask-image"],
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] span[style*="mask"] {
+    flex: 0 0 24px !important;
+    width: 24px !important;
+    min-width: 24px !important;
+    max-width: 24px !important;
+    height: 24px !important;
+    min-height: 24px !important;
+    max-height: 24px !important;
+    background-color: var(--ng-gold-3) !important;
+    color: var(--ng-gold-3) !important;
+  }
+
+  /* Uzun başlıklar için sabit dar metin genişliğini kaldır. */
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] > div,
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] > div > div,
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] > div > div > div,
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] > a,
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] > div a {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] a {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+  }
+
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] a > span + span:last-child {
+    flex: 1 1 auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    white-space: nowrap !important;
+  }
+
+  /* Açılışta hızlı ama yumuşak kademeli hareket. */
+  .ng-sidebar-drawer {
+    will-change: transform !important;
+    transition: transform .22s cubic-bezier(.22,.8,.25,1), box-shadow .22s ease !important;
+  }
+
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] {
+    will-change: transform, opacity;
+    animation: ng-sidebar-item-in .24s both;
+  }
+
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"]:nth-child(2) { animation-delay: .02s; }
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"]:nth-child(3) { animation-delay: .04s; }
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"]:nth-child(4) { animation-delay: .06s; }
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"]:nth-child(5) { animation-delay: .08s; }
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"]:nth-child(6) { animation-delay: .10s; }
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"]:nth-child(7) { animation-delay: .12s; }
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"]:nth-child(8) { animation-delay: .14s; }
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"]:nth-child(9) { animation-delay: .16s; }
+
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] a:active,
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] > span:active {
+    transform: scale(.985) !important;
+  }
+}
+
+@keyframes ng-sidebar-item-in {
+  from { opacity: 0; transform: translate3d(-8px, 0, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] {
+    animation: none !important;
+  }
+}
+
+/* ---------------- SON MOBIL POLISH ---------------- */
+@media (max-width: 620px) {
+  html {
+    scroll-behavior: smooth !important;
+  }
+
+  /* Slider karti dar ekranlarda dikey olarak da nefes alsin; gorsel kenarlardan kirpilmasin. */
+  [data-mj="widget-multi-banner-slider"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    aspect-ratio: 16 / 7 !important;
+    height: auto !important;
+  }
+
+  [data-mj="widget-multi-banner-slider"] > *,
+  [data-mj="widget-multi-banner-slider"] img,
+  [data-mj="widget-multi-banner-slider"] picture,
+  [data-mj="widget-multi-banner-slider"] picture img {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  [data-mj="widget-multi-banner-slider"] > * {
+    flex: 0 0 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+  }
+
+  [data-mj="widget-multi-banner-slider"] img,
+  [data-mj="widget-multi-banner-slider"] picture img {
+    display: block !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    background: #0b0b0d !important;
+  }
+
+  /* Beni Ara basligi diger header butonlariyla ayni font ritminde ve her ekranda gorunur. */
+  .ng-call-button,
+  .ng-call-button .ng-call-label {
+    font-family: inherit !important;
+    font-style: normal !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+    letter-spacing: .01em !important;
+    text-transform: none !important;
+  }
+
+  .ng-call-button {
+    flex: 0 0 78px !important;
+    width: 78px !important;
+    height: 34px !important;
+    gap: 5px !important;
+    padding: 0 8px !important;
+  }
+
+  .ng-call-label {
+    display: inline-block !important;
+    overflow: visible !important;
+    white-space: nowrap !important;
+  }
+
+  .ng-call-icon {
+    flex: 0 0 18px !important;
+    width: 18px !important;
+    height: 18px !important;
+    padding: 3px !important;
+  }
+
+  [data-mj="header-right"] {
+    gap: 3px !important;
+  }
+
+  /* Sidebar tek ekranda, ortali ve kaydirma cubugu olmadan acilsin. */
+  .ng-sidebar-drawer {
+    top: 9px !important;
+    bottom: 9px !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  .ng-sidebar-scroll {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow-y: hidden !important;
+    overflow-x: hidden !important;
+    scrollbar-width: none !important;
+  }
+
+  .ng-sidebar-scroll::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+  }
+
+  [data-mj="mobile-nav-list"].ng-sidebar-nav {
+    width: calc(100% - 18px) !important;
+    max-height: none !important;
+    margin: 0 auto !important;
+    padding: 7px !important;
+  }
+
+  [data-mj="mobile-nav-list"].ng-sidebar-nav > ul {
+    gap: 4px !important;
+  }
+
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] > :is(a, div, span),
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] > div a {
+    min-height: 38px !important;
+    height: 38px !important;
+    padding: 5px 10px !important;
+    border-radius: 10px !important;
+    font-size: 12px !important;
+    line-height: 1 !important;
+    letter-spacing: .025em !important;
+  }
+
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] > div,
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] > div > div {
+    min-height: 38px !important;
+    height: 38px !important;
+  }
+
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] a {
+    gap: 9px !important;
+    overflow: visible !important;
+  }
+
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] span[style*="mask-image"],
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] span[style*="mask"] {
+    opacity: 1 !important;
+    filter: none !important;
+    background-color: var(--ng-gold-3) !important;
+  }
+
+  /* Dokunma/focus durumunda ikon ve metin soluklasmasin. */
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] a:active,
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] a:focus-visible,
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] a[aria-current="page"],
+  [data-mj="bottom-nav"] [data-mj="bottom-nav-item"]:active,
+  [data-mj="bottom-nav"] [data-mj="bottom-nav-item"]:focus-visible {
+    color: var(--ng-gold-3) !important;
+    opacity: 1 !important;
+  }
+
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] a:active span,
+  [data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] a:focus-visible span,
+  [data-mj="bottom-nav"] [data-mj="bottom-nav-item"]:active > span:first-child,
+  [data-mj="bottom-nav"] [data-mj="bottom-nav-item"]:focus-visible > span:first-child {
+    opacity: 1 !important;
+    filter: none !important;
+    background-color: var(--ng-gold-3) !important;
+    color: var(--ng-gold-3) !important;
+  }
+
+  main button:active,
+  main [role="button"]:active,
+  main button:focus-visible,
+  main [role="button"]:focus-visible {
+    opacity: 1 !important;
+    filter: none !important;
+  }
+
+  main button:active img,
+  main button:active svg,
+  main [role="button"]:active img,
+  main [role="button"]:active svg,
+  main button:focus-visible img,
+  main button:focus-visible svg,
+  main [role="button"]:focus-visible img,
+  main [role="button"]:focus-visible svg {
+    opacity: 1 !important;
+    filter: none !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .ng-call-button {
+    flex-basis: 74px !important;
+    width: 74px !important;
+    gap: 4px !important;
+    padding-inline: 6px !important;
+  }
+
+  .ng-call-label {
+    display: inline-block !important;
+    font-size: 10px !important;
+  }
+
+  [data-mj="login-button"] {
+    min-width: 44px !important;
+    padding-inline: 6px !important;
+  }
+}
+
+/* ---------------- SPOR SAYFASI VE ETKILESIM SON DUZELTMELERI ---------------- */
+/* Sportsbook iframe'i uygulama kabugu yukseklik vermedigi icin mobilde 0px'e
+   dusuyordu; wrapper'i akisa dahil edip iframe'i tam alana yay. */
+#sportsbook-wrapper {
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+  height: clamp(560px, calc(100vh - 170px), 920px) !important;
+  min-height: 560px !important;
+  overflow: hidden !important;
+  isolation: isolate;
+  background: #09090b !important;
+}
+
+#sportsbook-wrapper > iframe,
+#sportsbook-wrapper iframe,
+#phoenix365ifraim {
+  position: absolute !important;
+  inset: 0 !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 0 !important;
+  min-height: 100% !important;
+  max-width: 100% !important;
+  border: 0 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Basili tutma/active stilinde tarayicinin link onizlemesi metni silmesin. */
+[data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] a,
+[data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] > div,
+[data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] > span {
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  -webkit-touch-callout: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+[data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] a:active,
+[data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] a:focus,
+[data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] a:focus-visible {
+  color: var(--ng-gold-3) !important;
+  -webkit-text-fill-color: currentColor !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  filter: none !important;
+}
+
+[data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] a:active > *,
+[data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] a:focus > *,
+[data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] a:focus-visible > * {
+  opacity: 1 !important;
+  visibility: visible !important;
+  filter: none !important;
+}
+
+/* PC ve mobilde basili buton ikonlarinin gold kontrasti korunur. */
+button:active,
+[role="button"]:active,
+a:active,
+button:focus-visible,
+[role="button"]:focus-visible,
+a:focus-visible {
+  opacity: 1 !important;
+}
+
+button:active img,
+button:active svg,
+button:active [role="img"],
+button:active span[style*="mask"],
+[role="button"]:active img,
+[role="button"]:active svg,
+[role="button"]:active [role="img"],
+[role="button"]:active span[style*="mask"],
+a:active img,
+a:active svg,
+a:active [role="img"],
+a:active span[style*="mask"],
+button:focus-visible img,
+button:focus-visible svg,
+button:focus-visible [role="img"],
+button:focus-visible span[style*="mask"],
+[role="button"]:focus-visible img,
+[role="button"]:focus-visible svg,
+[role="button"]:focus-visible [role="img"],
+[role="button"]:focus-visible span[style*="mask"],
+a:focus-visible img,
+a:focus-visible svg,
+a:focus-visible [role="img"],
+a:focus-visible span[style*="mask"] {
+  opacity: 1 !important;
+  filter: none !important;
+  visibility: visible !important;
+}
+
+[data-mj="mobile-nav-list"].ng-sidebar-nav [data-mj="nav-item"] span[style*="mask"] {
+  background-color: var(--ng-gold-3) !important;
+}
+
+@media (max-width: 620px) {
+  #sportsbook-wrapper {
+    height: max(560px, calc(100dvh - 132px)) !important;
+    min-height: 560px !important;
+    margin-inline: -12px !important;
+    width: calc(100% + 24px) !important;
+    border-radius: 0 !important;
+  }
+
+  #sportsbook-wrapper iframe,
+  #phoenix365ifraim {
+    min-height: 560px !important;
+  }
+}
+
+/* ---------------- MOBIL SON DUZENLEME: SPOR, HEADER VE ALT BAR ---------------- */
+@keyframes ng-logo-premium-shine {
+  0%, 100% {
+    transform: scale(1) translateZ(0);
+    filter: drop-shadow(0 4px 12px rgba(201,152,67,.22)) saturate(1);
+  }
+  48% {
+    transform: scale(1.018) translateZ(0);
+    filter: drop-shadow(0 5px 19px rgba(242,213,138,.62)) saturate(1.12);
+  }
+  58% {
+    transform: scale(1.006) translateZ(0);
+    filter: drop-shadow(0 4px 15px rgba(201,152,67,.40)) saturate(1.06);
+  }
+}
+
+[data-mj="header-left"] [data-mj="logo"] img {
+  transform-origin: center center !important;
+  animation: none !important;
+}
+
+html.ng-effects-ready [data-mj="header-left"] [data-mj="logo"] img {
+  animation: ng-logo-premium-shine 7s ease-in-out infinite !important;
+}
+
+@media (max-width: 620px) {
+  /* Stable small viewport, iframe ilk boyamada yukseklik kaybetmesin. */
+  [data-mj="page-content"]:has(#sportsbook-wrapper) {
+    display: block !important;
+    flex: 0 0 auto !important;
+    height: auto !important;
+    min-height: calc(100svh - 118px) !important;
+    overflow: visible !important;
+  }
+
+  #sportsbook-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: max(560px, calc(100svh - 132px)) !important;
+    min-height: max(560px, calc(100svh - 132px)) !important;
+    max-height: none !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+  }
+
+  #sportsbook-wrapper iframe,
+  #phoenix365ifraim {
+    height: 100% !important;
+    min-height: 100% !important;
+  }
+
+  /* Header scroll ile transform state degistirmesin. */
+  [data-mj="header"] {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1150 !important;
+    transform: none !important;
+    will-change: auto !important;
+  }
+
+  [data-mj="custom-header"],
+  [aria-label="site-header"],
+  [data-mj="header-nav"] {
+    transform: none !important;
+    will-change: auto !important;
+  }
+
+  body {
+    scroll-padding-top: 62px !important;
+  }
+
+  /* Mobilde Beni Ara yalnizca premium telefon ikonu olarak kalsin. */
+  .ng-call-button {
+    flex: 0 0 36px !important;
+    width: 36px !important;
+    height: 34px !important;
+    gap: 0 !important;
+    padding: 0 !important;
+    border-radius: 11px !important;
+  }
+
+  .ng-call-label {
+    display: none !important;
+  }
+
+  .ng-call-icon {
+    flex: 0 0 20px !important;
+    width: 20px !important;
+    height: 20px !important;
+    padding: 3px !important;
+  }
+
+  .ng-header-license {
+    flex-basis: 38px !important;
+    width: 38px !important;
+    height: 38px !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .ng-header-license-image {
+    width: 34px !important;
+    height: 34px !important;
+  }
+
+  /* Ana sayfa oyun bannerlari: ince gold kontur. */
+  [data-mj="widget-game-card"],
+  [data-mj="widget-pages-item"],
+  [data-mj="game-catalog-card"] {
+    overflow: hidden !important;
+    border: 1px solid rgba(242,213,138,.72) !important;
+    border-radius: 14px !important;
+    box-shadow: inset 0 1px rgba(255,255,255,.12), 0 8px 22px rgba(201,152,67,.16) !important;
+  }
+
+  [data-mj="widget-game-card"] > img,
+  [data-mj="widget-pages-item"] > img,
+  [data-mj="game-catalog-card"] > img {
+    border-radius: 13px !important;
+  }
+
+  /* Gunun Maclari alanini kompaktlastir. */
+  [data-mj="widget-phoenix-sport-header"],
+  [data-mj="widget-phoenix-sport-header-container"] {
+    min-height: 32px !important;
+    height: 32px !important;
+  }
+
+  [data-mj="widget-phoenix-sport"] {
+    min-height: 116px !important;
+    height: 116px !important;
+    max-height: 116px !important;
+    overflow: hidden !important;
+  }
+
+  [data-mj="widget-phoenix-sport-container"],
+  [data-mj="widget-phoenix-sport-content"] {
+    min-height: 84px !important;
+    height: 84px !important;
+    max-height: 84px !important;
+    overflow: hidden !important;
+  }
+
+  [data-mj="widget-phoenix-sport-content"] a {
+    min-height: 72px !important;
+    height: 72px !important;
+    padding: 7px 9px !important;
+    border-radius: 11px !important;
+  }
+
+  /* Alt bar ikon ve metinlerini ayni eksende tut. */
+  [data-mj="bottom-nav"] > * {
+    display: flex !important;
+    align-items: stretch !important;
+    justify-content: center !important;
+  }
+
+  [data-mj="bottom-nav"] [data-mj="bottom-nav-item"] {
+    display: flex !important;
+    flex: 1 1 0 !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 3px !important;
+    height: 54px !important;
+    min-height: 54px !important;
+    padding: 5px 2px !important;
+    box-sizing: border-box !important;
+    line-height: 1 !important;
+    text-align: center !important;
+  }
+
+  [data-mj="bottom-nav"] [data-mj="bottom-nav-item"] > span:first-child {
+    flex: 0 0 21px !important;
+    width: 21px !important;
+    min-width: 21px !important;
+    height: 21px !important;
+    min-height: 21px !important;
+    margin: 0 auto !important;
+  }
+
+  [data-mj="bottom-nav"] [data-mj="bottom-nav-item"] > span:last-child,
+  [data-mj="bottom-nav"] [data-mj="bottom-nav-item"] p {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 10px !important;
+    overflow: hidden !important;
+    color: rgba(247,243,232,.82) !important;
+    font-size: 8px !important;
+    line-height: 1.1 !important;
+    text-align: center !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-mj="header-left"] [data-mj="logo"] img {
+    animation: none !important;
+  }
+}
+
+/* ---------------- SON DUZELTME: COMPACT MATCHES VE ICON HEADER ---------------- */
+/* Beni Ara desktop'ta da sadece ikon olarak kullanilsin. */
+.ng-call-button {
+  flex: 0 0 36px !important;
+  width: 36px !important;
+  height: 36px !important;
+  gap: 0 !important;
+  padding: 0 !important;
+  border-radius: 11px !important;
+}
+
+.ng-call-label {
+  display: none !important;
+}
+
+.ng-call-icon {
+  flex: 0 0 20px !important;
+  width: 20px !important;
+  height: 20px !important;
+  padding: 3px !important;
+}
+
+/* Lisans badge PC ve mobilde kutusuz kalsin. */
+.ng-header-license {
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+@media (max-width: 620px) {
+  /* Pages widget gorsellerinin dis cercevesini kaldir. */
+  [data-mj="widget-pages-item"] {
+    border: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+  }
+
+  /* Gunun Maclari kartlarini tek satirda tasirmadan kucuk ve okunur tut. */
+  [data-mj="widget-phoenix-sport"],
+  [data-mj="widget-phoenix-sport-container"],
+  [data-mj="widget-phoenix-sport-content"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  [data-mj="widget-phoenix-sport-content"] {
+    display: flex !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+    padding-inline: 0 !important;
+  }
+
+  [data-mj="widget-phoenix-sport-content"] > *,
+  [data-mj="widget-phoenix-sport-content"] > div > * {
+    flex: 0 0 calc(100% - 18px) !important;
+    width: calc(100% - 18px) !important;
+    min-width: 0 !important;
+    max-width: calc(100% - 18px) !important;
+    box-sizing: border-box !important;
+  }
+
+  [data-mj="widget-phoenix-sport-content"] a {
+    min-height: 72px !important;
+    height: 72px !important;
+    padding: 7px 9px !important;
+    overflow: hidden !important;
+    border-radius: 11px !important;
+    font-size: 11px !important;
+    line-height: 1.14 !important;
+  }
+
+  [data-mj="widget-phoenix-sport-content"] a * {
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+    font-size: 11px !important;
+    line-height: 1.14 !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  [data-mj="widget-phoenix-sport-header"] p,
+  [data-mj="widget-phoenix-sport-header"] a {
+    font-size: 13px !important;
+    line-height: 1 !important;
+  }
+
+  /* Sportsbook ilk boyamada kararmasin. */
+  [data-mj="page-content"]:has(#sportsbook-wrapper),
+  [data-mj="page-content"]:has(#sportsbook-wrapper) #sportsbook-wrapper,
+  [data-mj="page-content"]:has(#sportsbook-wrapper) #phoenix365ifraim {
+    opacity: 1 !important;
+    filter: none !important;
+    visibility: visible !important;
+    background-color: #0b0b0e !important;
+  }
+
+  /* Alt barin tamamini viewport'a kilitle; uzun promosyon etiketi sigsin. */
+  [data-mj="bottom-nav"] {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    overflow: hidden !important;
+  }
+
+  [data-mj="bottom-nav"] > * {
+    max-width: 100% !important;
+    overflow: hidden !important;
+  }
+
+  [data-mj="bottom-nav"] [data-mj="bottom-nav-item"] > span:last-child,
+  [data-mj="bottom-nav"] [data-mj="bottom-nav-item"] p {
+    font-size: 7.2px !important;
+    letter-spacing: -.025em !important;
+  }
+
+  [data-mj="bottom-nav"] [data-mj="bottom-nav-item"]:nth-child(6) > span:last-child,
+  [data-mj="bottom-nav"] [data-mj="bottom-nav-item"]:nth-child(6) p {
+    font-size: 6.2px !important;
+    letter-spacing: -.045em !important;
+  }
+}
+
+/* ---------------- MOBIL SPORTSBOOK UST BOSLUK DUZELTMESI ---------------- */
+@media (max-width: 620px) {
+  #sportsbook-wrapper {
+    --ng-sportsbook-mobile-crop: 96px;
+    position: relative !important;
+    overflow: hidden !important;
+  }
+
+  #sportsbook-wrapper > iframe,
+  #sportsbook-wrapper iframe,
+  #phoenix365ifraim {
+    top: calc(-1 * var(--ng-sportsbook-mobile-crop)) !important;
+    right: 0 !important;
+    bottom: auto !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: calc(100% + var(--ng-sportsbook-mobile-crop)) !important;
+    min-height: calc(100% + var(--ng-sportsbook-mobile-crop)) !important;
+    transform: none !important;
+  }
+
+  [data-mj="page-content"]:has(#sportsbook-wrapper) {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+
+  [data-mj="bottom-nav"] [data-mj="bottom-nav-item"] {
+    min-width: 0 !important;
+    padding-inline: 1px !important;
+    font-size: 7.1px !important;
+    letter-spacing: -.035em !important;
+  }
+
+  [data-mj="bottom-nav"] [data-mj="bottom-nav-item"]:nth-child(6) {
+    flex-grow: 1.28 !important;
+    font-size: 6.2px !important;
+    letter-spacing: -.055em !important;
+  }
+}
+
+/* ---------------- MOBIL GUNUN MACLARI KIRPMA DUZELTMESI ---------------- */
+@media (max-width: 620px) {
+  /* Kart sayisi ve metin uzunlugu degisse de bolum kendi dogal yuksekligini korur. */
+  [data-mj="widget-phoenix-sport"],
+  [data-mj="widget-phoenix-sport-container"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 0 !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    box-sizing: border-box !important;
+  }
+
+  [data-mj="widget-phoenix-sport-content"] {
+    display: flex !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 104px !important;
+    height: auto !important;
+    max-height: none !important;
+    padding: 2px 0 8px !important;
+    overflow-x: auto !important;
+    overflow-y: visible !important;
+    box-sizing: border-box !important;
+    scrollbar-width: none !important;
+    -webkit-overflow-scrolling: touch !important;
+    scroll-snap-type: x proximity !important;
+  }
+
+  [data-mj="widget-phoenix-sport-content"]::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  [data-mj="widget-phoenix-sport-content"] > *,
+  [data-mj="widget-phoenix-sport-content"] > div > * {
+    flex: 0 0 calc(100% - 18px) !important;
+    width: calc(100% - 18px) !important;
+    min-width: 0 !important;
+    max-width: calc(100% - 18px) !important;
+    min-height: 104px !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    box-sizing: border-box !important;
+    scroll-snap-align: start !important;
+  }
+
+  [data-mj="widget-phoenix-sport-content"] a {
+    display: block !important;
+    min-height: 104px !important;
+    height: auto !important;
+    max-height: none !important;
+    padding: 9px 10px !important;
+    overflow: visible !important;
+    border-radius: 11px !important;
+    box-sizing: border-box !important;
+    font-size: 10.5px !important;
+    line-height: 1.25 !important;
+  }
+
+  [data-mj="widget-phoenix-sport-content"] a * {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    font-size: 10.5px !important;
+    line-height: 1.25 !important;
+    text-overflow: clip !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+  }
+}
+
+/* ---------------- MOBIL SPOR SAYFASI CIFT HEADER BOSLUGU DUZELTMESI ---------------- */
+@media (max-width: 620px) {
+  /* Header artik akista oldugu icin uygulamanin eski fixed-header rezervini kaldir. */
+  #root:has(#sportsbook-wrapper) {
+    padding-top: 0 !important;
+    overflow: visible !important;
+  }
+
+  #root:has(#sportsbook-wrapper) [data-mj="header"],
+  body:has(#sportsbook-wrapper) [data-mj="header"] {
+    position: sticky !important;
+    inset: 0 0 auto 0 !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    margin: 0 !important;
+    transform: none !important;
+    translate: none !important;
+    will-change: auto !important;
+  }
+
+  [data-mj="page-content"]:has(#sportsbook-wrapper) {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+
+  /* Mobil portal da header yuksekligini tekrar ekliyordu; wrapper main'in
+     baslangicindan devam etmeli. Bu secici canli yapida tek portali eslestirir. */
+  [data-mj="page-content"]:has(#sportsbook-wrapper) > div > div:has(#sportsbook-wrapper) {
+    inset: 0 0 auto 0 !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: auto !important;
+    left: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  /* Iframe'in ilk pikselinde gercek spor kontrolleri var; hicbirini kirpma. */
+  #sportsbook-wrapper {
+    --ng-sportsbook-mobile-crop: 0px !important;
+  }
+
+  #sportsbook-wrapper > iframe,
+  #sportsbook-wrapper iframe,
+  #phoenix365ifraim {
+    inset: 0 0 auto 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 100% !important;
+    transform: none !important;
+  }
+}
+
+/* ---------------- MOBIL CASINO: HER SATIRDA 5 OYUN ---------------- */
+@media (max-width: 620px) {
+  [data-mj="game-catalog-module"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 10px 7px 24px !important;
+    box-sizing: border-box !important;
+  }
+
+  [data-mj="game-catalog-list"] {
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    grid-auto-flow: row !important;
+    align-items: start !important;
+    gap: 7px 5px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  [data-mj="game-catalog-list"] > *,
+  [data-mj="game-catalog-list"] > div > * {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  [data-mj="game-catalog-list"] [data-mj="game-catalog-card"] {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    aspect-ratio: 427 / 576 !important;
+    border-radius: 9px !important;
+  }
+
+  [data-mj="game-catalog-list"] [data-mj="game-catalog-card"] > img {
+    display: block !important;
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    border-radius: inherit !important;
+  }
+}
+
+/* =========================================================
+   2026-07-16 — FAST MOBILE / TELEGRAM / EGT JACKPOT
+   ========================================================= */
+
+/* Header Telegram: supplied icon is used as a mask so it is always premium gold. */
+.ng-telegram-button {
+  position: relative;
+  display: inline-grid !important;
+  place-items: center;
+  flex: 0 0 42px;
+  width: 42px;
+  height: 40px;
+  padding: 0 !important;
+  overflow: hidden;
+  box-sizing: border-box;
+  border: 1px solid rgba(242,213,138,.46) !important;
+  border-radius: 12px !important;
+  background: linear-gradient(145deg, rgba(201,152,67,.16), rgba(10,10,13,.84)) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.12), 0 7px 20px rgba(0,0,0,.28), 0 0 18px rgba(201,152,67,.10) !important;
+  transition: transform .16s ease, border-color .16s ease, filter .16s ease !important;
+}
+
+.ng-telegram-button:hover,
+.ng-telegram-button:focus-visible {
+  transform: translateY(-1px);
+  border-color: rgba(255,242,189,.82) !important;
+  filter: brightness(1.12);
+}
+
+.ng-telegram-button:active {
+  transform: translateY(0) scale(.96);
+}
+
+.ng-telegram-icon {
+  display: block;
+  width: 23px;
+  height: 23px;
+  background: linear-gradient(135deg, #b77b1e, #ffe99d 56%, #d49a2c);
+  -webkit-mask: url("./narcos-telegram-icon.png") center / contain no-repeat;
+  mask: url("./narcos-telegram-icon.png") center / contain no-repeat;
+  filter: drop-shadow(0 0 7px rgba(242,213,138,.42));
+}
+
+/* EGT jackpot: display values are intentionally static until a licensed feed is connected. */
+#narcos-egt-jackpot {
+  position: relative;
+  isolation: isolate;
+  width: min(1040px, calc(100% - 32px));
+  margin: 18px auto 24px;
+  padding: 18px;
+  box-sizing: border-box;
+  overflow: hidden;
+  border: 1px solid rgba(242,213,138,.30);
+  border-radius: 22px;
+  background: linear-gradient(135deg, rgba(9,13,20,.94), rgba(18,24,35,.90) 48%, rgba(12,14,20,.96));
+  box-shadow: inset 0 1px rgba(255,255,255,.08), 0 18px 46px rgba(0,0,0,.34), 0 0 30px rgba(201,152,67,.08);
+  contain: layout paint style;
+}
+
+#narcos-egt-jackpot::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(201,152,67,.14), transparent 35%),
+    linear-gradient(110deg, transparent 15%, rgba(255,255,255,.04) 46%, transparent 70%);
+}
+
+.ng-jackpot-heading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  min-width: 178px;
+  padding: 10px 18px;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  border: 1px solid rgba(255,242,189,.44);
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(5,6,9,.98), rgba(38,27,15,.96));
+  box-shadow: 0 10px 28px rgba(0,0,0,.48), 0 0 22px rgba(201,152,67,.18);
+}
+
+/* Supplied Jackpot Cards artwork replaces the temporary text pill. */
+.ng-jackpot-heading {
+  width: 230px;
+  min-width: 230px;
+  height: 100px;
+  min-height: 100px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: url("./narcos-jackpot-cards.png") center / contain no-repeat !important;
+  box-shadow: none;
+  filter: drop-shadow(0 10px 16px rgba(0,0,0,.58)) drop-shadow(0 0 12px rgba(242,213,138,.20));
+}
+
+.ng-jackpot-heading > * {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.ng-jackpot-kicker,
+.ng-jackpot-title,
+.ng-jackpot-label,
+.ng-jackpot-value {
+  display: block;
+}
+
+.ng-jackpot-kicker {
+  color: var(--ng-gold-2);
+  font-size: 8px;
+  font-weight: 850;
+  letter-spacing: 1.7px;
+}
+
+.ng-jackpot-title {
+  margin-top: 2px;
+  color: var(--ng-gold-3);
+  font-size: 17px;
+  font-weight: 950;
+  letter-spacing: .6px;
+  text-shadow: 0 0 14px rgba(242,213,138,.28);
+}
+
+.ng-jackpot-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 28px;
+}
+
+.ng-jackpot-card {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 112px;
+  padding: 17px 16px 15px;
+  box-sizing: border-box;
+  border: 1px solid rgba(242,213,138,.28);
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(27,39,56,.92), rgba(13,18,27,.98));
+  box-shadow: inset 0 1px rgba(255,255,255,.065), 0 11px 26px rgba(0,0,0,.28);
+}
+
+.ng-jackpot-suit {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #111217;
+  font-size: 47px;
+  line-height: 1;
+  -webkit-text-stroke: 1px var(--ng-gold-2);
+  text-shadow: 0 3px 10px rgba(0,0,0,.55);
+}
+
+.ng-jackpot-card-red .ng-jackpot-suit {
+  color: #e1242f;
+  -webkit-text-stroke-color: #f1b94a;
+}
+
+.ng-jackpot-label {
+  margin-top: 8px;
+  color: rgba(247,243,232,.52);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.ng-jackpot-value {
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(25px, 3.3vw, 45px);
+  font-weight: 900;
+  line-height: 1.08;
+  letter-spacing: .01em;
+  text-shadow: 0 4px 16px rgba(0,0,0,.40);
+}
+
+@media (max-width: 620px) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  body {
+    background-image:
+      linear-gradient(180deg, rgba(5,5,7,.22) 0%, rgba(7,7,9,.50) 56%, rgba(7,7,8,.82) 100%),
+      url("./narcos-premium-background-v2-mobile.webp") !important;
+    background-position: center top, center top !important;
+    background-size: cover, 100% auto !important;
+    background-attachment: scroll, scroll !important;
+  }
+
+  body::before {
+    display: none !important;
+  }
+
+  /* GPU-heavy glass effects are removed on small screens; visual hierarchy remains. */
+  [aria-label="site-header"],
+  [data-mj="header-nav"],
+  [data-mj="widget-game-card"],
+  [data-mj="widget-pages-item"],
+  [data-mj="game-catalog-card"],
+  [data-mj="footer-top"],
+  #narcos-social-panel,
+  #narcos-license-banner .ng-license-panel {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  [data-mj="widget-game-card"],
+  [data-mj="widget-pages-item"],
+  [data-mj="game-catalog-card"] {
+    contain: layout paint style;
+    box-shadow: 0 5px 13px rgba(0,0,0,.24) !important;
+    transition-duration: .12s !important;
+  }
+
+  .ng-telegram-button {
+    flex-basis: 35px;
+    width: 35px;
+    height: 34px;
+    border-radius: 10px !important;
+    box-shadow: inset 0 1px rgba(255,255,255,.10), 0 4px 12px rgba(0,0,0,.24) !important;
+  }
+
+  .ng-telegram-icon {
+    width: 20px;
+    height: 20px;
+    filter: none;
+  }
+
+  #narcos-egt-jackpot {
+    width: calc(100% - 20px);
+    margin: 10px auto 17px;
+    padding: 12px;
+    border-radius: 16px;
+    box-shadow: 0 9px 22px rgba(0,0,0,.27);
+  }
+
+  .ng-jackpot-grid {
+    gap: 10px 12px;
+  }
+
+  .ng-jackpot-card {
+    min-height: 78px;
+    padding: 13px 8px 10px;
+    border-radius: 13px;
+    box-shadow: inset 0 1px rgba(255,255,255,.055), 0 5px 13px rgba(0,0,0,.22);
+  }
+
+  .ng-jackpot-heading {
+    width: 128px;
+    min-width: 128px;
+    height: 58px;
+    min-height: 58px;
+    padding: 0;
+  }
+
+  .ng-jackpot-kicker {
+    font-size: 6px;
+    letter-spacing: 1px;
+  }
+
+  .ng-jackpot-title {
+    font-size: 12px;
+  }
+
+  .ng-jackpot-suit {
+    top: -11px;
+    font-size: 31px;
+  }
+
+  .ng-jackpot-label {
+    margin-top: 5px;
+    font-size: 6px;
+    letter-spacing: 1px;
+  }
+
+  .ng-jackpot-value {
+    font-size: clamp(19px, 6vw, 27px);
+  }
+
+  /* Four games per row on Casino and Live Casino catalogues. */
+  [data-mj="game-catalog-module"] {
+    padding-inline: 7px !important;
+  }
+
+  [data-mj="game-catalog-list"] {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 7px 5px !important;
+  }
+
+  [data-mj="game-catalog-list"] [data-mj="game-catalog-card"] {
+    border-radius: 8px !important;
+  }
+}
+
+/* Mobile info header: reserve a real row on every route, independent of loader timing. */
+@media (max-width: 620px) {
+  [data-mj="header"] {
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+    row-gap: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 92px !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  [data-mj="announcement"] {
+    position: relative !important;
+    inset: auto !important;
+    order: -1 !important;
+    flex: 0 0 32px !important;
+    width: 100% !important;
+    transform: none !important;
+    z-index: 1202 !important;
+  }
+
+  [data-mj="header"] > div:has(> [data-mj="announcement"]) {
+    position: relative !important;
+    inset: auto !important;
+    top: auto !important;
+    order: -1 !important;
+    flex: 0 0 32px !important;
+    width: 100% !important;
+    max-width: none !important;
+    height: 32px !important;
+    min-height: 32px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transform: none !important;
+    box-sizing: border-box !important;
+    z-index: 1202 !important;
+  }
+
+  [data-mj="header"] > div:has(> [data-mj="custom-header"]) {
+    position: relative !important;
+    inset: auto !important;
+    top: auto !important;
+    order: 0 !important;
+    flex: 0 0 60px !important;
+    width: 100% !important;
+    max-width: none !important;
+    height: 60px !important;
+    min-height: 60px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transform: none !important;
+    box-sizing: border-box !important;
+    z-index: 1201 !important;
+  }
+
+  [data-mj="custom-header"] {
+    position: relative !important;
+    inset: auto !important;
+    order: 1 !important;
+    flex: 0 0 60px !important;
+    width: 100% !important;
+    transform: none !important;
+    z-index: 1201 !important;
+  }
+
+  [data-mj="header"] [aria-label="site-header"] {
+    position: relative !important;
+    inset: auto !important;
+    top: auto !important;
+    transform: none !important;
+  }
+}
+
+/* Desktop header spans edge-to-edge; inner content keeps comfortable padding. */
+@media (min-width: 621px) {
+  [data-mj="custom-header"],
+  [data-mj="header-nav-list"] {
+    width: 100% !important;
+    max-width: none !important;
+    margin-inline: 0 !important;
+    /* 12 nav ogesi sigsin diye ic bosluk kucultuldu (eski clamp(18px,4.5vw,94px)
+       1920'de 86px yiyordu; nav 1737px icerigi 1227px'e sikisip tasiyordu). */
+    padding-inline: clamp(8px, 1vw, 16px) !important;
+    box-sizing: border-box !important;
+  }
+
+  [data-mj="header"],
+  [aria-label="site-header"],
+  [data-mj="header-nav"] {
+    width: 100% !important;
+    max-width: none !important;
+    margin-inline: 0 !important;
+  }
+}
+
+/* Homepage artwork follows the document instead of staying pinned to the viewport. */
+html.ng-home-route body {
+  min-height: 100% !important;
+  background-position: center top, center top !important;
+  background-repeat: no-repeat, no-repeat !important;
+  background-size: cover, cover !important;
+  background-attachment: scroll, scroll !important;
+}
+
+/* Header gift: match the Telegram and call controls on desktop and mobile. */
+[data-mj="header-special-button"].ng-gift-button {
+  position: relative;
+  display: inline-grid !important;
+  place-items: center;
+  flex: 0 0 42px;
+  width: 42px;
+  min-width: 42px !important;
+  height: 40px;
+  min-height: 40px !important;
+  padding: 0 !important;
+  overflow: hidden;
+  box-sizing: border-box;
+  border: 1px solid rgba(242,213,138,.46) !important;
+  border-radius: 12px !important;
+  background: linear-gradient(145deg, rgba(201,152,67,.16), rgba(10,10,13,.84)) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.12), 0 7px 20px rgba(0,0,0,.28), 0 0 18px rgba(201,152,67,.10) !important;
+  transition: transform .16s ease, border-color .16s ease, filter .16s ease !important;
+}
+
+[data-mj="header-special-button"].ng-gift-button > :not(.ng-gift-icon) {
+  display: none !important;
+}
+
+[data-mj="header-special-button"].ng-gift-button:hover,
+[data-mj="header-special-button"].ng-gift-button:focus-visible {
+  transform: translateY(-1px);
+  border-color: rgba(255,242,189,.82) !important;
+  filter: brightness(1.12);
+}
+
+[data-mj="header-special-button"].ng-gift-button:active {
+  transform: translateY(0) scale(.96);
+}
+
+.ng-gift-icon {
+  display: block;
+  width: 23px;
+  height: 23px;
+  background: linear-gradient(135deg, #b77b1e, #ffe99d 56%, #d49a2c);
+  -webkit-mask: url("./narcos-gift-icon.png") center / contain no-repeat;
+  mask: url("./narcos-gift-icon.png") center / contain no-repeat;
+  filter: drop-shadow(0 0 7px rgba(242,213,138,.42));
+}
+
+@media (max-width: 620px) {
+  [data-mj="header-special-button"].ng-gift-button {
+    flex-basis: 35px;
+    width: 35px;
+    min-width: 35px !important;
+    height: 34px;
+    min-height: 34px !important;
+    border-radius: 10px !important;
+    box-shadow: inset 0 1px rgba(255,255,255,.10), 0 4px 12px rgba(0,0,0,.24) !important;
+  }
+
+  .ng-gift-icon {
+    width: 20px;
+    height: 20px;
+    filter: none;
+  }
+}
+
+@media (max-width: 360px) {
+  [data-mj="game-catalog-module"] {
+    padding-inline: 5px !important;
+  }
+
+  [data-mj="game-catalog-list"] {
+    gap: 6px 3px !important;
+  }
+
+  [data-mj="game-catalog-list"] [data-mj="game-catalog-card"] {
+    border-radius: 7px !important;
+  }
+}
+
+/* =========================================================
+   2026-07-18: first-paint and runtime performance pass
+   ========================================================= */
+
+/* Keep a single full-viewport artwork layer. The earlier body background and
+   body::after used the same file, causing two full-screen paints. */
+body {
+  background-image: none !important;
+  background-attachment: initial !important;
+}
+
+body::after {
+  will-change: auto;
+}
+
+/* Below-fold custom content is laid out only as it approaches the viewport. */
+footer {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 720px;
+}
+
+#narcos-game-hub,
+#narcos-values-panel,
+#narcos-social-panel,
+#narcos-license-banner {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 260px;
+}
+
+@media (max-width: 620px) {
+  [data-mj="announcement"],
+  [data-mj="custom-header"] {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  [data-mj="game-catalog-card"]::before,
+  #narcos-game-hub,
+  .ng-trust-card::after {
+    animation: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.ng-effects-ready [data-mj="widget-multi-banner-slider"]::before,
+  html.ng-effects-ready [data-mj="game-catalog-card"]::before,
+  html.ng-effects-ready [data-mj="header-left"] [data-mj="logo"] img,
+  html.ng-effects-ready #narcos-game-hub,
+  html.ng-effects-ready .ng-trust-card::after {
+    animation: none !important;
+    filter: none !important;
+  }
+}
