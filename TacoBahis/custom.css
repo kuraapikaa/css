@@ -1453,11 +1453,21 @@ button[name="search"]:hover::after{ opacity:1; }
 }
 [data-mj="footer"] hr{ order: 4 !important; }
 [data-mj="footer-bottom"]{
-  order: 5 !important;
+  /* copyright ("TacoBahis © … Tüm hakları saklıdır") EN ALTA: order tüm footer
+     bloklarının (about:6, channels:7, license:8, contact:9) üstünde. */
+  order: 20 !important;
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  margin-top: 8px !important;
   color: rgba(235,239,255,.68) !important;
 }
 [data-mj="footer-bottom"] *{
   color: inherit !important;
+  text-align: center !important;
 }
 [data-mj="footer-contact"]{ order: 9 !important; }
 
