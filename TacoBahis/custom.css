@@ -470,11 +470,15 @@ a.tb-trust-card:focus-visible{
     flex:1 1 auto !important;
     min-width:0 !important;
     justify-content:flex-start !important;
+    /* öğeler arasında gerçek dış boşluk: aktif altın pill (.active-link)
+       tıklanınca komşusuna değmesin. Padding'i azaltıp gap'e çevirdik;
+       toplam ayak izi ~aynı kalıyor, "Daha Fazla" geri gelmiyor. */
+    gap:clamp(3px, .34vw, 6px) !important;
   }
   [data-mj="header-nav-item"]{ flex:1 1 auto !important; min-width:0 !important; }
   [data-mj="header-nav-item"] > a{
     gap:clamp(2px, .14vw, 3px) !important;
-    padding-inline:clamp(5px, .55vw, 9px) !important;
+    padding-inline:clamp(4px, .42vw, 7px) !important;
   }
   [data-mj="header-nav-item"] p{
     font-size:clamp(11px, .75vw, 13px) !important;
