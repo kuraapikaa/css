@@ -899,10 +899,68 @@
     bannerObserver.observe(banner);
   }
 
+  /* Footer legal linklerini Narcos'taki gibi başlıklı sütunlara ayır.
+     Native footer-nav (tek satır liste) gizlenir; linkler href'e göre dört
+     gruba klonlanır (#tb-footer-columns). Stil custom.css bölüm 23'te. */
+  function mountFooterColumns() {
+    var footerTop = document.querySelector('[data-mj="footer-top"]');
+    var sourceNav = footerTop && footerTop.querySelector('[data-mj="footer-nav"]');
+    if (!footerTop || !sourceNav) return;
+
+    sourceNav.hidden = true;
+    sourceNav.setAttribute('aria-hidden', 'true');
+    sourceNav.style.setProperty('display', 'none', 'important');
+
+    var columns = document.getElementById('tb-footer-columns');
+    if (!columns) {
+      columns = document.createElement('div');
+      columns.id = 'tb-footer-columns';
+      footerTop.appendChild(columns);
+    }
+    if (columns.getAttribute('data-tb-version') === '1') return;
+
+    var links = sourceNav.querySelectorAll('a');
+    var groups = [
+      { title: 'HAKKIMIZDA', hrefs: ['/tr/hakkimizda', '/tr/bu'] },
+      { title: 'YÖNETMELİK', hrefs: ['/tr/gizlilik', '/tr/rga', '/tr/aml', '/tr/kyc'] },
+      { title: 'YARDIM', hrefs: ['/tr/sss', '/tr/cekim', '/tr/bos'] },
+      { title: 'MOBİL UYGULAMA', hrefs: [] }
+    ];
+
+    columns.textContent = '';
+    for (var i = 0; i < groups.length; i++) {
+      var group = groups[i];
+      var column = document.createElement('section');
+      column.className = 'tb-footer-column';
+      var heading = document.createElement('h3');
+      heading.className = 'tb-footer-column-title';
+      heading.textContent = group.title;
+      column.appendChild(heading);
+
+      for (var j = 0; j < links.length; j++) {
+        var href = links[j].getAttribute('href') || '';
+        if (group.hrefs.indexOf(href) >= 0) {
+          var clone = links[j].cloneNode(true);
+          clone.className = 'tb-footer-column-link';
+          column.appendChild(clone);
+        }
+      }
+      if (!group.hrefs.length) {
+        var note = document.createElement('span');
+        note.className = 'tb-footer-column-note';
+        note.textContent = 'Yakında';
+        column.appendChild(note);
+      }
+      columns.appendChild(column);
+    }
+    columns.setAttribute('data-tb-version', '1');
+  }
+
   /* ---------- Bağlama ---------- */
 
   function mountAll() {
     mountFooter();
+    mountFooterColumns();
     mountHeaderSeal();
     mountHeaderButtons();
     tagAgeBadge();

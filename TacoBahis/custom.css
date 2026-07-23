@@ -1995,3 +1995,92 @@ div:has(> div > button[aria-label="copy"]):has(i[aria-label="user"]) button{
   pointer-events:none;
   opacity:.75;
 }
+
+/* 23) Footer legal dizini — başlıklı sütunlar (Narcos düzeni, Taco paleti)
+   custom.js mountFooterColumns() native footer-nav'ı gizleyip linkleri dört
+   gruba klonlar (#tb-footer-columns). Bölüm 11/16'daki footer-nav kuralları
+   gizlenen navda etkisiz kalır. order:1 → marka rozetinin altı, 18+/dil
+   satırının (order:3) üstü. */
+#tb-footer-columns{
+  order: 1 !important;
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0,1fr)) !important;
+  gap: 28px !important;
+  box-sizing: border-box;
+  width: min(calc(100% - 32px), 1432px) !important;
+  margin: 6px auto 0 !important;
+  padding: 0 0 8px !important;
+}
+.tb-footer-column{
+  display: flex !important;
+  min-width: 0 !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 11px !important;
+}
+.tb-footer-column-title{
+  margin: 0 0 6px !important;
+  color: #F5C872 !important;
+  font-size: 13px !important;
+  font-weight: 850 !important;
+  letter-spacing: .095em !important;
+  text-transform: uppercase !important;
+}
+.tb-footer-column-link,
+.tb-footer-column-note{
+  display: block !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+  color: rgba(235,239,255,.62) !important;
+  font-size: 14px !important;
+  line-height: 1.35 !important;
+  text-decoration: none !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  transition: color .2s ease, transform .2s ease !important;
+}
+.tb-footer-column-link:hover,
+.tb-footer-column-link:focus-visible{
+  color: #F5C872 !important;
+  transform: translateX(3px);
+}
+.tb-footer-column-note{
+  color: rgba(235,239,255,.38) !important;
+}
+@media (max-width: 620px){
+  #tb-footer-columns{
+    display: block !important;
+    width: min(100%, 460px) !important;
+    margin: 0 auto !important;
+    padding: 18px 0 22px !important;
+    border-top: 1px solid rgba(255,255,255,.14) !important;
+    border-bottom: 1px solid rgba(255,255,255,.14) !important;
+  }
+  .tb-footer-column{
+    display: block !important;
+    margin: 0 0 24px !important;
+    text-align: center !important;
+  }
+  .tb-footer-column:last-child{ margin-bottom: 0 !important; }
+  .tb-footer-column-title{
+    margin: 0 0 12px !important;
+    font-size: 11px !important;
+    text-align: center !important;
+  }
+  .tb-footer-column-link,
+  .tb-footer-column-note{
+    display: inline-block !important;
+    max-width: none !important;
+    overflow: visible !important;
+    padding: 0 9px !important;
+    color: rgba(235,239,255,.56) !important;
+    font-size: 12px !important;
+    line-height: 1.45 !important;
+    text-overflow: clip !important;
+    white-space: nowrap !important;
+  }
+  .tb-footer-column-link:not(:last-child),
+  .tb-footer-column-note:not(:last-child){
+    border-right: 1px solid rgba(255,255,255,.16) !important;
+  }
+}
