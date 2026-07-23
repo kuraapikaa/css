@@ -944,12 +944,23 @@
     }
 
     var modal = document.querySelector(".modal");
-    if (!modal || modal.children.length < 2) return;
+    if (!modal) return;
 
-    var right = modal.children[modal.children.length - 1];
-    if (!right || right.children.length < 2) return;
-
-    var host = right.children[right.children.length - 1];
+    /* Masaustu: modal >=2 cocuk (sol menu + sag panel); host = sag panelin son
+       cocugu. MOBIL: modal TEK cocuk (kabuk = baslik seridi + govde); host =
+       kabugun son cocugu (govde). */
+    var host = null;
+    if (modal.children.length >= 2) {
+      var right = modal.children[modal.children.length - 1];
+      if (right && right.children.length >= 2) {
+        host = right.children[right.children.length - 1];
+      }
+    } else if (modal.children.length === 1) {
+      var shell = modal.children[0];
+      if (shell && shell.children.length >= 2) {
+        host = shell.children[shell.children.length - 1];
+      }
+    }
     if (!host) return;
 
     if (!host.hasAttribute("data-ng-modal-embed-host")) {

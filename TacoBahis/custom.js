@@ -759,12 +759,24 @@
     }
 
     var modal = document.querySelector('.modal');
-    if (!modal || modal.children.length < 2) return;
+    if (!modal) return;
 
-    var right = modal.children[modal.children.length - 1];
-    if (!right || right.children.length < 2) return;
-
-    var host = right.children[right.children.length - 1];
+    /* Masaüstü: modal ≥2 çocuk (sol menü + sağ panel); host = sağ panelin son
+       çocuğu. MOBİL: modal TEK çocuk (kabuk = başlık şeridi + gövde); host =
+       kabuğun son çocuğu (gövde). Eski kod mobilde children<2 diye çıkıyordu →
+       embed hiç kurulmuyordu. */
+    var host = null;
+    if (modal.children.length >= 2) {
+      var right = modal.children[modal.children.length - 1];
+      if (right && right.children.length >= 2) {
+        host = right.children[right.children.length - 1];
+      }
+    } else if (modal.children.length === 1) {
+      var shell = modal.children[0];
+      if (shell && shell.children.length >= 2) {
+        host = shell.children[shell.children.length - 1];
+      }
+    }
     if (!host) return;
 
     // Zaten işaretliyse dokunma — MutationObserver sonsuz dönmesin.
