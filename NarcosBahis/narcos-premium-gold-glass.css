@@ -5117,9 +5117,26 @@ footer {
      NOT: Normal oyun /tr/game/<id> -> data-mj="game-page" markorunu tasir; ama
      DEMO /tr/game/demo/<id> bu markoru TASIMAZ (kabuk duz <div>). Iki durumu da
      yakalamak icin oyun iframe'ini (src ...\/api\/rgs) de hedefliyoruz. */
+  /* Alt bar payi: gercek telefonda bottom-nav viewport'a sabit (fixed) render
+     ediliyor ve 100dvh oyun alaninin altini ortuyordu (emulasyonda static/akista
+     oldugu icin gorunmuyordu). Normalize: #root alt bar kadar padding-bottom
+     ayirir (+iPhone home cubugu icin safe-area), bar her ortamda fixed'e
+     sabitlenir. 72px = alt bar yuksekligi (sportsbook'un 100dvh-132 hesabiyla
+     tutarli: 60 header + 72 bar). */
   #root:has([data-mj="game-page"]),
   #root:has(main[data-mj="page-content"] iframe[src*="/api/rgs"]) {
     height: 100dvh !important;
+    padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)) !important;
+    box-sizing: border-box !important;
+  }
+
+  #root:has([data-mj="game-page"]) [data-mj="bottom-nav"],
+  #root:has(main[data-mj="page-content"] iframe[src*="/api/rgs"]) [data-mj="bottom-nav"] {
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    z-index: 1200 !important;
   }
 
   main[data-mj="page-content"]:has([data-mj="game-page"]),
