@@ -5153,3 +5153,17 @@ footer {
     order: 99 !important;
   }
 }
+
+/* MASAUSTU: ayni DOM-sira sorunu — JS-enjekte telegram/cark butonlari
+   header-right'in sonuna eklendigi icin bayragin bile sagina dusuyordu.
+   Taco duzeni: ikonlar kumenin BASINDA -> [telegram][cark][gift][bakiye]
+   [Para Yatir][profil][bayrak]. header-right flex, negatif order basa alir. */
+@media (min-width: 621px) {
+  [data-mj="header-right"] > .ng-telegram-button {
+    order: -2 !important;
+  }
+
+  [data-mj="header-right"] > .ng-call-button {
+    order: -1 !important;
+  }
+}
