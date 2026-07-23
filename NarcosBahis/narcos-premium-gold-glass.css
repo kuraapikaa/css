@@ -5207,3 +5207,76 @@ div:has(> div > button[aria-label="copy"]):has(i[aria-label="user"]) button {
     content: ":";
   }
 }
+
+/* =========================================================
+   BOS SAYFALARA GOMULEN UYGULAMALAR (Taco'daki sistemin portu)
+   JS host kutuyu [data-ng-embed-host] ile isaretler; placeholder icerik
+   burada gizlenir. font-size:0 ciplak metin dugumlerini de susturur;
+   sarmalayicida geri acilir.
+   ========================================================= */
+[data-ng-embed-host] {
+  font-size: 0 !important;
+  line-height: 0 !important;
+}
+
+[data-ng-embed-host] > *:not(.ng-page-embed) {
+  display: none !important;
+}
+
+[data-ng-embed-host] > .ng-page-embed {
+  font-size: 16px;
+  line-height: normal;
+}
+
+.ng-page-embed {
+  width: 100%;
+  max-width: 1432px;
+  margin: 20px auto 0;
+  overflow: hidden;
+  border: 1px solid rgba(242,213,138,.34);
+  border-radius: 14px;
+  background: #0B0B0E;
+  box-shadow: 0 16px 42px rgba(0,0,0,.34);
+}
+
+.ng-page-embed iframe {
+  display: block;
+  width: 100%;
+  height: 100vh;
+  border: 0;
+  background: #0B0B0E;
+}
+
+@media (max-width: 620px) {
+  .ng-page-embed {
+    margin-top: 14px;
+    border-radius: 10px;
+  }
+}
+
+/* Hesap paneli "Bonus Talep Et" modali (t=bonus_offers) — sag panel icerigi
+   gizlenip yerine bonus uygulamasi konur. */
+[data-ng-modal-embed-host] {
+  padding-bottom: 24px !important;
+}
+
+[data-ng-modal-embed-host] > *:not(.ng-modal-embed) {
+  display: none !important;
+}
+
+.ng-modal-embed {
+  height: 100%;
+  min-height: 420px;
+  overflow: hidden;
+  border: 1px solid rgba(242,213,138,.34);
+  border-radius: 14px;
+  background: #0B0B0E;
+}
+
+.ng-modal-embed iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #0B0B0E;
+}

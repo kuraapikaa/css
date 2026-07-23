@@ -805,6 +805,175 @@
     return true;
   }
 
+  /* ---------- Bos sayfalara gomulen uygulamalar (Taco'daki sistemin portu) ----
+     Altyapidan bos/placeholder gelen sayfalarin icerigi gizlenip yerine iframe
+     konuyor (stil CSS'te, [data-ng-embed-host] + .ng-page-embed). page-content
+     SPA rota degisiminde AYNI DOM dugumu kaldigi icin eslesme yoksa host
+     isareti MUTLAKA silinir. Kimlik: /api/v1/me ayni origin'den oturum
+     cerezi ile player.userName dondurur; embed'ler ?username= ile acilir.
+     Sondaj bitmeden embed ACILMAZ (sonradan src degistirmek reload demek). */
+
+  var NG_PROBE_URL = "/api/v1/me";
+  var NG_PROBE_TIMEOUT = 4000;
+  var NG_PROBE_MIN_ARA = 30000;
+
+  var ngOyuncuAdi = null;
+  var ngSondajBitti = false;
+  var ngSondajCalisiyor = false;
+  var ngSonSondaj = 0;
+
+  function ngSondajla(bitince) {
+    if (ngSondajCalisiyor) return;
+    ngSondajCalisiyor = true;
+    ngSonSondaj = Date.now();
+
+    var kapandi = false;
+    function bitir() {
+      if (kapandi) return;
+      kapandi = true;
+      ngSondajCalisiyor = false;
+      ngSondajBitti = true;
+      if (bitince) bitince();
+    }
+
+    setTimeout(bitir, NG_PROBE_TIMEOUT);
+
+    fetch(NG_PROBE_URL, { credentials: "include" })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (me) {
+        var ad = me && me.player && me.player.userName;
+        if (ad) ngOyuncuAdi = ad;
+      })
+      .catch(function () { /* sessiz */ })
+      .then(bitir);
+  }
+
+  function ngEmbedHazir() {
+    if (!ngSondajBitti) {
+      ngSondajla(scheduleCriticalEnhancements);
+      return false;
+    }
+    if (!ngOyuncuAdi && Date.now() - ngSonSondaj > NG_PROBE_MIN_ARA) {
+      ngSondajla(scheduleCriticalEnhancements);
+      return false;
+    }
+    return true;
+  }
+
+  function ngEmbedUrl(src) {
+    if (!ngOyuncuAdi) return src;
+    return src + (src.indexOf("?") === -1 ? "?" : "&") +
+           "username=" + encodeURIComponent(ngOyuncuAdi);
+  }
+
+  var NG_PAGE_EMBEDS = [
+    { path: "/tr/bonusrequest", src: "https://narcoslynon.up.railway.app/bonus",       baslik: "Bonus Talep" },
+    { path: "/tr/tacowheel",    src: "https://narcoslynon.up.railway.app/",            baslik: "Narcos Cark" },
+    { path: "/tr/narcosskor",   src: "https://narcoslynon.up.railway.app/skor-tahmin", baslik: "Narcos Skor" },
+    { path: "/tr/aranmatalep",  src: "https://narcosara.up.railway.app/",              baslik: "Aranma Talep" }
+  ];
+
+  function installPageEmbeds() {
+    var existing = document.querySelector("[data-ng-page-embed]");
+    var path = window.location.pathname.replace(/\/+$/, "");
+
+    var cfg = null;
+    for (var i = 0; i < NG_PAGE_EMBEDS.length; i++) {
+      if (NG_PAGE_EMBEDS[i].path === path) { cfg = NG_PAGE_EMBEDS[i]; break; }
+    }
+
+    if (!cfg) {
+      if (existing) existing.remove();
+      var host = document.querySelector("[data-ng-embed-host]");
+      if (host) host.removeAttribute("data-ng-embed-host");
+      return;
+    }
+
+    if (existing && existing.getAttribute("data-ng-page-embed") !== path) {
+      existing.remove();
+      existing = null;
+    }
+
+    var content = document.querySelector('[data-mj="page-content"]');
+    if (!content) return;
+
+    if (!content.hasAttribute("data-ng-embed-host")) {
+      content.setAttribute("data-ng-embed-host", "");
+    }
+
+    if (existing) return;
+    if (!ngEmbedHazir()) return;
+
+    var wrap = document.createElement("div");
+    wrap.className = "ng-page-embed";
+    wrap.setAttribute("data-ng-page-embed", path);
+
+    var frame = document.createElement("iframe");
+    frame.src = ngEmbedUrl(cfg.src);
+    frame.title = cfg.baslik;
+    frame.width = "100%";
+    frame.frameBorder = "0";
+    frame.scrolling = "no";
+    frame.allow = "autoplay";
+    frame.setAttribute("loading", "eager");
+
+    wrap.appendChild(frame);
+    content.appendChild(wrap);
+  }
+
+  /* Hesap panelindeki "Bonus Talep Et" modalina gomme (t=bonus_offers).
+     Secici YAPISAL: modalin son cocugu sag panel, onun son cocugu icerik
+     kutusu. Baska sekmeye gecilince isaret temizlenir (React ayni dugumu
+     yeniden kullaniyor). */
+
+  var NG_MODAL_EMBED = {
+    tab: "bonus_offers",
+    src: "https://narcoslynon.up.railway.app/bonus",
+    baslik: "Bonus Talep"
+  };
+
+  function installModalEmbed() {
+    var existing = document.querySelector("[data-ng-modal-embed]");
+    var onTab = window.location.search.indexOf("t=" + NG_MODAL_EMBED.tab) !== -1;
+
+    if (!onTab) {
+      if (existing) existing.remove();
+      var stale = document.querySelector("[data-ng-modal-embed-host]");
+      if (stale) stale.removeAttribute("data-ng-modal-embed-host");
+      return;
+    }
+
+    var modal = document.querySelector(".modal");
+    if (!modal || modal.children.length < 2) return;
+
+    var right = modal.children[modal.children.length - 1];
+    if (!right || right.children.length < 2) return;
+
+    var host = right.children[right.children.length - 1];
+    if (!host) return;
+
+    if (!host.hasAttribute("data-ng-modal-embed-host")) {
+      host.setAttribute("data-ng-modal-embed-host", "");
+    }
+
+    if (existing) return;
+    if (!ngEmbedHazir()) return;
+
+    var wrap = document.createElement("div");
+    wrap.className = "ng-modal-embed";
+    wrap.setAttribute("data-ng-modal-embed", NG_MODAL_EMBED.tab);
+
+    var frame = document.createElement("iframe");
+    frame.src = ngEmbedUrl(NG_MODAL_EMBED.src);
+    frame.title = NG_MODAL_EMBED.baslik;
+    frame.frameBorder = "0";
+    frame.allow = "autoplay";
+    frame.setAttribute("loading", "eager");
+
+    wrap.appendChild(frame);
+    host.appendChild(wrap);
+  }
+
   function installFooterEnhancements() {
     var footerContent = document.querySelector('[data-mj="footer-content"]');
     var footer = document.querySelector("footer");
@@ -827,6 +996,8 @@
     installHeaderTelegramButton();
     installHeaderGiftButton();
     installCampaignPage();
+    installPageEmbeds();
+    installModalEmbed();
   }
 
   function installDeferredEnhancements() {
@@ -898,7 +1069,10 @@
     '[aria-label="site-header"]',
     '[data-mj="header-left"]',
     '[data-mj="header-right"]',
-    '[data-mj="header-special-button"]'
+    '[data-mj="header-special-button"]',
+    /* gomulu sayfalar + bonus modal: icerik/modal mount olunca embed kur */
+    '[data-mj="page-content"]',
+    '.modal'
   ].join(",");
 
   var deferredSelector = [
