@@ -1902,3 +1902,30 @@ button[name="search"]:hover::after{ opacity:1; }
     margin:8px 0 0 !important;
   }
 }
+
+/* 20) Profil dropdown (header'daki user ikonuna tıklayınca açılan panel)
+   SORUN: Bilgi kartı gri-siyah (#151515), "Oyuncu Kimliği" pill'i ise doygun
+   mavi (#191F4D) — lacivert dialog içinde ikisi de sırıtıyordu. Narcos'un
+   yaklaşımı örnek alındı (pill/panel birbirine yakın, bağırmayan tonlar) ama
+   Taco kimliğiyle: kart derin lacivert, pill lacivert + altın gradyan çerçeve
+   (aktif nav pill'iyle aynı imza). Elemanların stabil sınıfı yok (app-ltr-*
+   hash); dialog + aria-label çapaları kullanılıyor. i[aria-label="user"]
+   guard'ı, copy butonu içeren BAŞKA dialogları (ör. adres kopyalama)
+   etkilememek için. */
+[role="dialog"]:has(i[aria-label="user"]) > div > div:has(button[aria-label="copy"]){
+  background: linear-gradient(160deg,#0C173F,#070D30) !important;
+  border: 1px solid rgba(245,200,114,.14) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.05) !important;
+}
+[role="dialog"]:has(i[aria-label="user"]) div:has(> div > button[aria-label="copy"]){
+  background:
+    linear-gradient(#0F1C4E,#0A1238) padding-box,
+    linear-gradient(135deg,#CE8D36,#F5C872 45%,#FFF0A3 70%,#998A5E) border-box !important;
+  border: 1px solid transparent !important;
+}
+[role="dialog"]:has(i[aria-label="user"]) div:has(> div > button[aria-label="copy"]) p,
+[role="dialog"]:has(i[aria-label="user"]) div:has(> div > button[aria-label="copy"]) i,
+[role="dialog"]:has(i[aria-label="user"]) div:has(> div > button[aria-label="copy"]) svg,
+[role="dialog"]:has(i[aria-label="user"]) div:has(> div > button[aria-label="copy"]) button{
+  color: #F5C872 !important;
+}
