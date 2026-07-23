@@ -1334,19 +1334,10 @@ button[name="search"]:hover::after{ opacity:1; }
   display: none !important;
 }
 [data-mj="footer-brand"]{
-  order: 0 !important;
-  align-self: center !important;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin: 30px 0 20px;
-  padding: 12px 20px;
-  border: 1px solid transparent;
-  border-radius: 18px;
-  background:
-    linear-gradient(145deg,var(--tb-footer-navy),var(--tb-footer-navy-light)) padding-box,
-    linear-gradient(110deg,#8f6424,#f5c872,#fff0a3,#b77b1e,#8f6424) border-box;
-  box-shadow: 0 12px 28px rgba(1,5,24,.3);
+  /* 2026-07-23: Narcos düzenine geçişte marka rozeti + logo footer'dan
+     TAMAMEN kaldırıldı (JS hâlâ kuruyor, CSS gizliyor — JS'e dokunmadan).
+     Aşağıdaki .tb-brand-* kuralları bu yüzden etkisiz/ölü. */
+  display: none !important;
 }
 [data-mj="footer-brand"] .tb-brand-seal{
   display: inline-flex;
@@ -1436,20 +1427,22 @@ button[name="search"]:hover::after{ opacity:1; }
 }
 /* 18+ ve dil seçiciyi taşıyan blok — dikey ve ortalı */
 /* 18+ solda, dil seçici sağda; altta saç teli çizgi (şablon 1a). */
+/* 18+ ve dil seçici — Narcos'taki gibi ortada, arkasında kutu YOK
+   (2026-07-23: eski kutulu/space-between düzen kaldırıldı). */
 [data-mj="footer"] .app-ltr-19zdw54{
   order: 3 !important;
   box-sizing: border-box;
-  width: min(calc(100% - 32px), 1432px) !important;
+  width: auto !important;
   flex-direction: row !important;
   align-items: center !important;
-  justify-content: space-between !important;
-  gap: 12px !important;
-  margin: 14px auto !important;
-  padding: 22px 28px !important;
-  border: 1px solid rgba(245,200,114,.24);
-  border-radius: 16px;
-  background: linear-gradient(135deg,rgba(18,40,95,.86),rgba(5,11,45,.92)) !important;
-  box-shadow: inset 0 1px rgba(255,255,255,.04),0 12px 28px rgba(1,5,24,.24);
+  justify-content: center !important;
+  gap: 14px !important;
+  margin: 10px auto 6px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
 }
 [data-mj="footer"] hr{ order: 4 !important; }
 [data-mj="footer-bottom"]{
