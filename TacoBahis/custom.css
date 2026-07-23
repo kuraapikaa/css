@@ -1912,20 +1912,35 @@ button[name="search"]:hover::after{ opacity:1; }
    hash); dialog + aria-label çapaları kullanılıyor. i[aria-label="user"]
    guard'ı, copy butonu içeren BAŞKA dialogları (ör. adres kopyalama)
    etkilememek için. */
-[role="dialog"]:has(i[aria-label="user"]) > div > div:has(button[aria-label="copy"]){
+/* NOT: Masaüstünde panel [role="dialog"] içinde ama MOBİLDE dialog yok
+   (drawer/sheet, role'süz) — sınıf zinciri her ikisinde birebir aynı. O yüzden
+   seçiciler dialog'a bağlanmıyor; "copy butonunu TAM şu derinlikte içeren +
+   user ikonu taşıyan div" kalıbıyla iki ortamda da aynı elemanlar hedefleniyor:
+   pill = copy 2 seviye altında, kart = copy 4 seviye altında. */
+div:has(> div > div > div > button[aria-label="copy"]):has(i[aria-label="user"]){
   background: linear-gradient(160deg,#0C173F,#070D30) !important;
   border: 1px solid rgba(245,200,114,.14) !important;
   box-shadow: inset 0 1px rgba(255,255,255,.05) !important;
 }
-[role="dialog"]:has(i[aria-label="user"]) div:has(> div > button[aria-label="copy"]){
+div:has(> div > button[aria-label="copy"]):has(i[aria-label="user"]){
   background:
     linear-gradient(#0F1C4E,#0A1238) padding-box,
     linear-gradient(135deg,#CE8D36,#F5C872 45%,#FFF0A3 70%,#998A5E) border-box !important;
   border: 1px solid transparent !important;
 }
-[role="dialog"]:has(i[aria-label="user"]) div:has(> div > button[aria-label="copy"]) p,
-[role="dialog"]:has(i[aria-label="user"]) div:has(> div > button[aria-label="copy"]) i,
-[role="dialog"]:has(i[aria-label="user"]) div:has(> div > button[aria-label="copy"]) svg,
-[role="dialog"]:has(i[aria-label="user"]) div:has(> div > button[aria-label="copy"]) button{
+div:has(> div > button[aria-label="copy"]):has(i[aria-label="user"]) p,
+div:has(> div > button[aria-label="copy"]):has(i[aria-label="user"]) i,
+div:has(> div > button[aria-label="copy"]):has(i[aria-label="user"]) svg,
+div:has(> div > button[aria-label="copy"]):has(i[aria-label="user"]) button{
   color: #F5C872 !important;
+}
+/* PC'de etiket ile numara bitişik görünüyordu ("Oyuncu Kimliği00013704") —
+   etikete ":" ekle + iki blok arasına küçük boşluk. Mobil zaten düzgün, dokunma. */
+@media (min-width: 621px){
+  div:has(> div > button[aria-label="copy"]):has(i[aria-label="user"]){
+    gap: 6px !important;
+  }
+  div:has(> div > button[aria-label="copy"]):has(i[aria-label="user"]) > div:first-child p::after{
+    content: ":";
+  }
 }
