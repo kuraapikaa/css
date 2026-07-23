@@ -1944,3 +1944,38 @@ div:has(> div > button[aria-label="copy"]):has(i[aria-label="user"]) button{
     content: ":";
   }
 }
+
+/* 21) Header'daki siyah (#151515) zeminler → Taco laciverti
+   Profil paneli yeniden renklendirmesiyle uyum: telegram/telefon/promo ikon
+   butonları, arama, profil butonu ve bakiye kutusu platformda gri-siyahtı,
+   lacivert temada sırıtıyordu. Bakiye kutusunun data-mj'si yok →
+   header-right > div > div:only-child yapısal kalıbı (span'lı tek çocuk).
+   Media-scoped değil: mobil header'daki aynı siyah zeminleri de düzeltir. */
+[data-mj="header-telegram-button"],
+[data-mj="header-call-button"],
+[data-mj="header-special-button"],
+[data-mj="header"] button[aria-label="search"],
+[data-mj="header"] button[aria-label="user"],
+[data-mj="header-right"] > div > div:only-child{
+  background: linear-gradient(160deg,#0E1A48,#080F35) !important;
+}
+
+/* 22) Lig kartlarına ufak altın gradyan outline (UEFA ŞL, Süper Lig, ...)
+   Kart görselli olduğu için padding-box/border-box hilesi kullanılamaz
+   (arkaplanı ezerdi) — maske halkası: ::after inset:0, 1px'lik çerçeve dışında
+   her yer maskeyle oyuluyor. Kart zaten position:relative + overflow:hidden,
+   ::before/::after boşta (ölçüldü). Kategori kartları (widget-pages-item)
+   AYRI eleman, etkilenmez. */
+[data-mj="widget-game-card"]{ position:relative !important; }
+[data-mj="widget-game-card"]::after{
+  content:"";
+  position:absolute; inset:0; z-index:3;
+  border-radius:8px; padding:1px;
+  background:linear-gradient(135deg,#CE8D36 0%,#F5C872 35.01%,#FFF0A3 60.01%,#998A5E 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite:exclude;
+  pointer-events:none;
+  opacity:.75;
+}
