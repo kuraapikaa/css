@@ -5167,3 +5167,43 @@ footer {
     order: -1 !important;
   }
 }
+
+/* =========================================================
+   PROFIL PANELI (user ikonuna tiklayinca acilan) — siyah-altin rotusu
+   Taco'daki tedavinin Narcos paletiyle birebiri. Elemanlarin stabil sinifi
+   yok (app-ltr-* hash); yapisal kalip: "copy butonunu TAM su derinlikte
+   iceren + user ikonu tasiyan div" -> pill (copy 2 seviye altta), kart
+   (copy 4 seviye altta). Masaustunde panel [role=dialog] icinde, MOBILDE
+   dialog yok (drawer) — bu secici ikisinde de ayni elemanlari bulur.
+   ========================================================= */
+div:has(> div > div > div > button[aria-label="copy"]):has(i[aria-label="user"]) {
+  background: linear-gradient(160deg, #191613, #0B0B0E) !important;
+  border: 1px solid rgba(242,213,138,.16) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.05) !important;
+}
+
+div:has(> div > button[aria-label="copy"]):has(i[aria-label="user"]) {
+  background:
+    linear-gradient(#17161C, #0E0E12) padding-box,
+    linear-gradient(135deg, #8F6424, #C99843 40%, #F2D58A 65%, #8F6424) border-box !important;
+  border: 1px solid transparent !important;
+}
+
+div:has(> div > button[aria-label="copy"]):has(i[aria-label="user"]) p,
+div:has(> div > button[aria-label="copy"]):has(i[aria-label="user"]) i,
+div:has(> div > button[aria-label="copy"]):has(i[aria-label="user"]) svg,
+div:has(> div > button[aria-label="copy"]):has(i[aria-label="user"]) button {
+  color: #F2D58A !important;
+}
+
+/* PC'de etiket ile numara bitisikti ("Kullanici Adi00071721") — etikete ":"
+   + iki blok arasina bosluk. Mobil dar duzende zaten alt alta, dokunma. */
+@media (min-width: 621px) {
+  div:has(> div > button[aria-label="copy"]):has(i[aria-label="user"]) {
+    gap: 6px !important;
+  }
+
+  div:has(> div > button[aria-label="copy"]):has(i[aria-label="user"]) > div:first-child p::after {
+    content: ":";
+  }
+}
