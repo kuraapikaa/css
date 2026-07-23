@@ -667,9 +667,10 @@
   var PAGE_EMBEDS = [
     { path: '/tr/sportest',    src: 'https://tacolynon.up.railway.app/bonus',       baslik: 'Bonus' },
     { path: '/tr/testspor',    src: 'https://tacolynon.up.railway.app/',            baslik: 'Taco Lynon' },
-    // TODO: gerçek iframe linkleri kullanıcıdan gelecek — şimdilik test placeholder'ı
+    // TODO: tacoskor'un gerçek linki kullanıcıdan gelecek — şimdilik test placeholder'ı
     { path: '/tr/tacoskor',    src: 'https://tacolynon.up.railway.app/skor-tahmin', baslik: 'Taco Skor' },
-    { path: '/tr/aranmatalep', src: 'https://tacolynon.up.railway.app/',            baslik: 'Aranma Talep' }
+    // Aranma talep sistemi (2026-07-23; başlık kontrolü yapıldı: X-Frame-Options/CSP yok, gömülebilir)
+    { path: '/tr/aranmatalep', src: 'https://tacoara.up.railway.app/',              baslik: 'Aranma Talep' }
   ];
 
   function mountPageEmbeds() {
