@@ -1960,16 +1960,12 @@ div:has(> div > button[aria-label="copy"]):has(i[aria-label="user"]) button{
   background: linear-gradient(160deg,#0E1A48,#080F35) !important;
 }
 
-/* 21b) Giriş butonu — ghost: dolgu şeffaf, 2px altın çerçeve, yazı altın
-   gradyan (background-clip:text; metin iç içe iki span'da, ikisine de uygula).
-   Dolu altın KAYIT'ın yanında kontrast çifti oluşturur. */
+/* 21b) Giriş butonu — kendi çerçevesi/biçimi AYNEN kalır (ghost denendi,
+   platformun mevcut outline'ıyla çift çerçeve oldu → vazgeçildi). Sadece:
+   iç dolgu siyah (#151515) yerine header butonlarındaki lacivert gradyan,
+   yazı altın gradyan (background-clip:text; metin iç içe iki span'da). */
 [data-mj="login-button"]{
-  background: transparent !important;
-  border: 2px solid rgba(245,200,114,.55) !important;
-}
-[data-mj="login-button"]:hover{
-  border-color: rgba(255,240,163,.85) !important;
-  background: rgba(245,200,114,.06) !important;
+  background: linear-gradient(160deg,#0E1A48,#080F35) !important;
 }
 [data-mj="login-button"] span{
   background: linear-gradient(100deg,#CE8D36,#F5C872 40%,#FFF0A3 60%,#E0B45C) !important;
