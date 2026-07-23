@@ -5144,4 +5144,12 @@ footer {
     flex: 1 1 auto !important;
     min-height: 0 !important;
   }
+
+  /* (3) PROFIL IKONU EN SAGA (Taco'daki duzen): JS ile eklenen telegram
+     (.ng-telegram-button) ve cark (.ng-call-button) butonlari DOM'da user
+     butonundan SONRA durdugu icin profil ortada kaliyordu. header-right flex;
+     user'i taniyan sarmalayiciya order ver -> [bonus][telegram][cark][profil]. */
+  [data-mj="header-right"] > *:has(button[aria-label="user"]) {
+    order: 99 !important;
+  }
 }
