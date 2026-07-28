@@ -664,6 +664,34 @@
            'username=' + encodeURIComponent(oyuncuAdi);
   }
 
+  /* ---------- Zepcom canlı desteğe kullanıcı adı iletme ----------
+     Zepcom widget'i (zepcom.app/widget.js) window.ZepCom.identify({name,userId,
+     email}) API'sini açıyor — ZEPCOM TARAFINDA KOD GEREKMEZ. Embed'lerle AYNI
+     sondajdan (/api/v1/me → player.userName) gelen oyuncuAdi'ni, widget hazır
+     olunca BİR KEZ iletiyoruz. Sayısal ID yok; userId'ye de userName veriyoruz
+     (benzersiz). E-posta bilerek gönderilmiyor (gereksiz kişisel veri).
+     Giriş sonradan yapılırsa mountAll içindeki tekrar-sondaj yakalar. */
+  var zepcomGonderildi = null;
+
+  function zepcomTanit() {
+    if (!oyuncuAdi || zepcomGonderildi === oyuncuAdi) return;
+    if (!window.ZepCom || typeof window.ZepCom.identify !== 'function') return;
+    window.ZepCom.identify({ name: oyuncuAdi, userId: oyuncuAdi });
+    zepcomGonderildi = oyuncuAdi;
+  }
+
+  function zepcomBaslat() {
+    // Embed sayfasında olmasak da adı al: ilk sondajı tetikle.
+    if (!sondajBitti && !sondajCalisiyor) sondajla();
+    // Widget geç yüklendiği için hazır olana kadar kısa aralıkla dene (~60sn).
+    var tik = 0;
+    (function bekle() {
+      zepcomTanit();
+      if (zepcomGonderildi || tik++ > 120) return;
+      setTimeout(bekle, 500);
+    })();
+  }
+
   var PAGE_EMBEDS = [
     { path: '/tr/sportest',    src: 'https://tacolynon.up.railway.app/bonus',       baslik: 'Bonus' },
     { path: '/tr/testspor',    src: 'https://tacolynon.up.railway.app/',            baslik: 'Taco Lynon' },
@@ -983,6 +1011,15 @@
     mountModalEmbed();
     mountTrustHub();
     mountBannerMotion();
+
+    // Zepcom kimlik: ad hazırsa ilet; giriş sonradan yapıldıysa yeniden sondaj.
+    if (!zepcomGonderildi) {
+      zepcomTanit();
+      if (!oyuncuAdi && sondajBitti && !sondajCalisiyor &&
+          Date.now() - sonSondaj > PROBE_MIN_ARA) {
+        sondajla();
+      }
+    }
   }
 
   var MOUNT_SELECTOR =
@@ -1044,6 +1081,7 @@
 
   function start() {
     mountAll();
+    zepcomBaslat();
     new MutationObserver(scheduleMount).observe(document.body, {
       childList: true,
       subtree: true

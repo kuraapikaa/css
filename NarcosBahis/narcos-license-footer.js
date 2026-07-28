@@ -866,6 +866,32 @@
            "username=" + encodeURIComponent(ngOyuncuAdi);
   }
 
+  /* ---------- Zepcom canli destege kullanici adi iletme ----------
+     Zepcom widget'i (zepcom.app/widget.js) window.ZepCom.identify({name,userId,
+     email}) API'sini aciyor — ZEPCOM TARAFINDA KOD GEREKMEZ. Embed'lerle AYNI
+     sondajdan (/api/v1/me -> player.userName) gelen ngOyuncuAdi'ni, widget hazir
+     olunca BIR KEZ iletiyoruz. Sayisal ID yok; userId'ye de userName veriyoruz.
+     E-posta bilerek gonderilmiyor. Giris sonradan yapilirsa
+     installCriticalEnhancements icindeki tekrar-sondaj yakalar. */
+  var ngZepcomGonderildi = null;
+
+  function ngZepcomTanit() {
+    if (!ngOyuncuAdi || ngZepcomGonderildi === ngOyuncuAdi) return;
+    if (!window.ZepCom || typeof window.ZepCom.identify !== "function") return;
+    window.ZepCom.identify({ name: ngOyuncuAdi, userId: ngOyuncuAdi });
+    ngZepcomGonderildi = ngOyuncuAdi;
+  }
+
+  function ngZepcomBaslat() {
+    if (!ngSondajBitti && !ngSondajCalisiyor) ngSondajla();
+    var tik = 0;
+    (function bekle() {
+      ngZepcomTanit();
+      if (ngZepcomGonderildi || tik++ > 120) return;
+      setTimeout(bekle, 500);
+    })();
+  }
+
   var NG_PAGE_EMBEDS = [
     { path: "/tr/bonusrequest", src: "https://narcoslynon.up.railway.app/bonus",       baslik: "Bonus Talep" },
     { path: "/tr/tacowheel",    src: "https://narcoslynon.up.railway.app/",            baslik: "Narcos Cark" },
@@ -1009,6 +1035,15 @@
     installCampaignPage();
     installPageEmbeds();
     installModalEmbed();
+
+    // Zepcom kimlik: ad hazirsa ilet; giris sonradan yapildiysa yeniden sondaj.
+    if (!ngZepcomGonderildi) {
+      ngZepcomTanit();
+      if (!ngOyuncuAdi && ngSondajBitti && !ngSondajCalisiyor &&
+          Date.now() - ngSonSondaj > NG_PROBE_MIN_ARA) {
+        ngSondajla();
+      }
+    }
   }
 
   function installDeferredEnhancements() {
@@ -1163,6 +1198,7 @@
 
   installRouteChangeListeners();
   installCriticalEnhancements();
+  ngZepcomBaslat();
   scheduleDeferredEnhancements(1400);
   scheduleEffectsReady();
 
