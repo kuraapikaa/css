@@ -272,10 +272,9 @@ a.tb-trust-card:focus-visible{
 }
 
 /* Boş sayfalara gömülen uygulamalar (bkz. custom.js PAGE_EMBEDS).
-   Hedef sayfalar altyapıdan placeholder geliyor:
-     /tr/sportest → oturum açıkken "There are no active Tournaments yet.",
-                    kapalıyken "Error Occurred" (bazen çıplak metin düğümü)
-     /tr/testspor → boş oyun kataloğu modülü (arama, filtre, boş ızgara)
+   Hedef sayfalar altyapıdan placeholder geliyor — duruma göre boş oyun
+   kataloğu modülü (arama, filtre, boş ızgara), "There are no active
+   Tournaments yet." ya da çıplak "Error Occurred" metin düğümü.
    custom.js host kutuyu [data-tb-embed-host] ile işaretliyor, gizleme burada.
 
    Element çocuklar seçiciyle gizlenir — placeholder metni kendi font-size'ını
@@ -295,10 +294,12 @@ a.tb-trust-card:focus-visible{
   background:#060B2E;
   box-shadow:0 16px 42px rgba(0,0,0,.28);
 }
+/* Yükseklik custom.js'ten geliyor (--tb-embed-h = ekran − sabit header).
+   100vh yedeği yalnızca JS ölçmeye fırsat bulamadan görülen ilk kare için. */
 .tb-page-embed iframe{
   display:block;
   width:100%;
-  height:100vh;
+  height:var(--tb-embed-h, 100vh);
   border:0;
   background:#060B2E;
 }

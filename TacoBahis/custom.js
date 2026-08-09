@@ -617,7 +617,15 @@
   var sondajCalisiyor = false;
   var sonSondaj = 0;
 
+  /* Geri çağrılar KUYRUKTA tutulur. Tek bir "bitince" değişkeni yetmiyordu:
+     zepcomBaslat() sondajı parametresiz başlattığı için, hemen ardından gelen
+     embedHazir() → sondajla(mountAll) çağrısı sondajCalisiyor kontrolüne takılıp
+     geri dönüyor, mountAll hiç kaydedilmiyordu. Sonuç: sondaj bitince embed
+     kurulmuyor, sayfa alakasız bir DOM mutasyonu olana kadar boş kalıyordu. */
+  var sondajKuyrugu = [];
+
   function sondajla(bitince) {
+    if (bitince) sondajKuyrugu.push(bitince);
     if (sondajCalisiyor) return;
     sondajCalisiyor = true;
     sonSondaj = Date.now();
@@ -628,7 +636,10 @@
       kapandi = true;
       sondajCalisiyor = false;
       sondajBitti = true;
-      if (bitince) bitince();
+
+      var kuyruk = sondajKuyrugu;
+      sondajKuyrugu = [];
+      for (var i = 0; i < kuyruk.length; i++) kuyruk[i]();
     }
 
     // Ağ takılırsa embed hiç açılmasın istemiyoruz.
@@ -747,14 +758,61 @@
     frame.src = embedUrl(cfg.src);
     frame.title = cfg.baslik;
     frame.width = '100%';
-    frame.height = '100vh';
     frame.frameBorder = '0';
-    frame.scrolling = 'no';
     frame.allow = 'autoplay';
     frame.setAttribute('loading', 'eager');
+    // scrolling="no" YOK: gömülü uygulama ekrandan uzunsa kendi içinde
+    // kaydırılabilsin. Yükseklik --tb-embed-h ile ekrana oturtuluyor.
 
     wrap.appendChild(frame);
     content.appendChild(wrap);
+    syncEmbedHeight();
+  }
+
+  /* ---------- Gömülü iframe yüksekliği ----------
+
+     Site header'ı position:fixed ve yüksekliği sabit değil: duyuru şeridi
+     kapatılınca 184px'ten 120px'e düşüyor, mobilde başka. Sabit 100vh
+     verirsek iframe'in alt ucu ekranın altında kalıyor, scrolling="no" ile
+     birlikte içeriğin sonuna hiç ulaşılamıyordu.
+
+     Bu yüzden yüksekliği çalışma anında ölçüyoruz: görünür alan = ekran
+     yüksekliği − sabit header. Böylece iframe tam ekrana oturuyor, taşan
+     içerik iframe'in kendi içinde kayıyor, sayfa kaydırınca da footer geliyor. */
+
+  var EMBED_MIN_H = 460;   // çok kısa ekranlarda kullanılabilir kalsın
+  var embedHeightSignature = '';
+
+  function syncEmbedHeight() {
+    if (!document.querySelector('[data-tb-page-embed]')) return;
+
+    var header = document.querySelector('[data-mj="header"]');
+    var headerH = header ? header.getBoundingClientRect().height : 0;
+
+    // Header fixed değilse (bir sürümde değişirse) sayfayı zaten itiyordur;
+    // o durumda düşmemesi için payı sıfırlıyoruz.
+    if (header && getComputedStyle(header).position !== 'fixed') headerH = 0;
+
+    var h = Math.max(EMBED_MIN_H, Math.round(window.innerHeight - headerH - 24));
+    if (h + 'px' === embedHeightSignature) return;
+    embedHeightSignature = h + 'px';
+    document.documentElement.style.setProperty('--tb-embed-h', h + 'px');
+  }
+
+  var observedHeader = null;
+  var headerResizeObserver = null;
+
+  function observeEmbedHeight() {
+    syncEmbedHeight();
+
+    var header = document.querySelector('[data-mj="header"]');
+    if (!header || header === observedHeader ||
+        typeof ResizeObserver === 'undefined') return;
+
+    if (headerResizeObserver) headerResizeObserver.disconnect();
+    observedHeader = header;
+    headerResizeObserver = new ResizeObserver(syncEmbedHeight);
+    headerResizeObserver.observe(header);
   }
 
   /* ---------- Hesap panelindeki "Bonus Talep Et" modalına gömme ----------
@@ -1010,6 +1068,7 @@
     observeButtonSize();
     mountAnnouncement();
     mountPageEmbeds();
+    observeEmbedHeight();
     mountModalEmbed();
     mountTrustHub();
     mountBannerMotion();
@@ -1096,7 +1155,10 @@
     var t;
     window.addEventListener('resize', function () {
       clearTimeout(t);
-      t = setTimeout(syncButtonSize, 120);
+      t = setTimeout(function () {
+        syncButtonSize();
+        syncEmbedHeight();
+      }, 120);
     });
   }
 
