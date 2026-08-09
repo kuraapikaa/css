@@ -692,10 +692,12 @@
     })();
   }
 
+  /* Menüdeki gerçek yollar (2026-08-09'da doğrulandı):
+     /tr/bonustalep, /tr/tacocark, /tr/tacoskor, /tr/aranmatalep.
+     Eski test yolları (/tr/sportest, /tr/testspor) sitede 404 — kaldırıldı. */
   var PAGE_EMBEDS = [
-    { path: '/tr/sportest',    src: 'https://tacolynon.up.railway.app/bonus',       baslik: 'Bonus' },
-    { path: '/tr/testspor',    src: 'https://tacolynon.up.railway.app/',            baslik: 'Taco Lynon' },
-    // TODO: tacoskor'un gerçek linki kullanıcıdan gelecek — şimdilik test placeholder'ı
+    { path: '/tr/bonustalep',  src: 'https://tacolynon.up.railway.app/bonus',       baslik: 'Bonus Talep' },
+    { path: '/tr/tacocark',    src: 'https://tacolynon.up.railway.app/cark',        baslik: 'Taco Çark' },
     { path: '/tr/tacoskor',    src: 'https://tacolynon.up.railway.app/skor-tahmin', baslik: 'Taco Skor' },
     // Aranma talep sistemi (2026-07-23; başlık kontrolü yapıldı: X-Frame-Options/CSP yok, gömülebilir)
     { path: '/tr/aranmatalep', src: 'https://tacoara.up.railway.app/',              baslik: 'Aranma Talep' }
