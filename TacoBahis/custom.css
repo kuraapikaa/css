@@ -2078,3 +2078,128 @@ div:has(> div > button[aria-label="copy"]):has(i[aria-label="user"]) button{
     border-right: 1px solid rgba(255,255,255,.16) !important;
   }
 }
+
+/* ============================================================
+   MOBİL OYUN KARESİ — PORTRE KİLİDİ
+   ============================================================
+   Sağlayıcı (Playson/Pragmatic) oyunun düzenini oyun YÜKLENİRKENKİ
+   viewport'a göre seçip kilitliyor; kutu sonradan büyüyünce yeniden
+   düzenlemiyor. Narcos'ta ölçülen zaman çizelgesi (375x812):
+
+        296ms  iframe src İLE BİRLİKTE doğdu -> 375x339  oran 1.11 YATAY
+       1024ms  hâlâ                             375x339  oran 1.11 YATAY
+       1975ms  ancak şimdi                      375x659  oran 0.57 portre
+
+   Yani oyun ilk ~1.9 saniyeyi yatay bir kutuda geçirip yatay/masaüstü
+   arayüzünü seçmiş oluyor; sonraki düzelme işe yaramıyor. Oyun, dikey bir
+   iframe içinde yatay tuval olarak kutulanmış kalıyor.
+
+   `min-height` zemini bu pencereyi tamamen kapatıyor: kutu İLK KAREDEN
+   itibaren dikey. 68svh, 320px'den geniş her telefonda yükseklik > genişlik
+   garantisi verir (0.68 * 568 = 386 > 320). Cihaz gerçekten yatay
+   tutuluyorsa svh de küçüldüğü için doğru şekilde yatay kalır.
+
+   `svh` (small viewport height) bilerek: adres çubuğu AÇIKKEN geçerli olan
+   küçük yükseklik. dvh kullanılsaydı çubuk gizliyken ölçü büyür ve zemin
+   gereğinden yüksek olurdu.
+
+   :not([data-tb-embed]) — kendi gömülü uygulamalarımız (bonus/çark/skor/
+   aranma) oyun değil; onların yüksekliği --tb-embed-h ile yönetiliyor,
+   bu zemin onlara uygulanırsa iki hesap çakışır. İşaret custom.js'te
+   iframe oluşturulurken konuyor.
+
+   620px sınırı: Taco'nun üst nav'ının kaybolduğu ve header'ın mobil
+   düzene geçtiği eşikle aynı. */
+@media (max-width: 620px){
+  [data-mj="page-content"] iframe:not([data-tb-embed]){
+    min-height:68svh !important;
+  }
+}
+
+/* ============================================================
+   MOBİL KISAYOL ŞERİDİ (header'ın ikinci satırı)
+   ============================================================
+   custom.js şeridi HEADER'IN DOĞRUDAN ÇOCUĞU olarak ekliyor. Header ≤900'de
+   `flex-direction: column` (yukarıdaki blok); doğrudan çocuk olarak eklenince
+   yeni bir satır oluyor ve header yüksekliği onu kapsıyor — sayfa içeriği de
+   bu yeni yüksekliğin altından başlıyor.
+
+   Yalnızca ≤620'de görünür: üstünde üst nav zaten bu sayfaları taşıyor
+   (nav min-width:621px'te tek satıra diziliyor), ikinci satır orada
+   tekrar olurdu. */
+#tb-mobil-kisayol{
+  display:none;
+}
+
+@media (max-width: 620px){
+  #tb-mobil-kisayol{
+    /* STICKY DEĞİL — bilerek. Opak arka planlı yapışkan bir bant 375px'te
+       hem dikey alan yiyor hem kaydırdıkça içeriği örtüyor. Şerit header'la
+       birlikte kayıyor. */
+    position:relative;
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:2px;
+    /* Header bir sütun flex; şerit satırın tamamını kaplasın ve daralmasın.
+       flex-shrink:0 olmazsa header yüksekliği sabitken şerit eziliyor. */
+    width:100%;
+    flex:0 0 auto;
+    box-sizing:border-box;
+    padding:6px 8px;
+    border-top:1px solid rgba(245,200,114,.10);
+    border-bottom:1px solid rgba(245,200,114,.14);
+    background:rgba(6,11,46,.94);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+  }
+
+  #tb-mobil-kisayol a{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:3px;
+    /* 44px dokunma hedefi: bunun altında parmakla isabet düşüyor. */
+    min-height:44px;
+    padding:4px 2px;
+    border-radius:10px;
+    color:#998A5E;
+    font-size:9px;
+    font-weight:800;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    text-decoration:none;
+    transition:background-color .15s ease, color .15s ease;
+  }
+
+  /* İKON RENGİ öğeye özel (--tb-kisayol-renk, JS'ten geliyor; yedeği altın).
+     Dört ikon aynı altın tonundayken hangisinin ne olduğu ancak yazısı
+     okunarak anlaşılıyordu. Yalnızca İKON renkleniyor, yazı nötr kalıyor:
+     dört farklı renkte metin şeridi okunmaz hâle getirirdi. */
+  #tb-mobil-kisayol a svg{
+    width:18px;
+    height:18px;
+    flex-shrink:0;
+    color:var(--tb-kisayol-renk, #F5C872);
+  }
+
+  #tb-mobil-kisayol a:hover{
+    color:#F5F0E4;
+    background:rgba(245,240,228,.05);
+  }
+
+  /* Bulunduğun sayfa öğenin KENDİ rengiyle vurgulanır; hepsi altın dolgu
+     alsaydı aktif öğe ile Bonus öğesi aynı görünürdü. */
+  #tb-mobil-kisayol a[data-tb-aktif]{
+    color:var(--tb-kisayol-renk, #F5C872);
+    background:color-mix(in srgb, var(--tb-kisayol-renk, #F5C872) 16%, transparent);
+    box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--tb-kisayol-renk, #F5C872) 34%, transparent);
+  }
+
+  /* color-mix desteklemeyen tarayıcıda aktif öğe yine belli olsun. */
+  @supports not (background: color-mix(in srgb, red 10%, transparent)){
+    #tb-mobil-kisayol a[data-tb-aktif]{
+      background:rgba(245,240,228,.09);
+    }
+  }
+}

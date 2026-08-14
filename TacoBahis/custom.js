@@ -761,6 +761,11 @@
     frame.frameBorder = '0';
     frame.allow = 'autoplay';
     frame.setAttribute('loading', 'eager');
+    // Bu bizim gömülü uygulamamız, OYUN DEĞİL. Mobil portre kilidi
+    // (custom.css) oyun karelerine min-height zemini koyuyor; bu işaret
+    // olmadan kendi kabımız da o zemini yer ve yüksekliği --tb-embed-h ile
+    // çakışırdı.
+    frame.setAttribute('data-tb-embed', '');
     // scrolling="no" YOK: gömülü uygulama ekrandan uzunsa kendi içinde
     // kaydırılabilsin. Yükseklik --tb-embed-h ile ekrana oturtuluyor.
 
@@ -776,27 +781,80 @@
      verirsek iframe'in alt ucu ekranın altında kalıyor, scrolling="no" ile
      birlikte içeriğin sonuna hiç ulaşılamıyordu.
 
-     Bu yüzden yüksekliği çalışma anında ölçüyoruz: görünür alan = ekran
-     yüksekliği − sabit header. Böylece iframe tam ekrana oturuyor, taşan
-     içerik iframe'in kendi içinde kayıyor, sayfa kaydırınca da footer geliyor. */
+     Bu yüzden yüksekliği çalışma anında ölçüyoruz.
+
+     ÖLÇÜM ÜÇ NOKTADA DEĞİŞTİ (Narcos v2'deki panelYuksekligi() tedavisi):
+
+     1) Header yüksekliği yerine KABIN KENDİ ÜST KONUMU ölçülüyor.
+        Eskiden "header fixed ise yüksekliğini çıkar, değilse 0" deniyordu ve
+        araya sabit bir 24px pay konuyordu. Kabın üstünde header dışında bir
+        şey varsa (duyuru şeridi, mobildeki 14px margin) hesap kayıyordu.
+        getBoundingClientRect().top zaten aradaki HER ŞEYİ kapsıyor, üstelik
+        header'ın fixed olup olmadığını bilmeye gerek kalmıyor.
+
+     2) 100dvh kullanılıyor, window.innerHeight DEĞİL.
+        innerHeight ≈ 100vh: mobil tarayıcının adres çubuğu gizlenip açılırken
+        fazla ölçüp sayfanın altını taşırıyor. dvh o anki görünür yüksekliği
+        izliyor; masaüstünde dvh == vh, yani orada davranış aynı.
+
+     3) Ekranın dibine yapışık SABİT ÇUBUK payı çıkarılıyor.
+        Böyle bir çubuk position:fixed olduğu için sayfa akışında yer
+        kaplamıyor: kap ekranın sonuna kadar uzatılınca çubuk iframe'in
+        ÜZERİNE biniyor ve gömülü uygulamanın alt kısmı — bonus talep
+        butonları gibi — görünmez oluyor. Çubuk yalnızca bazı genişliklerde
+        ve bazı sayfalarda render edildiği için seçici hardcode etmiyoruz,
+        çalışma anında ölçüyoruz.
+
+     Sonuç bir px değeri değil calc() ifadesi; --tb-embed-h'i okuyan CSS
+     değişmeden çalışır (100vh yedeği de yerinde kalır). */
 
   var EMBED_MIN_H = 460;   // çok kısa ekranlarda kullanılabilir kalsın
   var embedHeightSignature = '';
 
+  /* Alt çubuk ölçümü her mutasyon karesinde çağrılabiliyor; tüm ağacı gezip
+     getComputedStyle okumak orada pahalı olur, sonucu kısa süre önbellekliyoruz.
+     Ölçüyü geçersiz kılan olaylar (resize, orientationchange) sıfırlıyor. */
+  var altCubukOnbellek = { deger: 0, zaman: 0 };
+  var ALT_CUBUK_TAZE_MS = 1000;
+
+  function altCubukOnbelleginiSifirla() { altCubukOnbellek.zaman = 0; }
+
+  function altCubukYuksekligi() {
+    var simdi = Date.now();
+    if (simdi - altCubukOnbellek.zaman < ALT_CUBUK_TAZE_MS) return altCubukOnbellek.deger;
+
+    var enFazla = 0;
+    var ekranH = window.innerHeight;
+    var dugumler = document.body ? document.body.querySelectorAll('*') : [];
+    for (var i = 0; i < dugumler.length; i++) {
+      var el = dugumler[i];
+      if (el.closest('.tb-page-embed')) continue;          // kendi kabımız
+      var cs = getComputedStyle(el);
+      if (cs.position !== 'fixed' && cs.position !== 'sticky') continue;
+      if (cs.display === 'none' || cs.visibility === 'hidden') continue;
+      var r = el.getBoundingClientRect();
+      // Ekranın dibine yapışık, yeterince geniş ve gerçek yüksekliği olan.
+      if (r.height < 24 || r.height > ekranH * 0.4) continue;
+      if (r.width < window.innerWidth * 0.6) continue;
+      if (r.bottom < ekranH - 4 || r.top > ekranH) continue;
+      if (r.height > enFazla) enFazla = r.height;
+    }
+    altCubukOnbellek.deger = Math.round(enFazla);
+    altCubukOnbellek.zaman = simdi;
+    return altCubukOnbellek.deger;
+  }
+
   function syncEmbedHeight() {
-    if (!document.querySelector('[data-tb-page-embed]')) return;
+    var kap = document.querySelector('[data-tb-page-embed]');
+    if (!kap) return;
 
-    var header = document.querySelector('[data-mj="header"]');
-    var headerH = header ? header.getBoundingClientRect().height : 0;
+    var ust = Math.max(0, Math.round(kap.getBoundingClientRect().top));
+    var alt = altCubukYuksekligi();
 
-    // Header fixed değilse (bir sürümde değişirse) sayfayı zaten itiyordur;
-    // o durumda düşmemesi için payı sıfırlıyoruz.
-    if (header && getComputedStyle(header).position !== 'fixed') headerH = 0;
-
-    var h = Math.max(EMBED_MIN_H, Math.round(window.innerHeight - headerH - 24));
-    if (h + 'px' === embedHeightSignature) return;
-    embedHeightSignature = h + 'px';
-    document.documentElement.style.setProperty('--tb-embed-h', h + 'px');
+    var deger = 'max(' + EMBED_MIN_H + 'px, calc(100dvh - ' + (ust + alt) + 'px))';
+    if (deger === embedHeightSignature) return;
+    embedHeightSignature = deger;
+    document.documentElement.style.setProperty('--tb-embed-h', deger);
   }
 
   var observedHeader = null;
@@ -887,6 +945,8 @@
     frame.frameBorder = '0';
     frame.allow = 'autoplay';
     frame.setAttribute('loading', 'eager');
+    // Sayfa gömmesindeki ile aynı gerekçe: bu bir oyun karesi değil.
+    frame.setAttribute('data-tb-embed', '');
 
     wrap.appendChild(frame);
     host.appendChild(wrap);
@@ -1059,6 +1119,88 @@
 
   /* ---------- Bağlama ---------- */
 
+  /* ---------- Mobil kısayol şeridi ----------
+
+     Mobilde header tek satır: solda logo, sağda butonlar. Gömülü uygulama
+     sayfalarına (bonus, çark, skor, aranma) gitmek için burger menüyü açmak
+     gerekiyordu — dört sayfa da menünün içinde gömülü kalıyordu. Header'ın
+     altına ikinci bir satır ekliyoruz.
+
+     ŞERİT HEADER'IN DOĞRUDAN ÇOCUĞU olmalı. Header ≤900'de
+     `flex-direction: column` (bkz. custom.css); doğrudan çocuk olarak
+     eklenince yeni bir satır oluyor ve header yüksekliği onu KAPSIYOR, sayfa
+     içeriği de bu yeni yüksekliğin altından başlıyor. Kardeş olarak
+     eklenseydi sabit yükseklikli satırdan taşıp içeriği örterdi.
+
+     Yollar mountPageEmbeds'teki PAGE_EMBEDS ile aynı sayfalar; burada ayrıca
+     SIRA, ETİKET ve RENK var. Bir rota eklenirse iki yerde de görünmeli.
+
+     Her öğenin kendi rengi var: dört ikon aynı altın tonundayken hangisinin
+     ne olduğu ancak yazısı okunarak anlaşılıyor. Renk, ikonu tanıyan
+     kullanıcının yazıyı okumadan seçmesini sağlıyor. Renk CSS değişkeni
+     olarak veriliyor (--tb-kisayol-renk); aktif/hover durumlarını CSS yönetiyor. */
+
+  var KISAYOL_ID = 'tb-mobil-kisayol';
+  var KISAYOLLAR = [
+    { yol: '/tr/aranmatalep', etiket: 'Aranma', renk: '#5fd6a7',
+      ikon: 'M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.2 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z' },
+    { yol: '/tr/bonustalep', etiket: 'Bonus', renk: '#F5C872',
+      ikon: 'M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z' },
+    { yol: '/tr/tacoskor', etiket: 'Skor', renk: '#6ab7ff',
+      ikon: 'M12 13V2l8 4-8 4M20.55 10.23A9 9 0 1 1 8 4.94M8 10a5 5 0 1 0 8.9 2.02' },
+    { yol: '/tr/tacocark', etiket: 'Çark', renk: '#f0883e',
+      ikon: 'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zM12 2v10M12 12l8.66-5M12 12l8.66 5M12 12v10M12 12L3.34 17M12 12L3.34 7M12 10.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z' }
+  ];
+
+  function mountKisayolSeridi() {
+    var header = document.querySelector('[data-mj="header"]');
+    if (!header) return;
+
+    var mevcut = document.getElementById(KISAYOL_ID);
+    // React header'ı yeniden çizerse şerit başka bir ağaçta kalabiliyor;
+    // hâlâ DOĞRU header'ın çocuğu mu diye bakıyoruz.
+    if (mevcut && mevcut.parentElement === header) {
+      isaretleKisayolAktif(mevcut);
+      return;
+    }
+    if (mevcut) mevcut.remove();
+
+    var nav = document.createElement('nav');
+    nav.id = KISAYOL_ID;
+    nav.setAttribute('data-tb-mobil-kisayol', '');
+    nav.setAttribute('aria-label', 'Hızlı erişim');
+
+    var html = '';
+    for (var i = 0; i < KISAYOLLAR.length; i++) {
+      var k = KISAYOLLAR[i];
+      html +=
+        '<a href="' + k.yol + '" data-tb-yol="' + k.yol + '" ' +
+          'style="--tb-kisayol-renk:' + k.renk + '">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" ' +
+          'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + k.ikon + '"/></svg>' +
+          '<span>' + k.etiket + '</span>' +
+        '</a>';
+    }
+    nav.innerHTML = html;
+    header.appendChild(nav);
+    isaretleKisayolAktif(nav);
+  }
+
+  /* Bulunduğun sayfayı işaretle. Ayrı fonksiyon çünkü SPA'da rota değişince
+     şerit yeniden kurulmuyor, yalnızca işaret güncellenmeli. */
+  function isaretleKisayolAktif(nav) {
+    var yol = (location.pathname || '/').toLowerCase().replace(/\/+$/, '');
+    var baglantilar = nav.querySelectorAll('a[data-tb-yol]');
+    for (var i = 0; i < baglantilar.length; i++) {
+      var a = baglantilar[i];
+      if (a.getAttribute('data-tb-yol') === yol) {
+        a.setAttribute('data-tb-aktif', '');
+      } else {
+        a.removeAttribute('data-tb-aktif');
+      }
+    }
+  }
+
   function mountAll() {
     mountFooter();
     mountFooterColumns();
@@ -1067,6 +1209,7 @@
     tagAgeBadge();
     observeButtonSize();
     mountAnnouncement();
+    mountKisayolSeridi();
     mountPageEmbeds();
     observeEmbedHeight();
     mountModalEmbed();
@@ -1155,10 +1298,21 @@
     var t;
     window.addEventListener('resize', function () {
       clearTimeout(t);
+      // Ekran boyu değişti: alt çubuk ölçüsü artık geçersiz.
+      altCubukOnbelleginiSifirla();
       t = setTimeout(function () {
         syncButtonSize();
         syncEmbedHeight();
       }, 120);
+    });
+
+    // Döndürmede resize her cihazda tetiklenmiyor; ayrıca dinliyoruz.
+    // 150ms gecikme: olay yeni düzen yerleşmeden önce geliyor.
+    window.addEventListener('orientationchange', function () {
+      setTimeout(function () {
+        altCubukOnbelleginiSifirla();
+        syncEmbedHeight();
+      }, 150);
     });
   }
 
