@@ -1,0 +1,2019 @@
+/* narcos-tema-birlesik.css
+ * Lynon > THIRD-PARTY > Header Css alani TEK URL kabul ettigi icin
+ * tema + spor duzeltmesi tek dosyada birlestirildi.
+ * Taban: narcos-premium-gold-glass.css @ 2721b32d6c0356a5a2f63432dce9d5108c997460
+ * (canlida kullanilan commit — tema surumu DEGISMEDI)
+ *
+ * Bu depoya alinis: Dvppels-dev/narcos-premium-theme @ 74820c7 surumunun
+ * BIREBIR kopyasi. Icerik degistirilmedi; esi narcos-hepsi-birlesik.js.
+ * Eski soy agaci (narcos-premium-gold-glass.css) artik canlida DEGIL —
+ * ayrinti icin NarcosBahis/README.md.
+ *
+ * VARLIKLAR: url("./...") gorece — arka planlar/ikonlar bu dosyanin yaninda
+ * durmali (NarcosBahis/ klasorunde duruyorlar).
+ */
+
+/* NarcosBahis production theme v2. JS routes: ng-home-route, ng-info-safe-route, ng-sports-route. */
+/* ---------------- TOKENS / FOUNDATION / BACKGROUND ---------------- */
+:root {
+  --ng-gold-1: #8f6424; --ng-gold-2: #c99843;
+  --ng-gold-3: #f2d58a; --ng-gold-4: #fff2bd;
+  --ng-ink: #070708; --ng-grey-1: #111114;
+  --ng-grey-2: #1b1b20; --ng-grey-3: #29292f;
+  --ng-line: rgba(242, 213, 138, .22); --ng-glass: rgba(24, 24, 28, .72);
+  --ng-text: #f7f3e8;
+  --ng-muted: rgba(247, 243, 232, .64);
+  --ng-shadow: 0 18px 50px rgba(0, 0, 0, .42);
+  --ng-gold-fill: linear-gradient(135deg, #9b6a1b, #d6a63d 38%, #fff0ae 64%, #c78c27);
+  --ng-dark-fill: linear-gradient(145deg, rgba(31, 29, 27, .96), rgba(10, 10, 13, .96));
+}
+html,
+body,
+#root { min-height: 100%; }
+html { background: var(--ng-ink); }
+body {
+  isolation: isolate; margin: 0;
+  color: var(--ng-text) !important; background: var(--ng-ink) !important;
+}
+body::after {
+  content: ""; position: fixed; inset: 0; z-index: -2; pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(5, 5, 7, .18), rgba(7, 7, 9, .46) 56%, rgba(7, 7, 8, .78)),
+    url("./narcos-premium-background-v2.webp") center top / cover no-repeat;
+}
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: -1;
+  pointer-events: none; opacity: .22;
+  background:
+    linear-gradient(rgba(255, 255, 255, .018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, .014) 1px, transparent 1px);
+  background-size: 38px 38px;
+  mask-image: linear-gradient(to bottom, #000, transparent 88%);
+}
+#root,
+main { background: transparent !important; }
+main {
+  width: 100% !important; max-width: 100% !important; min-width: 0 !important;
+  color: var(--ng-text) !important;
+}
+main h1,
+main h2,
+main h3,
+main h4 { color: var(--ng-text) !important; text-wrap: balance; }
+[data-mj$="-container"],
+[data-mj$="-section"],
+[data-mj$="-panel"] { min-width: 0 !important; }
+main button,
+main [role="button"],
+main a {
+  -webkit-tap-highlight-color: transparent;
+}
+main input,
+main select,
+main textarea,
+main [role="textbox"] {
+  box-sizing: border-box !important; color: #fff !important;
+  border: 1px solid rgba(242, 213, 138, .28) !important; border-radius: 12px !important;
+  background: rgba(8, 8, 11, .68) !important;
+  outline: 0 !important;
+}
+main input:focus,
+main select:focus,
+main textarea:focus,
+main [role="textbox"]:focus {
+  border-color: rgba(242, 213, 138, .82) !important;
+  box-shadow: 0 0 0 3px rgba(201, 152, 67, .14), 0 0 22px rgba(201, 152, 67, .16) !important;
+}
+/* ---------------- ANNOUNCEMENT / HEADER / ACTIONS ---------------- */
+[data-mj="announcement"] {
+  position: relative !important; isolation: isolate;
+  display: flex; align-items: center !important; justify-content: center !important;
+  min-height: 60px; padding: 10px 52px !important;
+  box-sizing: border-box !important;
+  border-bottom: 1px solid rgba(242, 213, 138, .26);
+  background:
+    radial-gradient(circle at 50% -80%, rgba(242, 213, 138, .15), transparent 66%),
+    linear-gradient(110deg, rgba(10, 10, 13, .72), rgba(35, 31, 24, .58), rgba(10, 10, 13, .72)) !important;
+  box-shadow: inset 0 -1px rgba(255, 255, 255, .025), 0 8px 24px rgba(0, 0, 0, .2);
+  backdrop-filter: blur(14px) saturate(120%);
+}
+[data-mj="announcement"] > div,
+[data-mj="announcement"] > div > div:first-child,
+[data-mj="announcement"] div:has(> p) {
+  flex: 1 1 100% !important; width: 100% !important;
+  max-width: 1440px !important; min-width: 0 !important;
+  justify-content: center !important;
+  text-align: center !important;
+}
+[data-mj="announcement"] p,
+[data-mj="announcement"] p * {
+  color: transparent !important; -webkit-text-fill-color: transparent !important;
+  background: linear-gradient(90deg, #b8812c, #f2d58a 22%, #fff4c7 45%, #d49b39 68%, #fff0ad 88%, #b8812c);
+  background-size: 240% auto;
+  background-clip: text;
+  filter: drop-shadow(0 0 8px rgba(242, 213, 138, .2));
+  animation: ng-gold-text-flow 6s linear infinite;
+}
+[data-mj="announcement"] p {
+  width: 100% !important; max-width: 100% !important; margin: 0 !important;
+  font-weight: 650; line-height: 1.45;
+  text-align: center !important;
+}
+[data-mj="announcement"] :is(a, strong) {
+  color: #fff !important; -webkit-text-fill-color: #fff !important;
+  background: none !important;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, .2));
+  animation: none !important;
+  font-weight: 850 !important;
+}
+.ng-info-strip {
+  position: relative !important;
+  z-index: 4;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 0 0 44px !important;
+  width: 100% !important;
+  height: 44px !important;
+  min-height: 44px !important;
+  margin: 0 !important;
+  padding: 0 48px !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  border-bottom: 1px solid rgba(242, 213, 138, .27) !important;
+  background:
+    radial-gradient(circle at 50% -100%, rgba(242, 213, 138, .2), transparent 68%),
+    linear-gradient(110deg, rgba(8, 8, 11, .94), rgba(34, 29, 21, .86), rgba(8, 8, 11, .94)) !important;
+  box-shadow: inset 0 -1px rgba(255, 255, 255, .025), 0 7px 22px rgba(0, 0, 0, .22);
+}
+.ng-info-strip-content {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+  color: var(--ng-gold-3) !important;
+  font-size: clamp(11px, .82vw, 14px) !important;
+  font-weight: 750 !important;
+  line-height: 1.2 !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+  text-shadow: 0 0 14px rgba(242, 213, 138, .2);
+}
+.ng-info-source {
+  color: #fff !important;
+  font-weight: 900 !important;
+  text-decoration: underline !important;
+  text-underline-offset: 2px;
+}
+.ng-info-separator {
+  flex: 0 0 auto;
+  margin-inline: 8px;
+  padding: 0;
+  color: rgba(242, 213, 138, .65) !important;
+}
+.ng-info-current { color: #fff4c7 !important; font-weight: 900 !important; }
+[data-mj="announcement"] button[aria-label="close"] {
+  position: absolute !important; top: 50% !important; right: 10px !important; z-index: 3;
+  transform: translateY(-50%) !important;
+  color: var(--ng-gold-3) !important;
+  border: 1px solid rgba(242, 213, 138, .18) !important;
+  background: rgba(255, 255, 255, .035) !important;
+}
+[data-mj="header"] {
+  height: auto !important; min-height: max-content !important; overflow: visible !important;
+  background: linear-gradient(180deg, rgba(7, 8, 12, .66), rgba(12, 12, 17, .42)) !important;
+  border-bottom: 1px solid rgba(242, 213, 138, .34) !important;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, .3) !important;
+  /* Header kendi yigin baglamini kursun.
+   *
+   * Onceden z-index yoktu: sayfa icindeki yuksek z-index'li ogeler (slider
+   * oklari, modal tetikleyicileri) header'in ustune cikiyor ya da tam tersi
+   * header icerigi ortuyordu — hangisinin kazandigi DOM sirasina kaliyordu.
+   *
+   * `position: relative !important` KULLANILMIYOR: sitenin kendi header
+   * konumlandirmasini (sticky/fixed) eziyordu. isolation: isolate statik
+   * ogede de yigin baglami kuruyor ve yerlesime dokunmuyor. */
+  isolation: isolate;
+}
+
+/* Sayfa icerigi kendi yigin baglaminda kalsin; icindeki yuksek z-index'li
+ * bilesenler header'in yigini icine sizmasin. */
+[data-mj="page-content"] {
+  isolation: isolate;
+}
+[data-mj="custom-header"],
+[aria-label="site-header"],
+[data-mj="header-nav"] {
+  overflow: visible !important; border-bottom: 1px solid var(--ng-line) !important;
+  background: rgba(10, 10, 14, .44) !important;
+  backdrop-filter: blur(16px) saturate(125%);
+}
+[aria-label="site-header"] { position: relative !important; }
+[data-mj="custom-header"] { min-height: 64px !important; }
+/* Aranma talep ikonu kaldirildi (bkz. narcos-footer-birlesik.js).
+ * CSS tarafinda da bastiriyoruz: jsDelivr onbelleginde eski JS kalirsa ikon
+ * yeniden uretilebilir, o durumda bile gorunmesin. */
+[data-mj="header"] #narcos-call-button,
+[data-mj="header"] .ng-call-button { display: none !important; }
+
+/* Header alt seridi: daha kompakt ve altin vurgulu.
+ * 56px notr gri bir bant, header'in yarisini kaplayip icerigi asagi
+ * itiyordu; ust satirla arasinda da renk farki yoktu. */
+[data-mj="header-nav"] {
+  min-height: 44px !important;
+  background:
+    linear-gradient(180deg, rgba(231, 197, 116, .07), rgba(18, 18, 24, .5)) !important;
+  border-top: 1px solid rgba(231, 197, 116, .12) !important;
+}
+[data-mj="header-nav"] a {
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+  font-size: 12px !important;
+}
+/* Bulundugun bolum altin; nav artik duz gri bir seride benzemiyor. */
+[data-mj="header-nav"] a[aria-current="page"],
+[data-mj="header-nav"] a.active {
+  color: #e7c574 !important;
+}
+[aria-label="site-header"]::after {
+  content: ""; position: absolute;
+  left: 8%; right: 8%; bottom: -1px; height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--ng-gold-3), transparent);
+  box-shadow: 0 0 18px rgba(242, 213, 138, .38);
+}
+[data-mj="header-left"] { gap: 8px !important; }
+[data-mj="logo"] img { filter: drop-shadow(0 5px 14px rgba(201, 152, 67, .22)); }
+.ng-header-license {
+  display: inline-grid; place-items: center;
+  flex: 0 0 42px; width: 42px; height: 42px;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  transition: transform .2s ease;
+}
+.ng-header-license:hover,
+.ng-header-license:focus-visible { transform: translateY(-2px) scale(1.03); }
+.ng-header-license-image { display: block; width: 36px; height: 36px; object-fit: contain; }
+[data-mj="login-button"],
+[data-mj="register-button"],
+[data-mj="header-special-button"] {
+  position: relative; overflow: hidden;
+  border-radius: 10px !important;
+}
+[data-mj="login-button"] {
+  color: var(--ng-gold-3) !important;
+  border: 1px solid rgba(242, 213, 138, .56) !important;
+  background: rgba(255, 255, 255, .035) !important;
+}
+[data-mj="register-button"] {
+  color: #17130b !important;
+  border: 1px solid rgba(255, 242, 189, .72) !important;
+  background: var(--ng-gold-fill) !important;
+  box-shadow: inset 0 1px rgba(255, 255, 255, .55), 0 8px 24px rgba(201, 152, 67, .25) !important;
+}
+.ng-call-button,
+.ng-telegram-button,
+[data-mj="header-special-button"].ng-gift-button {
+  display: inline-grid !important; place-items: center;
+  flex: 0 0 42px; width: 42px; min-width: 42px !important;
+  height: 40px; min-height: 40px !important;
+  padding: 0 !important;
+  box-sizing: border-box;
+  overflow: hidden;
+  border: 1px solid rgba(242, 213, 138, .46) !important;
+  border-radius: 12px !important;
+  background: linear-gradient(145deg, rgba(201, 152, 67, .16), rgba(10, 10, 13, .84)) !important;
+  box-shadow: inset 0 1px rgba(255, 255, 255, .12), 0 7px 20px rgba(0, 0, 0, .28) !important;
+  cursor: pointer;
+}
+[data-mj="header-special-button"].ng-gift-button { color: transparent !important; font-size: 0 !important; }
+.ng-call-button { flex-basis: 36px; width: 36px; min-width: 36px !important; }
+.ng-call-label { display: none !important; }
+.ng-call-button:hover,
+.ng-telegram-button:hover,
+[data-mj="header-special-button"].ng-gift-button:hover { filter: brightness(1.12); transform: translateY(-1px); }
+.ng-game-return {
+  display: none !important;
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  z-index: 8;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  gap: 7px;
+  height: 40px;
+  min-height: 40px !important;
+  min-width: 0;
+  max-width: min(150px, 38vw);
+  padding: 0 12px !important;
+  box-sizing: border-box;
+  color: #fff4c7 !important;
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: 850;
+  line-height: 1;
+  letter-spacing: .01em;
+  border: 1px solid rgba(242, 213, 138, .58) !important;
+  border-radius: 12px !important;
+  background: linear-gradient(145deg, rgba(201, 152, 67, .24), rgba(10, 10, 13, .92)) !important;
+  box-shadow: inset 0 1px rgba(255, 255, 255, .14), 0 7px 20px rgba(0, 0, 0, .28), 0 0 16px rgba(201, 152, 67, .1) !important;
+  transform: translate(-50%, -50%) !important;
+  cursor: pointer;
+}
+html.ng-game-return-ready .ng-game-return,
+html.ng-game-embed .ng-game-return { display: inline-flex !important; }
+html:not(.ng-game-return-ready):not(.ng-game-embed) .ng-game-return { display: none !important; }
+.ng-game-return-icon {
+  flex: 0 0 auto;
+  color: var(--ng-gold-3);
+  font-size: 17px;
+  font-weight: 900;
+  line-height: 1;
+}
+.ng-game-return:hover,
+.ng-game-return:focus-visible {
+  border-color: rgba(255, 242, 189, .9) !important;
+  background: linear-gradient(145deg, rgba(242, 213, 138, .32), rgba(17, 15, 13, .95)) !important;
+  box-shadow: inset 0 1px rgba(255, 255, 255, .2), 0 0 20px rgba(201, 152, 67, .22) !important;
+}
+.ng-game-return:active { transform: translate(-50%, calc(-50% + 1px)) !important; }
+html.ng-game-embed [data-mj="bottom-nav"],
+html.ng-game-embed [data-mj="bottom-nav"] > *,
+html.ng-game-embed [data-mj="bottom-nav-item"] {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+.ng-call-icon {
+  display: block; width: 20px; height: 20px; padding: 3px;
+  border-radius: 7px;
+  object-fit: contain;
+  background: var(--ng-gold-fill);
+}
+.ng-telegram-icon,
+.ng-gift-icon {
+  display: block; width: 23px; height: 23px;
+  background: linear-gradient(135deg, #b77b1e, #ffe99d 56%, #d49a2c);
+  mask: center / contain no-repeat;
+}
+.ng-telegram-icon { mask-image: url("./narcos-telegram-icon.png"); }
+.ng-gift-icon { mask-image: url("./narcos-gift-icon.png"); }
+[data-mj="header-special-button"].ng-gift-button > :not(.ng-gift-icon) { display: none !important; }
+@keyframes ng-gold-text-flow { to { background-position: 240% center; } }
+@keyframes ng-mobile-info-marquee { from { transform: translateX(35%); } to { transform: translateX(-100%); } }
+@keyframes ng-logo-premium-shine {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 4px 12px rgba(201, 152, 67, .22)); }
+  50% { transform: scale(1.018); filter: drop-shadow(0 5px 19px rgba(242, 213, 138, .62)); }
+}
+[data-mj="header-left"] [data-mj="logo"] img { transform-origin: center; animation: none; }
+html.ng-effects-ready [data-mj="header-left"] [data-mj="logo"] img { animation: ng-logo-premium-shine 7s ease-in-out infinite; }
+/* ---------------- SLIDER / PAGES / CATALOG / PROMOTIONS ---------------- */
+[data-mj="widget-game-card"] {
+  border: 1px solid rgba(242, 213, 138, .13) !important;
+  border-radius: 15px !important;
+  background: linear-gradient(145deg, rgba(255, 255, 255, .065), rgba(255, 255, 255, .018)) !important;
+  box-shadow: inset 0 1px rgba(255, 255, 255, .055), 0 14px 34px rgba(0, 0, 0, .25) !important;
+}
+[data-mj="widget-pages-item"] {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+[data-mj="widget-pages-item"],
+[data-mj="widget-game-card"],
+[data-mj="game-catalog-card"],
+[data-mj="game-catalog-category-list-item"],
+[data-mj="promotions-tabs"] button {
+  transition: transform .18s ease, border-color .18s ease, opacity .18s ease !important;
+}
+@property --ng-neon-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+[data-mj="widget-multi-banner-slider"] {
+  --ng-neon-angle: 0deg;
+  position: relative !important;
+  isolation: isolate;
+  overflow: hidden !important;
+  border-radius: 18px !important;
+  box-shadow: 0 16px 44px rgba(0, 0, 0, .42), 0 0 24px rgba(201, 152, 67, .08) !important;
+}
+[data-mj="widget-multi-banner-slider"]::before,
+[data-mj="widget-multi-banner-slider"]::after {
+  content: ""; position: absolute; inset: 0; z-index: 8;
+  border-radius: inherit; pointer-events: none;
+}
+[data-mj="widget-multi-banner-slider"]::before {
+  padding: 2px;
+  background: conic-gradient(from var(--ng-neon-angle), transparent 0 38deg, #fff 48deg, var(--ng-gold-3) 57deg, transparent 84deg 212deg, #fff 222deg, var(--ng-gold-2) 232deg, transparent 250deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  animation: none;
+}
+html.ng-effects-ready [data-mj="widget-multi-banner-slider"]::before {
+  filter: drop-shadow(0 0 4px rgba(242, 213, 138, .95));
+  animation: ng-slider-neon-sweep 6.8s linear infinite;
+}
+[data-mj="widget-multi-banner-slider"]::after {
+  z-index: 7;
+  border: 1px solid rgba(242, 213, 138, .28);
+  box-shadow: inset 0 0 16px rgba(201, 152, 67, .09);
+}
+@keyframes ng-slider-neon-sweep { to { --ng-neon-angle: 360deg; } }
+[data-mj="game-catalog-module"] {
+  position: relative;
+  isolation: isolate;
+  padding: 18px clamp(12px, 2vw, 28px) 30px !important;
+  border: 1px solid rgba(242, 213, 138, .14) !important;
+  border-radius: 22px !important;
+  background: radial-gradient(circle at 10% 0, rgba(201, 152, 67, .13), transparent 28rem), rgba(18, 18, 21, .72) !important;
+}
+[data-mj="game-catalog-category-list"],
+[data-mj="game-catalog-provider-filter"],
+[data-mj="game-catalog-game-search"] { border-color: rgba(242, 213, 138, .18) !important; border-radius: 14px !important; }
+[data-mj="game-catalog-category-list-item"] {
+  color: rgba(255, 255, 255, .82) !important;
+  border-radius: 10px !important;
+}
+[data-mj="game-catalog-category-list-item"].active {
+  color: #17130b !important;
+  background: linear-gradient(120deg, #c68c28, #ffe99d 58%, #b77b1e) !important;
+}
+[data-mj="game-catalog-list"] { gap: 14px !important; }
+[data-mj="game-catalog-card"] {
+  position: relative !important; isolation: isolate; overflow: hidden !important;
+  width: 100% !important; height: auto !important; min-height: 0 !important;
+  padding: 0 !important;
+  aspect-ratio: 427 / 576 !important;
+  border: 1px solid rgba(242, 213, 138, .18) !important;
+  border-radius: 15px !important;
+  background: var(--ng-dark-fill) !important;
+  box-shadow: inset 0 1px rgba(255, 255, 255, .045), 0 4px 12px rgba(0, 0, 0, .16) !important;
+  contain: layout paint style;
+  content-visibility: auto;
+}
+[data-mj="game-catalog-card"] > img {
+  position: absolute !important; inset: 0 !important; z-index: 1;
+  display: block !important; width: 100% !important; height: 100% !important;
+  object-fit: cover !important;
+  border-radius: inherit !important;
+}
+@media (hover: hover) and (pointer: fine) {
+  main :where(button, [role="button"], .ng-campaign-button) {
+    transition: transform .16s ease, opacity .16s ease !important;
+  }
+  main :where(button, [role="button"], .ng-campaign-button):hover {
+    opacity: .94;
+    transform: translateY(-1px);
+  }
+  [data-mj="widget-pages-item"]:hover,
+  [data-mj="widget-game-card"]:hover {
+    position: relative;
+    z-index: 2;
+    transform: translateY(-4px) scale(1.025) !important;
+  }
+  [data-mj="game-catalog-category-list-item"]:hover {
+    color: #17130b !important;
+    background: linear-gradient(120deg, #c68c28, #ffe99d 58%, #b77b1e) !important;
+  }
+  [data-mj="game-catalog-card"]:hover {
+    border-color: rgba(242, 213, 138, .72) !important;
+    box-shadow: 0 10px 22px rgba(0, 0, 0, .3), 0 0 14px rgba(201, 152, 67, .17) !important;
+    transform: translateY(-4px) !important;
+  }
+}
+[data-mj="promotions-page"] { padding: 18px clamp(12px, 2vw, 28px) 30px !important; }
+[data-mj="promotions-grid"] { gap: 18px !important; }
+[data-mj="promotions-tabs"] button {
+  min-height: 38px !important; padding: 0 18px !important;
+  color: rgba(255, 255, 255, .78) !important;
+  border: 1px solid rgba(242, 213, 138, .2) !important;
+  border-radius: 999px !important;
+  background: rgba(255, 255, 255, .045) !important;
+  font-weight: 800 !important;
+}
+[data-mj="promotions-tabs"] button:is(.active, :focus-visible) {
+  color: #17130b !important;
+  background: linear-gradient(120deg, #c68c28, #ffe99d 58%, #b77b1e) !important;
+}
+@media (hover: hover) and (pointer: fine) {
+  [data-mj="promotions-tabs"] button:hover {
+    color: #17130b !important;
+    background: linear-gradient(120deg, #c68c28, #ffe99d 58%, #b77b1e) !important;
+  }
+}
+[data-mj="promotions-grid"] > a {
+  display: block !important; overflow: hidden !important;
+  border: 1px solid rgba(242, 213, 138, .18) !important;
+  border-radius: 18px !important;
+  background: rgba(255, 255, 255, .035) !important;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, .28) !important;
+}
+[data-mj="promotions-grid"] img { display: block !important; width: 100% !important; height: auto !important; border-radius: 17px !important; }
+/* ---------------- LEAGUES / MATCHES / SPORTSBOOK ---------------- */
+.ng-leagues-widget { --ng-league-card-width: clamp(160px, 14vw, 250px); }
+.ng-leagues-widget [data-mj="widget-collection-slider-list"] { gap: 16px !important; overflow: hidden !important; }
+.ng-leagues-widget [data-mj="widget-collection-slider-item"] {
+  flex: 0 0 var(--ng-league-card-width) !important; width: var(--ng-league-card-width) !important;
+  min-width: var(--ng-league-card-width) !important;
+}
+.ng-leagues-widget [data-mj="widget-collection-slider-item"] > a {
+  display: block !important; overflow: hidden !important;
+  border: 1px solid rgba(242, 213, 138, .26) !important;
+  border-radius: 14px !important;
+  background: rgba(255, 255, 255, .04) !important;
+}
+.ng-leagues-widget [data-mj="widget-collection-slider-item"] img {
+  display: block !important; width: 100% !important; height: auto !important;
+  aspect-ratio: 592 / 288 !important;
+  object-fit: cover !important;
+}
+.ng-leagues-widget [data-mj="widget-collection-slider-item"] strong {
+  display: block !important; padding: 7px 10px 9px !important;
+  color: var(--ng-gold-3) !important;
+  text-align: center !important;
+  font-size: 13px !important;
+}
+#sportsbook-wrapper {
+  position: relative !important; display: block !important; isolation: isolate;
+  width: 100% !important; height: clamp(560px, calc(100vh - 170px), 920px) !important;
+  min-height: 560px !important; overflow: hidden !important;
+  background: #09090b !important;
+}
+#sportsbook-wrapper iframe,
+#phoenix365ifraim {
+  position: absolute !important; inset: 0 !important; display: block !important;
+  width: 100% !important; height: 100% !important; min-height: 100% !important;
+  border: 0 !important; opacity: 1 !important;
+  visibility: visible !important;
+}
+html.ng-sports-route:has(#sportsbook-wrapper),
+html.ng-sports-route:has(#sportsbook-wrapper) body {
+  height: 100% !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  overscroll-behavior: none;
+}
+html.ng-sports-route:has(#sportsbook-wrapper) #root {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+html.ng-sports-route:has(#sportsbook-wrapper) [data-mj="header"] {
+  position: relative !important;
+  top: 0 !important;
+  flex: 0 0 auto !important;
+}
+html.ng-sports-route:has(#sportsbook-wrapper) main[data-mj="page-content"] {
+  display: flex !important;
+  flex: 1 1 0 !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+html.ng-sports-route:has(#sportsbook-wrapper) main[data-mj="page-content"] > div:has(#sportsbook-wrapper),
+html.ng-sports-route:has(#sportsbook-wrapper) main[data-mj="page-content"] > div > div:has(#sportsbook-wrapper) {
+  position: relative !important;
+  inset: auto !important;
+  display: flex !important;
+  flex: 1 1 0 !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+html.ng-sports-route:has(#sportsbook-wrapper) #sportsbook-wrapper {
+  flex: 1 1 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  border-radius: 0 !important;
+}
+html.ng-sports-route:has(#sportsbook-wrapper) #sportsbook-wrapper iframe,
+html.ng-sports-route:has(#sportsbook-wrapper) #phoenix365ifraim {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  touch-action: auto !important;
+  overscroll-behavior: contain;
+}
+html.ng-sports-route:has(#sportsbook-wrapper) [data-mj="footer"],
+html.ng-sports-route:has(#sportsbook-wrapper) footer { display: none !important; }
+/* ---------------- TRUST / JACKPOT ---------------- */
+#narcos-game-hub {
+  position: relative; isolation: isolate; overflow: hidden;
+  width: min(calc(100% - 32px), 1432px);
+  margin: 18px auto 24px;
+  padding: clamp(17px, 2vw, 27px);
+  box-sizing: border-box; border: 1px solid transparent; border-radius: 24px;
+  background: linear-gradient(145deg, rgba(13, 13, 16, .96), rgba(34, 28, 19, .88)) padding-box, linear-gradient(110deg, #8f6424, #fff2bd, #c99843, #8f6424) border-box;
+  background-size: 100% 100%, 300% 100%;
+  box-shadow: var(--ng-shadow), inset 0 1px rgba(255, 242, 189, .09);
+}
+.ng-trust-head { margin: 0 auto 17px; text-align: center; }
+.ng-trust-eyebrow { color: var(--ng-gold-3); font-size: 11px; font-weight: 900; letter-spacing: .22em; }
+.ng-trust-title {
+  margin: 5px 0 3px !important;
+  color: transparent !important;
+  font-size: clamp(20px, 2vw, 31px) !important;
+  background: linear-gradient(90deg, #c99843, #fff2bd, #c99843);
+  background-clip: text;
+}
+.ng-trust-lead { margin: 0; color: var(--ng-muted); font-size: 14px; }
+.ng-trust-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.ng-trust-card {
+  position: relative; display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center; gap: 14px; min-width: 0;
+  min-height: 108px; padding: 16px;
+  color: #fff; text-decoration: none;
+  border: 1px solid rgba(242, 213, 138, .2);
+  border-radius: 17px;
+  background: radial-gradient(circle at 12% 20%, rgba(242, 213, 138, .1), transparent 42%), rgba(255, 255, 255, .04);
+}
+.ng-trust-icon-wrap {
+  display: grid; place-items: center; width: 58px; height: 58px;
+  border: 1px solid rgba(255, 242, 189, .26);
+  border-radius: 17px;
+  background: linear-gradient(145deg, rgba(242, 213, 138, .16), rgba(8, 8, 11, .82));
+}
+.ng-trust-icon {
+  display: block; width: 31px; height: 31px;
+  background: linear-gradient(135deg, #b77b1e, #fff2bd 55%, #c98f2b);
+  mask: center / contain no-repeat;
+}
+.ng-trust-icon-members { mask-image: url("./narcos-members-icon.png"); }
+.ng-trust-icon-experience { mask-image: url("./narcos-experience-icon.png"); }
+.ng-trust-icon-support { mask-image: url("./narcos-support-icon.png"); }
+.ng-trust-icon-verified { mask-image: url("./narcos-verified-icon.png"); }
+.ng-trust-copy { display: grid; gap: 4px; min-width: 0; }
+.ng-trust-value { color: var(--ng-gold-4); font-size: clamp(16px, 1.45vw, 25px); font-weight: 900; line-height: 1.08; }
+.ng-trust-label { color: rgba(247, 243, 232, .72); font-size: 11px; font-weight: 800; letter-spacing: .09em; }
+.ng-trust-arrow { position: absolute; top: 10px; right: 12px; color: var(--ng-gold-3); }
+.ng-trust-note { margin: 13px 0 0; color: rgba(247, 243, 232, .52); font-size: 10px; text-align: center; }
+#narcos-egt-jackpot {
+  position: relative; isolation: isolate;
+  width: min(1040px, calc(100% - 32px));
+  margin: 18px auto 24px;
+  padding: 18px; box-sizing: border-box; overflow: hidden;
+  border: 1px solid rgba(242, 213, 138, .3);
+  border-radius: 22px;
+  background: linear-gradient(135deg, rgba(9, 13, 20, .94), rgba(18, 24, 35, .9) 48%, rgba(12, 14, 20, .96));
+  box-shadow: 0 18px 46px rgba(0, 0, 0, .34);
+  contain: layout paint style;
+}
+.ng-jackpot-heading {
+  position: absolute; top: 50%; left: 50%; z-index: 3;
+  width: 230px; height: 100px;
+  transform: translate(-50%, -50%);
+  background: url("./narcos-jackpot-cards.png") center / contain no-repeat;
+  filter: drop-shadow(0 10px 16px rgba(0, 0, 0, .58));
+}
+.ng-jackpot-heading > * {
+  position: absolute !important; width: 1px !important; height: 1px !important;
+  margin: -1px !important; overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+}
+.ng-jackpot-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 28px; }
+.ng-jackpot-card {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 112px;
+  padding: 17px 16px 15px;
+  border: 1px solid rgba(242, 213, 138, .28);
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(27, 39, 56, .92), rgba(13, 18, 27, .98));
+}
+.ng-jackpot-suit {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #111217;
+  font-size: 47px;
+  -webkit-text-stroke: 1px var(--ng-gold-2);
+}
+.ng-jackpot-card-red .ng-jackpot-suit { color: #e1242f; -webkit-text-stroke-color: #f1b94a; }
+.ng-jackpot-label { margin-top: 8px; color: var(--ng-muted); font-size: 8px; font-weight: 800; letter-spacing: 1.5px; }
+.ng-jackpot-value { color: #fff; font-size: clamp(25px, 3.3vw, 45px); font-weight: 900; font-variant-numeric: tabular-nums; }
+/* ---------------- FOOTER / VALUES / SOCIAL / LICENSE ---------------- */
+footer {
+  position: relative;
+  height: auto !important;
+  min-height: max-content !important;
+  overflow: visible !important;
+  padding: 32px 16px 26px !important;
+  box-sizing: border-box !important;
+  color: var(--ng-text) !important;
+  border-top: 1px solid rgba(242, 213, 138, .16) !important;
+  background: #151315 !important;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 720px;
+}
+footer::before,
+[data-mj="footer-logo"] { display: none !important; }
+[data-mj="footer-content"] {
+  position: relative;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 26px !important;
+  width: min(1000px, 100%) !important;
+  margin-inline: auto !important;
+}
+[data-mj="footer-top"] {
+  display: block !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+[data-mj="footer-nav"][hidden] { display: none !important; }
+#narcos-footer-columns {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 28px;
+  width: 100%;
+  padding: 0 0 30px;
+}
+.ng-footer-column { display: flex; min-width: 0; flex-direction: column; gap: 11px; }
+.ng-footer-column-title { margin: 0 0 6px; color: var(--ng-gold-3); font-size: 13px; font-weight: 850; letter-spacing: .095em; }
+.ng-footer-column-link,
+.ng-footer-column-note {
+  display: block;
+  overflow: hidden;
+  color: rgba(247, 243, 232, .62) !important;
+  font-size: 14px;
+  line-height: 1.35;
+  text-decoration: none !important;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ng-footer-column-link:hover { color: var(--ng-gold-3) !important; transform: translateX(3px); }
+#narcos-values-panel {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.ng-value-card {
+  padding: clamp(22px, 3vw, 38px);
+  text-align: center;
+  border: 1px solid rgba(217, 171, 59, .48);
+  border-radius: 18px;
+  background: var(--ng-dark-fill);
+}
+.ng-value-card h3 { margin: 0 0 16px; color: var(--ng-gold-3); font-size: clamp(19px, 1.8vw, 27px); }
+.ng-value-card p { margin: 0; color: rgba(255, 255, 255, .91); font-size: clamp(13px, 1.05vw, 16px); line-height: 1.62; }
+.ng-value-card p + p { margin-top: 12px; }
+#narcos-social-panel {
+  display: grid;
+  grid-template-columns: minmax(190px, .72fr) repeat(2, minmax(220px, 1fr));
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid rgba(242, 213, 138, .18);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .035);
+}
+.ng-social-heading { display: flex; flex-direction: column; justify-content: center; gap: 5px; padding: 8px 12px; }
+.ng-social-kicker { color: var(--ng-gold-2); font-size: 10px; font-weight: 850; letter-spacing: 1.7px; }
+.ng-social-title { color: #fffaf0; font-size: 17px; font-weight: 800; }
+.ng-social-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 15px;
+  color: var(--ng-text) !important;
+  text-decoration: none !important;
+  border: 1px solid rgba(242, 213, 138, .15);
+  border-radius: 12px;
+  background: rgba(8, 8, 10, .24);
+}
+.ng-social-icon { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 10px; background: var(--ng-gold-fill); }
+.ng-social-image { display: block; width: 24px; height: 24px; object-fit: contain; }
+.ng-social-label { display: block; color: var(--ng-muted); font-size: 10px; font-weight: 700; letter-spacing: .8px; }
+.ng-social-value { display: block; overflow: hidden; color: var(--ng-gold-3); font-size: 14px; font-weight: 800; text-overflow: ellipsis; white-space: nowrap; }
+.ng-social-arrow { color: var(--ng-gold-3); }
+.ng-contact-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  gap: 10px;
+  width: fit-content;
+  max-width: 100%;
+  margin: 2px auto 0;
+  padding: 12px 20px;
+  color: #17130b !important;
+  text-decoration: none !important;
+  border: 1px solid rgba(255, 242, 189, .78);
+  border-radius: 999px;
+  background: linear-gradient(120deg, #b77b1e, #ffe99d 55%, #c68c28);
+  font-size: 13px;
+  font-weight: 850;
+}
+.ng-contact-image { display: block; width: 22px; height: 22px; object-fit: contain; }
+#narcos-age-badge {
+  min-width: 74px;
+  min-height: 42px;
+  justify-content: center !important;
+  color: #17130b !important;
+  font-weight: 900 !important;
+  border: 1px solid rgba(255, 242, 189, .72) !important;
+  border-radius: 11px !important;
+  background: var(--ng-gold-fill) !important;
+}
+#narcos-license-banner .ng-license-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  padding: 16px 0 0;
+  border: 0;
+  border-top: 1px solid rgba(242, 213, 138, .14);
+  background: transparent;
+  text-align: center;
+  backdrop-filter: none;
+}
+#narcos-license-banner .ng-license-panel::before { display: none; }
+#narcos-license-banner .ng-license-copy { display: contents; }
+.ng-license-eyebrow { order: 1; color: var(--ng-gold-3); font-size: 13px; font-weight: 800; letter-spacing: .12em; }
+.ng-license-badge-link {
+  order: 2;
+  display: grid;
+  place-items: center;
+  width: 76px;
+  height: 76px;
+  border: 0;
+  background: transparent;
+}
+.ng-license-badge { display: block; width: 68px; height: 68px; object-fit: contain; }
+.ng-license-title { order: 3; width: min(760px, 100%); margin: 0; color: rgba(247, 243, 232, .42); font-size: 11px; line-height: 1.5; }
+.ng-license-title a { color: var(--ng-gold-3) !important; font-weight: 800; }
+.ng-license-action { order: 4; padding: 6px 10px; color: var(--ng-gold-3); font-size: 11px; text-decoration: none; border: 1px solid var(--ng-line); border-radius: 10px; }
+#narcos-game-hub,
+#narcos-values-panel,
+#narcos-social-panel,
+#narcos-license-banner { content-visibility: auto; contain-intrinsic-size: auto 260px; }
+/* ---------------- PROMOTION DETAIL / CAMPAIGN ROUTES ---------------- */
+[data-mj="promotion-details"] {
+  width: min(1240px, calc(100% - 28px)) !important;
+  margin: 26px auto 58px !important;
+  padding: clamp(16px, 2.5vw, 34px) !important;
+  box-sizing: border-box !important;
+  border: 1px solid rgba(242, 213, 138, .3) !important;
+  border-radius: 28px !important;
+  background: radial-gradient(circle at 12% 0, rgba(201, 152, 67, .18), transparent 32rem), rgba(8, 8, 11, .94) !important;
+}
+[data-mj="promotion-details"] > a:first-child {
+  display: inline-flex !important;
+  margin: 0 0 16px !important;
+  padding: 8px 13px !important;
+  color: var(--ng-gold-3) !important;
+  border: 1px solid rgba(242, 213, 138, .35) !important;
+  border-radius: 999px !important;
+}
+[data-mj="promotion-header"] {
+  overflow: hidden !important;
+  padding: clamp(18px, 2.8vw, 34px) !important;
+  border: 1px solid rgba(242, 213, 138, .3) !important;
+  border-radius: 22px !important;
+  background: linear-gradient(110deg, rgba(12, 12, 15, .88), rgba(70, 49, 20, .28)) !important;
+}
+[data-mj="promotion-header"] h1 {
+  margin: 0 auto 20px !important;
+  color: transparent !important;
+  text-align: center !important;
+  font-size: clamp(26px, 4vw, 48px) !important;
+  background: linear-gradient(100deg, var(--ng-gold-1), var(--ng-gold-3), #fff5c8, var(--ng-gold-2)) !important;
+  background-clip: text !important;
+}
+[data-mj="promotion-layout"],
+[data-mj="promotion-image"] { width: 100% !important; overflow: hidden !important; border-radius: 18px !important; }
+[data-mj="promotion-image"] { aspect-ratio: 16 / 5 !important; background: #0a0a0d !important; }
+[data-mj="promotion-image"] img { display: block !important; width: 100% !important; height: 100% !important; object-fit: cover !important; }
+[data-mj="promotion-details"] > div:not([data-mj="promotion-header"]) {
+  margin-top: 24px !important;
+  padding: clamp(18px, 3vw, 34px) !important;
+  border: 1px solid rgba(242, 213, 138, .2) !important;
+  border-radius: 20px !important;
+  background: rgba(255, 255, 255, .035) !important;
+}
+[data-mj="promotion-details"] li {
+  position: relative;
+  margin-bottom: 10px;
+  padding: 14px 16px 14px 42px;
+  border: 1px solid rgba(242, 213, 138, .14);
+  border-radius: 12px;
+  list-style: none;
+}
+[data-mj="promotion-details"] li::before { content: "✦"; position: absolute; left: 16px; color: var(--ng-gold-3); }
+.ng-campaign-main { min-height: 560px !important; padding: 28px clamp(14px, 4vw, 64px) 56px !important; }
+.ng-campaign-page {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  padding: clamp(24px, 4vw, 58px);
+  box-sizing: border-box;
+  border: 1px solid rgba(242, 213, 138, .28);
+  border-radius: 26px;
+  background: radial-gradient(circle at 12% 0, rgba(201, 152, 67, .2), transparent 32rem), rgba(8, 8, 11, .94);
+}
+.ng-campaign-hero { max-width: 780px; margin: 0 auto 30px; text-align: center; }
+.ng-campaign-eyebrow { display: inline-flex; padding: 5px 12px; color: #17130b; border-radius: 999px; background: var(--ng-gold-fill); font-size: 11px; font-weight: 900; }
+.ng-campaign-hero h1 { margin: 18px 0 12px; font-size: clamp(30px, 5vw, 58px); line-height: 1; }
+.ng-campaign-hero p { margin: 0 auto; color: rgba(255, 255, 255, .72); font-size: clamp(14px, 1.5vw, 18px); line-height: 1.7; }
+.ng-campaign-grid,
+.ng-campaign-form,
+.ng-campaign-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 18px; }
+.ng-campaign-grid article,
+.ng-campaign-note,
+.ng-campaign-stats > div,
+.ng-campaign-form {
+  padding: 22px;
+  border: 1px solid rgba(242, 213, 138, .18);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, .035);
+}
+.ng-campaign-form label { display: grid; gap: 7px; color: rgba(255, 255, 255, .72); font-size: 12px; font-weight: 800; }
+.ng-campaign-form label:last-of-type,
+.ng-campaign-form .ng-campaign-button { grid-column: 1 / -1; }
+.ng-campaign-form :is(input, textarea) { width: 100%; padding: 12px 13px; }
+.ng-campaign-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  min-height: 44px;
+  padding: 0 22px;
+  color: #17130b !important;
+  text-decoration: none !important;
+  border: 1px solid rgba(255, 242, 189, .76) !important;
+  border-radius: 999px !important;
+  background: var(--ng-gold-fill) !important;
+  font-size: 12px;
+  font-weight: 900;
+}
+.ng-campaign-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.ng-campaign-stats > div { display: grid; gap: 5px; text-align: center; }
+.ng-campaign-stats strong { color: var(--ng-gold-3); font-size: clamp(23px, 3vw, 35px); }
+.ng-campaign-note { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 18px; }
+.ng-campaign-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; width: 100%; margin-top: 12px; }
+.ng-campaign-links a { padding: 9px 13px; color: var(--ng-gold-3) !important; text-decoration: none !important; border: 1px solid var(--ng-line); border-radius: 999px; }
+/* ---------------- DESKTOP ---------------- */
+@media (min-width: 621px) {
+  [data-mj="header"] > div:has(> [data-mj="custom-header"]) { width: 100% !important; max-width: none !important; padding: 0 !important; }
+  [data-mj="custom-header"],
+  [data-mj="header-nav-list"] {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding-inline: clamp(18px, 4.5vw, 94px) !important;
+    box-sizing: border-box !important;
+  }
+  /* Nav seridi ust satirla ayni 4.5vw yan boslugu kullaniyordu; 1920px'te
+   * bu tek basina 173px yiyor ve 12 menu ogesi icin yer kalmiyordu.
+   * Serit, logo/buton satirindan daha dar bir yan bosluk kullansin. */
+  [data-mj="header-nav-list"] { padding-inline: clamp(10px, 1.4vw, 40px) !important; }
+  [aria-label="site-header"] { display: flex !important; align-items: center !important; }
+  [data-mj="header-left"] { order: 1; flex: 0 0 auto !important; max-width: 245px !important; }
+  [data-mj="header-center"] { order: 2; flex: 1 1 auto !important; min-width: 0 !important; }
+  [data-mj="header-right"] { display: flex !important; align-items: center !important; order: 3; width: auto !important; margin-left: auto !important; }
+  [data-mj="header-right"] > .ng-auth-profile-control {
+    order: 999 !important;
+    flex: 0 0 auto !important;
+    margin-left: clamp(6px, .6vw, 12px) !important;
+  }
+  [data-mj="header-nav-list"] > ul { display: flex !important; width: 100% !important; }
+  [data-mj="header-nav-item"] { flex: 1 1 auto !important; min-width: 0 !important; padding-right: 0 !important; }
+  /* ASIL HATA BURADAYDI: <li> `flex: 1 1 auto` ile iceriginin altina
+   * kadar kuculebiliyor, ama icindeki <a> hicbir genislik kisitina
+   * bagli degildi — kendi dogal genisliginde kalip <li>'sini SAGA
+   * DOGRU TASIYORDU. Tasan <a>, komsu ogenin ikonunun uzerine biniyor
+   * ve "ikon yazinin ustune binmis" gorunumu olusuyordu. Onceki
+   * `overflow: hidden` guvenlik agi ise ise yaramiyordu: tasan kutu
+   * <a>'nin KENDISI, icerigi degildi.
+   * Cozum: <a> her kosulda <li>'sinin genisligine kilitli. */
+  [data-mj="header-nav-item"] > a,
+  [data-mj="header-nav-item"] > button,
+  [data-mj="header-nav-item"] > span,
+  [data-mj="header-nav-item"] > div {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    gap: clamp(3px, .35vw, 5px) !important;
+    padding-inline: clamp(4px, .5vw, 8px) !important;
+    overflow: hidden !important;
+  }
+  /* Ust sinirlar 1440px'te sabitleniyor: kapsayici 1400px'te duruyor ama
+   * vw'ye bagli deger buyumeye devam edince genis ekranda yazi tasiyordu. */
+  [data-mj="header-nav-item"] p {
+    font-size: clamp(11px, .82vw, 12px) !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    min-width: 0 !important;
+  }
+  /* İkon gercekte <img>/<svg> DEGIL, mask-image ile boyanan bir <span>.
+   * Platformun kendi `margin-right: 8px`'i gap'in ustune biniyordu,
+   * sifirlaniyor. */
+  [data-mj="header-nav-item"] > a > span:first-child,
+  [data-mj="header-nav-item"] img,
+  [data-mj="header-nav-item"] svg {
+    width: clamp(16px, 1.3vw, 19px) !important;
+    height: clamp(16px, 1.3vw, 19px) !important;
+    margin: 0 !important;
+    flex: 0 0 auto !important;
+  }
+}
+/* 621-1239px: 12 oge + "Daha Fazla" butonu bu genislige tek satir sigmiyor;
+ * sikistirmak yerine ikonlari gizleyip seridi yatay kaydirilabilir yapiyoruz.
+ * Boylece etiketler ASLA "..." ile kirpilmiyor. */
+@media (min-width: 621px) and (max-width: 1239px) {
+  [data-mj="header-nav-list"] > ul {
+    flex-wrap: nowrap !important;
+    justify-content: flex-start !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scrollbar-width: none !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  [data-mj="header-nav-list"] > ul::-webkit-scrollbar { width: 0 !important; height: 0 !important; }
+  [data-mj="header-nav-item"] { flex: 0 0 auto !important; }
+  [data-mj="header-nav-item"] > a > span:first-child,
+  [data-mj="header-nav-item"] img,
+  [data-mj="header-nav-item"] svg { display: none !important; }
+  [data-mj="header-nav-item"] > a,
+  [data-mj="header-nav-item"] > button,
+  [data-mj="header-nav-item"] > span,
+  [data-mj="header-nav-item"] > div {
+    gap: 0 !important;
+    padding-inline: clamp(6px, .9vw, 14px) !important;
+  }
+}
+/* ---------------- TABLET ---------------- */
+@media (max-width: 920px) {
+  .ng-trust-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #narcos-values-panel { grid-template-columns: 1fr; }
+  #narcos-social-panel { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ng-social-heading { grid-column: 1 / -1; text-align: center; }
+}
+@media (min-width: 621px) and (max-width: 1000px) {
+  html.ng-game-return-ready [data-mj="header-right"] :is(.ng-gift-button, .ng-telegram-button, .ng-call-button, [role="combobox"]),
+  html.ng-game-embed [data-mj="header-right"] :is(.ng-gift-button, .ng-telegram-button, .ng-call-button, [role="combobox"]) {
+    display: none !important;
+  }
+}
+/* ---------------- MOBILE ---------------- */
+@media (max-width: 620px) {
+  html,
+  body { height: auto !important; min-height: 100% !important; max-width: 100vw !important; overflow-x: hidden !important; }
+  #root {
+    min-height: 100vh !important;
+    max-width: 100vw !important;
+    display: flex !important;
+    flex-direction: column !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden !important;
+  }
+  body::after { background-image: linear-gradient(180deg, rgba(5, 5, 7, .22), rgba(7, 7, 9, .5) 56%, rgba(7, 7, 8, .82)), url("./narcos-premium-background-v2-mobile.webp"); }
+  body::before { display: none; }
+  [data-mj="header"] {
+    position: relative !important;
+    inset: auto !important;
+    top: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+    align-self: stretch !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transform: none !important;
+    overflow: visible !important;
+    z-index: 1150 !important;
+  }
+  [data-mj="header"] > #narcos-info-strip {
+    position: relative !important;
+    inset: auto !important;
+    align-self: stretch !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+  .ng-info-strip {
+    order: -2 !important;
+    flex: 0 0 32px !important;
+    width: 100% !important;
+    height: 32px !important;
+    min-height: 32px !important;
+    max-height: 32px !important;
+    padding: 0 8px !important;
+  }
+  .ng-info-strip-content {
+    font-size: clamp(8px, 2.35vw, 10px) !important;
+    letter-spacing: -.015em !important;
+  }
+  .ng-info-long { display: none !important; }
+  .ng-info-separator { margin-inline: 5px; }
+  [data-mj="header"] > :has([data-mj="announcement"]),
+  [data-mj="header"] > [data-mj="announcement"] {
+    position: relative !important;
+    inset: auto !important;
+    order: -1 !important;
+    flex: 0 0 32px !important;
+    width: 100% !important;
+    height: 32px !important;
+    min-height: 32px !important;
+    max-height: 32px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    transform: none !important;
+    box-sizing: border-box !important;
+  }
+  [data-mj="header"] [data-mj="announcement"] {
+    position: relative !important;
+    inset: auto !important;
+    display: flex !important;
+    flex: 0 0 32px !important;
+    width: 100% !important;
+    height: 32px !important;
+    min-height: 32px !important;
+    max-height: 32px !important;
+    margin: 0 !important;
+    padding: 0 34px 0 8px !important;
+    overflow: hidden !important;
+    transform: none !important;
+    box-sizing: border-box !important;
+  }
+  [data-mj="announcement"] > div,
+  [data-mj="announcement"] > div > div:first-child,
+  [data-mj="announcement"] div:has(> p) { display: block !important; max-width: 100% !important; overflow: hidden !important; }
+  [data-mj="announcement"] p {
+    display: inline-block !important;
+    width: max-content !important;
+    min-width: max-content !important;
+    max-width: none !important;
+    font-size: 10px !important;
+    line-height: 32px !important;
+    white-space: nowrap !important;
+    animation: ng-mobile-info-marquee 19s linear infinite !important;
+  }
+  [data-mj="announcement"] p br { display: none; }
+  [data-mj="announcement"] button[aria-label="close"] { right: 4px !important; width: 24px !important; height: 24px !important; }
+  [data-mj="header"] > :has([data-mj="custom-header"]),
+  [data-mj="header"] > [data-mj="custom-header"] {
+    position: relative !important;
+    inset: auto !important;
+    order: 0 !important;
+    flex: 0 0 60px !important;
+    width: 100% !important;
+    height: 60px !important;
+    min-height: 60px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transform: none !important;
+  }
+  [data-mj="header"] [data-mj="custom-header"] {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    height: 60px !important;
+    min-height: 60px !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+  [aria-label="site-header"] {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    column-gap: 4px !important;
+    height: 60px !important;
+    min-height: 60px !important;
+    padding: 10px 8px !important;
+    backdrop-filter: none !important;
+  }
+  [data-mj="header-nav"] { max-width: 100vw !important; overflow-x: hidden !important; backdrop-filter: none !important; }
+  [data-mj="header-left"] {
+    position: relative !important;
+    inset: auto !important;
+    display: flex !important;
+    align-items: center !important;
+    width: auto !important;
+    min-width: 0 !important;
+    height: 100% !important;
+    padding-left: 42px !important;
+    pointer-events: none;
+  }
+  [data-mj="header-left"] > button[aria-label="menu"] { position: absolute !important; left: 4px !important; width: 32px !important; height: 32px !important; pointer-events: auto; }
+  [data-mj="header-left"] [data-mj="logo"] { display: flex !important; flex: 0 1 clamp(70px, 22vw, 86px) !important; width: clamp(70px, 22vw, 86px) !important; min-width: 0 !important; height: 34px !important; pointer-events: auto; }
+  [data-mj="header-left"] [data-mj="logo"] img { width: 100% !important; height: 100% !important; object-fit: contain !important; }
+  [data-mj="header-center"] { display: none !important; }
+  [data-mj="header-right"] {
+    position: relative !important;
+    inset: auto !important;
+    display: flex !important;
+    align-items: center !important;
+    flex: 0 0 auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+    gap: 2px !important;
+    transform: none !important;
+  }
+  [data-mj="header-right"] [role="combobox"] { display: none !important; }
+  [data-mj="header-right"] > .ng-auth-profile-control {
+    order: 999 !important;
+    flex: 0 0 auto !important;
+    margin-left: 2px !important;
+  }
+  [data-mj="login-button"] { min-width: 40px !important; padding-inline: 6px !important; }
+  [data-mj="register-button"] { min-width: 46px !important; padding-inline: 6px !important; }
+  .ng-call-button,
+  .ng-telegram-button,
+  [data-mj="header-special-button"].ng-gift-button {
+    flex-basis: 30px;
+    width: 30px;
+    min-width: 30px !important;
+    height: 32px;
+    min-height: 32px !important;
+    border-radius: 10px !important;
+  }
+  .ng-call-icon,
+  .ng-telegram-icon,
+  .ng-gift-icon { width: 18px; height: 18px; filter: none; }
+  html.ng-game-return-ready [data-mj="header-right"],
+  html.ng-game-embed [data-mj="header-right"] { gap: 3px !important; }
+  html.ng-game-return-ready .ng-gift-button,
+  html.ng-game-return-ready .ng-telegram-button,
+  html.ng-game-return-ready .ng-call-button,
+  html.ng-game-embed .ng-gift-button,
+  html.ng-game-embed .ng-telegram-button,
+  html.ng-game-embed .ng-call-button { display: none !important; }
+  html.ng-game-return-ready [data-mj="header-left"] [data-mj="logo"],
+  html.ng-game-return-ready [data-mj="header-left"] .ng-header-license,
+  html.ng-game-embed [data-mj="header-left"] [data-mj="logo"],
+  html.ng-game-embed [data-mj="header-left"] .ng-header-license { display: none !important; }
+  html.ng-game-return-ready .ng-game-return,
+  html.ng-game-embed .ng-game-return {
+    height: 32px;
+    min-height: 32px !important;
+    max-width: 126px;
+    gap: 5px;
+    padding: 0 8px !important;
+    border-radius: 10px !important;
+    font-size: clamp(9px, 2.5vw, 10px);
+    letter-spacing: -.01em;
+  }
+  html.ng-game-embed .ng-game-return-icon { font-size: 15px; }
+  .ng-header-license { flex: 0 0 30px; width: 30px; height: 32px; }
+  .ng-header-license-image { width: 30px; height: 30px; }
+  html:not(.ng-game-embed):not(.ng-sports-route) main[data-mj="page-content"] {
+    flex: 0 0 auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+  /* OYUN KARESI GUVENLIK AGI — sinif gelmese bile dikey ve ekran boyu.
+   *
+   * Saglayicinin oyunu MASAUSTU mu MOBIL mi cizecegi tamamen bizim iframe'in
+   * en-boy oranindan belirleniyor. Kanit: platformun sarmalayici sayfasi
+   * (/api/rgs) kendi site.css'inde `iframe { position:fixed; inset:0;
+   * width:100%; height:100% }` diyor — yani saglayicinin gordugu viewport
+   * BIREBIR bizim iframe kutumuz. Kutu yatay olursa oyun yatay/masaustu
+   * arayuzunu aciyor.
+   *
+   * Ustteki kural oyun sayfasinda main'i `height:auto` yapiyor; platformun
+   * oyun sayfasi ise `height:100%` zincirine dayaniyor, sonuc: TUM zincir
+   * 0px'e cokuyor (olculdu: main 375x0, iframe 375x0). Tam ekran duzen
+   * yalnizca JS'in ekledigi .ng-game-embed sinifina bagliydi; sinif gec
+   * gelirse veya hic gelmezse oyun bozuk kutuda aciliyordu.
+   *
+   * Asagisi ayni duzeni SINIFTAN BAGIMSIZ kuruyor. Panel gommesi
+   * (data-ng-panel) disarida tutuluyor; iframe icermeyen sayfalar
+   * `:has()` eslesmedigi icin hic etkilenmiyor. */
+  html:not(.ng-game-embed):not(.ng-sports-route)
+  main[data-mj="page-content"]:has(iframe:not([data-ng-panel])) {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 1 auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+  }
+  /* iframe'e giden butun ara katmanlar uzasin. */
+  main[data-mj="page-content"] *:has(iframe:not([data-ng-panel])) {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 1 auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+  }
+  main[data-mj="page-content"] iframe:not([data-ng-panel]) {
+    position: relative !important;
+    inset: auto !important;
+    flex: 1 1 auto !important;
+    width: 100% !important;
+    height: auto !important;
+    border: 0 !important;
+    /* ILK KARE DIKEY OLMAK ZORUNDA.
+     *
+     * Saglayici (Playson/Pragmatic) duzenini oyun YUKLENIRKENKI viewport'a
+     * gore secip kilitliyor; kutu sonradan buyuyunce yeniden duzenlemiyor.
+     * Olculen zaman cizelgesi (375x812, /tr/game/demo/178885):
+     *     296ms  iframe src ILE BIRLIKTE dogdu -> 375x339  oran 1.11 YATAY
+     *    1024ms  hala                            375x339  oran 1.11 YATAY
+     *    1975ms  ancak simdi                     375x659  oran 0.57 portre
+     * Yani oyun ilk ~1.9sn'yi yatay bir kutuda gecirip yatay/masaustu
+     * arayuzu secmis oluyordu; sonraki duzelme ise yaramiyor.
+     *
+     * `min-height` zemini bu pencereyi tamamen kapatiyor: ilk kareden
+     * itibaren kutu dikey. 68svh, 320px'den genis her telefonda
+     * yukseklik > genislik garantisi verir (0.68 * 568 = 386 > 320);
+     * cihaz gercekten yatay tutuluyorsa dogru sekilde yatay kalir. */
+    min-height: 68svh !important;
+  }
+  [data-mj="widget-multi-banner"] { width: 100% !important; padding-inline: 12px !important; box-sizing: border-box !important; }
+  [data-mj="widget-multi-banner-slider"] {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    /* Banner gorselleri 882x392 = 9/4 (2.25). Kutu 16/7 (2.2857) idi:
+     * `object-fit: contain` gorseli yukseklige sigdirip iki yanda ~2.75px
+     * siyah bant birakiyordu. Oran gorselle birebir olunca bant kalmiyor. */
+    aspect-ratio: 9 / 4 !important;
+    border-radius: 16px !important;
+  }
+  [data-mj="widget-multi-banner-slider"] > * { flex: 0 0 100% !important; width: 100% !important; height: 100% !important; }
+  [data-mj="widget-multi-banner-slider"] img { display: block !important; width: 100% !important; height: 100% !important; object-fit: contain !important; background: #0b0b0d !important; }
+  [data-mj="widget-pages-item"] { border: 0 !important; background: transparent !important; box-shadow: none !important; }
+  [data-mj="widget-game-card"] { overflow: hidden !important; border: 1px solid rgba(242, 213, 138, .72) !important; border-radius: 14px !important; }
+  [data-mj="game-catalog-module"] { width: 100% !important; padding: 10px 7px 24px !important; box-sizing: border-box !important; }
+  [data-mj="game-catalog-list"] { display: grid !important; grid-template-columns: repeat(4, minmax(0, 1fr)) !important; gap: 7px 5px !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }
+  [data-mj="game-catalog-list"] > * { width: 100% !important; min-width: 0 !important; margin: 0 !important; }
+  [data-mj="game-catalog-card"] { width: 100% !important; min-width: 0 !important; border-radius: 8px !important; }
+  [data-mj="game-catalog-provider-bottom-sheet-content"] {
+    width: 100% !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(242, 213, 138, .45) !important;
+    border-bottom: 0 !important;
+    border-radius: 24px 24px 0 0 !important;
+    background: radial-gradient(circle at 50% 0, rgba(201, 152, 67, .2), transparent 22rem), #09090c !important;
+  }
+  [data-mj="game-catalog-provider-bottom-sheet-header"] { padding: 15px 18px 9px !important; color: var(--ng-gold-4) !important; text-align: center !important; }
+  [data-mj="game-catalog-provider-bottom-sheet-body"] { padding: 12px 14px 18px !important; }
+  [data-mj="game-catalog-provider-bottom-sheet-body"] > div:first-child > div { display: flex !important; align-items: center !important; gap: 8px !important; padding: 0 12px !important; border: 1px solid var(--ng-line) !important; border-radius: 13px !important; }
+  [data-mj="game-catalog-provider-bottom-sheet-search"] { flex: 1 1 auto !important; width: auto !important; min-height: 42px !important; padding: 0 4px !important; background: transparent !important; text-align: left !important; }
+  [data-mj="game-catalog-provider-bottom-sheet-search"]::placeholder { color: rgba(255, 255, 255, .72) !important; opacity: 1 !important; }
+  [data-mj="game-catalog-provider-bottom-sheet-sort"] { display: flex !important; gap: 8px !important; margin-bottom: 10px !important; padding: 4px !important; border: 1px solid var(--ng-line) !important; border-radius: 12px !important; }
+  [data-mj="game-catalog-provider-sort-popular"],
+  [data-mj="game-catalog-provider-sort-az"] { display: inline-flex !important; align-items: center !important; justify-content: center !important; flex: 1 1 0 !important; min-height: 32px !important; border-radius: 8px !important; font-size: 11px !important; font-weight: 800 !important; }
+  [data-mj="game-catalog-provider-sort-popular"] { color: #17130b !important; background: var(--ng-gold-fill) !important; }
+  [data-mj="game-catalog-provider-list"] { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 9px !important; }
+  [data-mj="game-catalog-provider-item"] { display: grid !important; grid-template-rows: 76px auto !important; gap: 8px !important; min-height: 132px !important; padding: 9px !important; border: 1px solid var(--ng-line) !important; border-radius: 12px !important; }
+  [data-mj="game-catalog-provider-item"] > div:first-child { position: relative !important; display: grid !important; place-items: center !important; width: 100% !important; height: 76px !important; overflow: hidden !important; }
+  [data-mj="game-catalog-provider-item"] > div:first-child img { position: absolute !important; inset: 0 !important; display: block !important; width: 100% !important; height: 100% !important; object-fit: contain !important; }
+  [data-mj="game-catalog-provider-item"] p { overflow: hidden !important; margin: 0 !important; text-align: center !important; font-size: 11px !important; text-overflow: ellipsis !important; white-space: nowrap !important; }
+  .ng-leagues-widget { --ng-league-card-width: 148px; }
+  .ng-leagues-widget [data-mj="widget-collection-slider-list"] { gap: 10px !important; }
+  [data-mj="widget-phoenix-sport"],
+  [data-mj="widget-phoenix-sport-container"] { width: 100% !important; height: auto !important; min-height: 0 !important; max-height: none !important; overflow: visible !important; }
+  [data-mj="widget-phoenix-sport-content"] { display: flex !important; gap: 8px !important; width: 100% !important; min-height: 104px !important; padding: 2px 0 8px !important; overflow-x: auto !important; scrollbar-width: none !important; scroll-snap-type: x proximity !important; }
+  [data-mj="widget-phoenix-sport-content"]::-webkit-scrollbar { display: none !important; }
+  [data-mj="widget-phoenix-sport-content"] > * { flex: 0 0 calc(100% - 18px) !important; width: calc(100% - 18px) !important; min-height: 104px !important; scroll-snap-align: start !important; }
+  [data-mj="widget-phoenix-sport-content"] a { display: block !important; min-height: 104px !important; height: auto !important; padding: 9px 10px !important; overflow: visible !important; font-size: 10.5px !important; line-height: 1.25 !important; }
+  [data-mj="widget-phoenix-sport-content"] a * { max-width: 100% !important; overflow: visible !important; font-size: 10.5px !important; white-space: normal !important; overflow-wrap: anywhere !important; }
+  .ng-sidebar-root,
+  .ng-sidebar-drawer,
+  .ng-sidebar-scroll,
+  [data-mj="mobile-nav-list"].ng-sidebar-nav,
+  body > div:has([data-mj="mobile-nav-list"]),
+  body > div:has([data-mj="mobile-nav-list"]) > div:has([data-mj="mobile-nav-list"]),
+  div:has(> [data-mj="mobile-nav-list"]),
+  [data-mj="mobile-nav-list"] { max-width: 100vw !important; overflow-x: hidden !important; touch-action: pan-y !important; }
+  .ng-sidebar-root,
+  body > div:has([data-mj="mobile-nav-list"]) { background: rgba(3, 3, 6, .52) !important; }
+  .ng-sidebar-drawer,
+  body > div:has([data-mj="mobile-nav-list"]) > div:has([data-mj="mobile-nav-list"]) { top: 9px !important; bottom: 9px !important; width: min(86vw, 340px) !important; border-right: 1px solid rgba(242, 213, 138, .44) !important; background: linear-gradient(155deg, #1c1a19, #07070a 62%, #120f0b) !important; }
+  .ng-sidebar-scroll,
+  div:has(> [data-mj="mobile-nav-list"]) { display: flex !important; align-items: center !important; justify-content: center !important; overflow-y: hidden !important; scrollbar-width: none !important; }
+  [data-mj="mobile-nav-list"] { width: calc(100% - 18px) !important; margin: 0 auto !important; padding: 7px !important; border: 1px solid var(--ng-line) !important; border-radius: 18px !important; }
+  [data-mj="mobile-nav-list"] > ul { display: grid !important; gap: 4px !important; }
+  [data-mj="mobile-nav-list"] [data-mj="nav-item"] a { display: flex !important; align-items: center !important; gap: 9px !important; width: 100% !important; min-height: 38px !important; padding: 5px 10px !important; box-sizing: border-box !important; color: #fff !important; border: 1px solid rgba(242, 213, 138, .1) !important; border-radius: 10px !important; font-size: 12px !important; font-weight: 800 !important; text-transform: uppercase !important; }
+  [data-mj="mobile-nav-list"] [data-mj="nav-item"] span[style*="mask"] { flex: 0 0 24px !important; width: 24px !important; height: 24px !important; color: var(--ng-gold-3) !important; background-color: var(--ng-gold-3) !important; opacity: 1 !important; }
+  [data-mj="bottom-nav"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-bottom: calc(62px + env(safe-area-inset-bottom, 0px)) !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
+    pointer-events: none !important;
+  }
+  [data-mj="bottom-nav"] > :is(:only-child, :first-child, [data-mj="bottom-nav-list"]) {
+    position: fixed !important;
+    z-index: 1300 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    display: grid !important;
+    grid-auto-flow: column !important;
+    grid-auto-columns: minmax(0, 1fr) !important;
+    align-items: start !important;
+    width: 100% !important;
+    height: calc(62px + env(safe-area-inset-bottom, 0px)) !important;
+    padding: 4px 3px env(safe-area-inset-bottom, 0px) !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+    border: 0 !important;
+    border-top: 1px solid rgba(242, 213, 138, .4) !important;
+    border-radius: 0 !important;
+    background: linear-gradient(180deg, rgba(19, 18, 24, .985), rgba(7, 7, 10, .995)) !important;
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, .34), inset 0 1px rgba(255, 242, 189, .05) !important;
+    pointer-events: auto !important;
+  }
+  [data-mj="bottom-nav"] > :is(:only-child, :first-child, [data-mj="bottom-nav-list"]) > :not([data-mj="bottom-nav-item"]) {
+    display: contents !important;
+  }
+  [data-mj="bottom-nav"] [data-mj="bottom-nav-item"] {
+    position: relative !important;
+    display: grid !important;
+    grid-template-rows: 22px 10px !important;
+    place-items: center !important;
+    align-content: center !important;
+    gap: 4px !important;
+    min-width: 0 !important;
+    height: 54px !important;
+    padding: 4px 1px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+    color: rgba(247, 243, 232, .78) !important;
+    border: 0 !important;
+    border-radius: 10px !important;
+    background: transparent !important;
+    text-align: center !important;
+    font-size: clamp(6.1px, 1.95vw, 8px) !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+    letter-spacing: -.015em !important;
+    text-transform: uppercase !important;
+    white-space: nowrap !important;
+    touch-action: manipulation !important;
+    -webkit-tap-highlight-color: transparent !important;
+    transition: color .14s ease, background-color .14s ease !important;
+  }
+  [data-mj="bottom-nav"] [data-mj="bottom-nav-item"] > span:first-child {
+    width: clamp(20px, 5.6vw, 22px) !important;
+    min-width: clamp(20px, 5.6vw, 22px) !important;
+    max-width: clamp(20px, 5.6vw, 22px) !important;
+    height: clamp(20px, 5.6vw, 22px) !important;
+    min-height: clamp(20px, 5.6vw, 22px) !important;
+    max-height: clamp(20px, 5.6vw, 22px) !important;
+    margin: 0 auto !important;
+    color: var(--ng-gold-3) !important;
+    -webkit-mask-position: center !important;
+    mask-position: center !important;
+    -webkit-mask-repeat: no-repeat !important;
+    mask-repeat: no-repeat !important;
+    -webkit-mask-size: contain !important;
+    mask-size: contain !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  [data-mj="bottom-nav"] [data-mj="bottom-nav-item"] > span:first-child[style*="mask"] {
+    background-color: var(--ng-gold-3) !important;
+  }
+  [data-mj="bottom-nav"] [data-mj="bottom-nav-item"] > span:first-child :is(svg, img),
+  [data-mj="bottom-nav"] [data-mj="bottom-nav-item"] > :is(svg, img) {
+    width: clamp(20px, 5.6vw, 22px) !important;
+    min-width: clamp(20px, 5.6vw, 22px) !important;
+    max-width: clamp(20px, 5.6vw, 22px) !important;
+    height: clamp(20px, 5.6vw, 22px) !important;
+    min-height: clamp(20px, 5.6vw, 22px) !important;
+    max-height: clamp(20px, 5.6vw, 22px) !important;
+    color: var(--ng-gold-3) !important;
+    opacity: 1 !important;
+    object-fit: contain !important;
+  }
+  [data-mj="bottom-nav"] [data-mj="bottom-nav-item"] img {
+    filter: brightness(0) saturate(100%) invert(79%) sepia(64%) saturate(471%) hue-rotate(357deg) brightness(98%) contrast(92%) !important;
+  }
+  [data-mj="bottom-nav"] [data-mj="bottom-nav-item"] svg {
+    color: var(--ng-gold-3) !important;
+  }
+  [data-mj="bottom-nav"] [data-mj="bottom-nav-item"] svg [fill]:not([fill="none"]) {
+    fill: currentColor !important;
+  }
+  [data-mj="bottom-nav"] [data-mj="bottom-nav-item"] svg [stroke]:not([stroke="none"]) {
+    stroke: currentColor !important;
+  }
+  [data-mj="bottom-nav"] [data-mj="bottom-nav-item"] p {
+    width: 100% !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    color: inherit !important;
+    font: inherit !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+    text-overflow: clip !important;
+    white-space: nowrap !important;
+  }
+  [data-mj="bottom-nav"] [data-mj="bottom-nav-item"]:is(.active, .is-active, [aria-current="page"], [aria-selected="true"], [data-active="true"]) {
+    color: var(--ng-gold-4) !important;
+    background: rgba(201, 152, 67, .07) !important;
+  }
+  [data-mj="bottom-nav"] [data-mj="bottom-nav-item"]:is(.active, .is-active, [aria-current="page"], [aria-selected="true"], [data-active="true"])::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 50% !important;
+    width: 24px !important;
+    height: 2px !important;
+    border-radius: 0 0 3px 3px !important;
+    background: var(--ng-gold-fill) !important;
+    transform: translateX(-50%) !important;
+  }
+  [data-mj="bottom-nav"] [data-mj="bottom-nav-item"]:focus-visible {
+    color: var(--ng-gold-4) !important;
+    outline: 1px solid rgba(255, 242, 189, .72) !important;
+    outline-offset: -2px !important;
+  }
+  [data-mj="bottom-nav"] [data-mj="bottom-nav-item"]:active {
+    color: var(--ng-gold-4) !important;
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+  }
+  html.ng-game-embed,
+  html.ng-game-embed body {
+    height: 100% !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+  }
+  html.ng-game-embed #root {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100vh !important;
+    height: 100svh !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+  }
+  html.ng-game-embed [data-mj="header"] { flex: 0 0 auto !important; }
+  html.ng-game-embed main[data-mj="page-content"] {
+    position: relative !important;
+    display: flex !important;
+    flex: 1 1 0 !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
+  :where(html.ng-game-embed [data-ng-active-game-host="true"]) {
+    position: relative !important;
+    flex: 1 1 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+  }
+  html.ng-game-embed iframe[data-ng-active-game-frame="true"] {
+    position: absolute !important;
+    inset: 0 !important;
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    border: 0 !important;
+  }
+  html.ng-game-embed [data-mj="bottom-nav"] {
+    display: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+  }
+  html.ng-game-embed [data-mj="footer"],
+  html.ng-game-embed footer { display: none !important; }
+  #narcos-game-hub { width: calc(100% - 24px); margin: 12px auto 18px; padding: 14px 10px; border-radius: 18px; }
+  .ng-trust-head { margin-bottom: 11px; }
+  .ng-trust-title { font-size: 17px !important; }
+  .ng-trust-lead { font-size: 10px; }
+  .ng-trust-grid { gap: 7px; }
+  .ng-trust-card { grid-template-columns: 42px minmax(0, 1fr); gap: 8px; min-height: 82px; padding: 9px 8px; border-radius: 13px; }
+  .ng-trust-icon-wrap { width: 42px; height: 42px; border-radius: 12px; }
+  .ng-trust-icon { width: 24px; height: 24px; }
+  .ng-trust-value { font-size: 13px; }
+  .ng-trust-label { font-size: 8px; letter-spacing: .055em; }
+  #narcos-egt-jackpot { width: calc(100% - 20px); margin: 10px auto 17px; padding: 12px; border-radius: 16px; }
+  .ng-jackpot-grid { gap: 10px 12px; }
+  .ng-jackpot-card { min-height: 78px; padding: 13px 8px 10px; border-radius: 13px; }
+  .ng-jackpot-heading { width: 128px; height: 58px; }
+  .ng-jackpot-suit { top: -11px; font-size: 31px; }
+  .ng-jackpot-value { font-size: clamp(19px, 6vw, 27px); }
+  footer { padding: 26px 14px calc(76px + env(safe-area-inset-bottom, 0px)) !important; }
+  #narcos-footer-columns { display: block; width: min(100%, 460px); margin: 0 auto; padding: 18px 0 22px; border-block: 1px solid rgba(255, 255, 255, .14); }
+  .ng-footer-column { display: block; margin: 0 0 24px; text-align: center; }
+  .ng-footer-column-title { margin-bottom: 12px; font-size: 11px; }
+  .ng-footer-column-link,
+  .ng-footer-column-note { display: inline-block; padding: 0 9px; overflow: visible; font-size: 12px; text-overflow: clip; }
+  #narcos-values-panel,
+  #narcos-social-panel { grid-template-columns: 1fr; gap: 10px; }
+  #narcos-social-panel { padding: 12px; }
+  .ng-contact-button { width: 100%; padding: 12px 14px; font-size: 11px; }
+  .ng-license-title { font-size: 10px; }
+  [data-mj="promotion-details"] { width: calc(100% - 16px) !important; margin: 16px auto 34px !important; padding: 12px !important; border-radius: 20px !important; }
+  [data-mj="promotion-header"] { padding: 16px 12px 18px !important; border-radius: 16px !important; }
+  [data-mj="promotion-image"] { aspect-ratio: 16 / 8 !important; border-radius: 12px !important; }
+  [data-mj="promotion-details"] > div:not([data-mj="promotion-header"]) { margin-top: 14px !important; padding: 14px !important; border-radius: 15px !important; }
+  .ng-campaign-main { padding: 18px 10px 42px !important; }
+  .ng-campaign-page { padding: 24px 14px; border-radius: 20px; }
+  .ng-campaign-grid,
+  .ng-campaign-form,
+  .ng-campaign-stats { grid-template-columns: 1fr; }
+  .ng-campaign-form label:last-of-type,
+  .ng-campaign-form .ng-campaign-button { grid-column: auto; }
+  .ng-campaign-button { width: 100%; }
+  [aria-label="site-header"],
+  [data-mj="announcement"],
+  [data-mj="widget-game-card"],
+  [data-mj="game-catalog-card"],
+  #narcos-social-panel { backdrop-filter: none !important; }
+}
+html.ng-theme-info-mounted [data-mj="header"]:has(#narcos-info-strip) [data-mj="announcement"],
+html.ng-theme-info-mounted [data-mj="header"]:has(#narcos-info-strip) > :has([data-mj="announcement"]):not(:has([data-mj="custom-header"])) {
+  display: none !important;
+}
+/* Embedded games keep only the functional shell; decorative layers stay dormant. */
+html.ng-game-embed body::before,
+html.ng-game-embed body::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+}
+html.ng-game-embed [aria-label="site-header"],
+html.ng-game-embed [data-mj="custom-header"],
+html.ng-game-embed [data-mj="header-nav"],
+html.ng-game-embed [data-mj="announcement"] {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+html.ng-game-embed [data-mj="announcement"] p,
+html.ng-game-embed [data-mj="announcement"] p *,
+html.ng-game-embed [data-mj="header-left"] [data-mj="logo"] img,
+html.ng-game-embed [data-mj="widget-multi-banner-slider"]::before {
+  animation: none !important;
+  filter: none !important;
+}
+html.ng-game-embed [data-mj="widget-multi-banner-slider"]::before,
+html.ng-game-embed [data-mj="widget-multi-banner-slider"]::after {
+  box-shadow: none !important;
+}
+/* ---------------- SMALL MOBILE ---------------- */
+@media (max-width: 360px) {
+  [data-mj="login-button"] { display: none !important; }
+  [data-mj="header-left"] { padding-left: 38px !important; }
+  [data-mj="header-left"] [data-mj="logo"] { flex-basis: 70px !important; width: 70px !important; }
+  .ng-header-license { flex-basis: 27px; width: 27px; height: 29px; }
+  .ng-header-license-image { width: 27px; height: 27px; }
+  [data-mj="game-catalog-module"] { padding-inline: 5px !important; }
+  [data-mj="game-catalog-list"] { gap: 6px 3px !important; }
+  [data-mj="game-catalog-card"] { border-radius: 7px !important; }
+}
+/* ---------------- ACCESSIBILITY / PERFORMANCE ---------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+  html.ng-effects-ready [data-mj="widget-multi-banner-slider"]::before,
+  html.ng-effects-ready [data-mj="header-left"] [data-mj="logo"] img { animation: none !important; filter: none !important; }
+}
+
+/* ================= SPOR ALANI DUZELTMESI ================= */
+/* ============================================================
+   Spor alanı düzeltmesi — narcosbahis
+   Mevcut temadan SONRA yüklenmeli.
+
+   Canlı sayfada (/tr/spor/demo) doğrulanan iki sorun:
+   1) ng-sports-route sınıfı Türkçe yolda uygulanmıyor
+   2) #sportsbook-wrapper main altında 3. seviyede; tema 1-2 hedefliyor
+
+   ÖNEMLİ: yalnızca rota desenini düzeltmek yetmez, kötüleştirir.
+   Canlı denemede sınıf eklenince yükseklik 560px -> 0px düştü.
+   Bu dosya derinlik zincirini derinlikten bağımsız hale getirir.
+   ============================================================ */
+
+/* --- 1. Derinlikten bağımsız zincir -------------------------------
+   Wrapper kaç seviye derinde olursa olsun, aradaki tüm sarmalayıcılar
+   yükseklik aktarır. Tema kuralları (1-2 seviye) buna dahil.        */
+html.ng-sports-route:has(#sportsbook-wrapper)
+  main[data-mj="page-content"] :has(#sportsbook-wrapper) {
+  display: flex !important;
+  flex: 1 1 auto !important;
+  flex-direction: column !important;
+  min-height: 0 !important;
+  height: auto !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+/* --- 2. Wrapper her koşulda ölçülebilir alan alsın ---------------- */
+#sportsbook-wrapper {
+  display: block !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: min(560px, 70vh) !important;
+  overflow: hidden !important;
+}
+
+html.ng-sports-route:has(#sportsbook-wrapper) #sportsbook-wrapper {
+  flex: 1 1 auto !important;
+  height: auto !important;
+}
+
+/* --- 3. Iframe wrapper'ı doldursun -------------------------------- */
+#sportsbook-wrapper iframe,
+#phoenix365ifraim {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: inherit !important;
+  border: 0 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* --- 4. Rota sınıfı hiç gelmediyse (şu anki durum) ----------------
+   Tam ekran kuralları devreye girmez; sayfa normal akışta kalır ve
+   spor alanı kendi yüksekliğiyle görünür.                          */
+html:not(.ng-sports-route) #sportsbook-wrapper {
+  height: clamp(560px, calc(100vh - 220px), 920px) !important;
+}
+
+/* --- 5. :has() desteklenmeyen tarayıcılar --------------------------
+   Zincir kurulamazsa tam ekran kilidini aç, wrapper görünür kalsın. */
+@supports not selector(:has(*)) {
+  html.ng-sports-route,
+  html.ng-sports-route body {
+    height: auto !important;
+    overflow: auto !important;
+  }
+  #sportsbook-wrapper {
+    height: clamp(560px, calc(100vh - 170px), 920px) !important;
+  }
+}
+
+/* --- 6. Mobil: 100vh adres çubuğu altında kalmasın ---------------- */
+@media (max-width: 767px) {
+  #sportsbook-wrapper {
+    min-height: min(520px, 68dvh) !important;
+  }
+  html.ng-sports-route:has(#sportsbook-wrapper) #root {
+    height: 100dvh !important;
+  }
+}
+
+/* --- 7. Panel gömülü sayfalar: mobil düzen ------------------------
+ * html.ng-panel-route ve html.ng-panel-<sayfa> sınıflarını
+ * narcos-panel-gomme.js ekler. Kabın yüksekliği de orada, kendi üst
+ * konumundan hesaplanır; burada yalnızca çevresini sadeleştiriyoruz.
+ */
+@media (max-width: 620px) {
+  /* Bonus talepte yalnızca header ve gezinme kalsın: bilgi şeridi
+   * ("Güncel giriş: ...") dar ekranda iframe'e ayrılan yeri yiyordu. */
+  html.ng-panel-bonus-talep .ng-info-strip {
+    display: none !important;
+  }
+
+  /* Kap ekran sonuna kadar uzuyor; altında boşluk bırakan dış dolgular
+   * ikinci bir kaydırma alanı yaratıyordu. */
+  html.ng-panel-route #narcos-panel-frame {
+    border-radius: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Site footer'ı dar ekranda panelin altında uzun bir kuyruk bırakıyor ve
+   * sayfayı ikinci kez kaydırılabilir yapıyor. Spor rotasında da aynı
+   * yaklasim uygulanıyor (bkz. html.ng-sports-route kuralı). */
+  html.ng-panel-bonus-talep [data-mj="footer"],
+  html.ng-panel-bonus-talep footer {
+    display: none !important;
+  }
+}
+
+/* --- 8. Hesap modali icine gomulen panel --------------------------
+ * narcos-panel-gomme.js modal govdesini [data-ng-modal-host] ile isaretler.
+ * Modal KAPATILMAZ: oyuncu profilden cikmis olmaz, sitenin sekme yapisi
+ * korunur. Govdenin kendi icerigi gizlenip yerine panel iframe'i gelir.
+ *
+ * Yalnizca iframe kabimizi disarida birakiyoruz; React'in yonettigi dugumleri
+ * SILMIYORUZ (innerHTML temizligi "removeChild: node is not a child" ile
+ * cokerdi) — gizlemek yeterli.
+ */
+[data-ng-modal-host] > *:not(.ng-modal-embed) {
+  display: none !important;
+}
+
+[data-ng-modal-host] {
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+.ng-modal-embed {
+  display: block;
+  width: 100%;
+  /* Modal govdesi yuksekligini icerikten aliyor; iframe'e somut bir yukseklik
+   * vermezsek 0 piksele cokuyor. Modal ekrandan tasmasin diye dvh tabanli. */
+  height: min(680px, 78dvh);
+  background: #0e0c09;
+}
+
+.ng-modal-embed iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+@media (max-width: 620px) {
+  /* Mobilde modal zaten tam ekrana yakin; sabit yukseklik ikinci bir
+   * kaydirma alani yaratiyordu. */
+  .ng-modal-embed {
+    height: 82dvh;
+  }
+}
+
+/* --- 8b. "Ligler" seridi (widget-collection-slider) ----------------
+ *
+ * Mobilde her kart 320x156 idi: 375px ekranin %85'i. Ekranda tek lig
+ * goruyordunuz, kaydirmadan ikincisinin varligi bile belli olmuyordu ve
+ * serit 204px dikey alan yiyordu.
+ *
+ * 158px genislik ~2,2 kart gosteriyor — yanindakinin bir kismi gorunuyor,
+ * kaydirilabilir oldugu anlasiliyor. Yukseklik gorselin en-boy oranindan
+ * turetiliyor, sabit deger verilmiyor: farkli oranli lig gorselleri
+ * kirpilmasin.
+ */
+@media (max-width: 767px) {
+  [data-mj="widget-collection-slider-item"] {
+    flex: 0 0 auto !important;
+    width: 158px !important;
+    min-width: 158px !important;
+    max-width: 158px !important;
+  }
+
+  [data-mj="widget-collection-slider-item"] img {
+    width: 100% !important;
+    height: auto !important;
+    /* Masaustu kuraliyla ayni olsun: gorseller 592x288 (2.0556).
+     * 2.05/1 yuvarlamasi cover ile ustten/alttan tirasliyordu. */
+    aspect-ratio: 592 / 288 !important;
+  }
+}
+
+/* --- 9. Mobil kisayol seridi (header'in ikinci satiri) -------------
+ * narcos-panel-gomme.js seridi HEADER'IN DOGRUDAN COCUGU olarak ekler.
+ * Header `flex-direction: column` oldugu icin serit dorduncu satir olur ve
+ * header yuksekligi onu kapsar — sayfa icerigi de bu yuksekligin altindan
+ * baslar. Kardes olarak eklendiginde sabit yukseklikli ara satirdan tasip
+ * icerigi ortuyordu.
+ *
+ * Yalnizca mobilde gorunur: masaustunde ust menu zaten bu sayfalari
+ * tasiyor, ikinci satir orada tekrar olurdu.
+ */
+#narcos-mobil-kisayol {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  #narcos-mobil-kisayol {
+    /* STICKY DEGIL — bilerek.
+     *
+     * Onceden `position: sticky; top: 0` idi ve opak arka planiyla
+     * kaydirildikca sayfa icerigini ortuyordu. Sitenin zaten kalici bir alt
+     * navigasyonu var; 375px'te ikinci bir yapiskan bant hem dikey alan
+     * yiyor hem de icerigi kapatiyordu. Serit header'la birlikte kayiyor. */
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2px;
+    /* Header bir sutun flex; serit satirin tamamini kaplasin ve
+     * daralmasin. flex-shrink: 0 olmazsa header yuksekligi sabitken
+     * serit eziliyor. */
+    width: 100%;
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    padding: 6px 8px;
+    border-top: 1px solid rgba(243, 236, 221, 0.06);
+    border-bottom: 1px solid rgba(243, 236, 221, 0.08);
+    background: rgba(14, 12, 9, 0.94);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+
+  #narcos-mobil-kisayol a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    /* 44px dokunma hedefi: bunun altinda parmakla isabet dusuyor. */
+    min-height: 44px;
+    padding: 4px 2px;
+    border-radius: 10px;
+    color: #8f8674;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background-color .15s ease, color .15s ease;
+  }
+
+  /* IKON RENGI ogeye ozel.
+   *
+   * Bes ikon ayni altin tonundayken hangisinin ne oldugu ancak yazisi
+   * okunarak anlasiliyordu. Renk, ikonu taniyan kullanicinin yaziyi
+   * okumadan secmesini sagliyor. Deger JS'ten geliyor
+   * (--ng-kisayol-renk); yedegi altin.
+   *
+   * Yalnizca IKON renkleniyor, yazi notr kaliyor: bes farkli renkte metin
+   * seridi okunmaz hale getirirdi. */
+  #narcos-mobil-kisayol a svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    color: var(--ng-kisayol-renk, #e7c574);
+  }
+
+  #narcos-mobil-kisayol a:hover {
+    color: #f3ecdd;
+    background: rgba(243, 236, 221, 0.05);
+  }
+
+  /* Bulundugun sayfa: ogenin KENDI rengiyle vurgulanir.
+   *
+   * Onceden hepsi altin dolgu aliyordu; aktif oge ile Bonus ogesi ayni
+   * gorunuyordu. Artik dolgu ogenin renginden turetiliyor. */
+  #narcos-mobil-kisayol a[data-ng-aktif] {
+    color: var(--ng-kisayol-renk, #e7c574);
+    background: color-mix(in srgb, var(--ng-kisayol-renk, #e7c574) 16%, transparent);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ng-kisayol-renk, #e7c574) 34%, transparent);
+  }
+
+  /* color-mix desteklemeyen tarayicida aktif oge yine belli olsun. */
+  @supports not (background: color-mix(in srgb, red 10%, transparent)) {
+    #narcos-mobil-kisayol a[data-ng-aktif] {
+      background: rgba(243, 236, 221, 0.09);
+    }
+  }
+
+  #narcos-mobil-kisayol a[data-ng-aktif] svg {
+    color: var(--ng-kisayol-renk, #e7c574);
+  }
+
+  /* Bakiye, para yatir ve profil sag ust kosede kalsin; satir daralinca
+   * sarmalanip logonun altina dusuyorlardi. */
+  [data-mj="header-right"] {
+    margin-left: auto !important;
+    flex-wrap: nowrap !important;
+    justify-content: flex-end !important;
+  }
+}
