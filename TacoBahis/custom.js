@@ -1168,3 +1168,56 @@
     start();
   }
 })();
+
+/* ===== Bayi atıf (btag) yükleyicisi =====
+ *
+ * Affiliate panelinin attrib.js'ini yükler. BAŞKA HİÇBİR ŞEY YAPMAZ.
+ *
+ * ATIF MANTIĞI BU DOSYADA DEĞİL — kasıtlı:
+ *   btag/_lp yakalama, 90 günlük localStorage + çerez saklama, promosyon
+ *   kodu alanını doldurma, kayıt tespiti (fetch/XHR kancası + form submit +
+ *   JSON taraması) ve panele talep gönderme; hepsi attrib.js'in içinde.
+ *   attrib.js panelden servis ediliyor ve panel deploy'uyla anında
+ *   güncelleniyor. Aynı mantığın bir kopyası burada dursaydı panelde
+ *   güncellendiğinde iki farklı davranış oluşur ve atıf SESSİZCE bozulurdu;
+ *   üstelik iki kanca üst üste binip çift talep gönderirdi.
+ *   Davranış değişecekse panel tarafında değişir, burada değil.
+ *
+ * Yukarıdaki IIFE'nin DIŞINDA: onun kendi 'use strict' bağlamı ve erken
+ * return'leri var, yükleyici onlara bağlı olmamalı.
+ */
+(function () {
+  /* ⚠️ DOLDURULMASI GEREKİYOR — TacoBahis affiliate paneli henüz açılmadı.
+   *
+   * Panel yayına girince buraya adresini yaz, ör:
+   *   var PANEL_ADRESI = 'https://taco-affiliate-production.up.railway.app';
+   *
+   * Boş bırakıldığı sürece yükleyici hiçbir şey yapmaz — yanlış bir adres
+   * yazmaktansa hiç yüklememek doğru: yanlış adreste atıf sessizce çalışmaz
+   * ama çalışıyor sanılır. Narcos'un adresi tahmin için KULLANILMAMALI,
+   * iki markanın panelleri ayrı.
+   *
+   * Adres değiştikten sonra jsDelivr URL'indeki commit hash'i de
+   * güncellenmeli, yoksa değişiklik canlıya çıkmaz.
+   */
+  var PANEL_ADRESI = '';
+
+  try {
+    if (!PANEL_ADRESI) return;
+
+    var src = PANEL_ADRESI.replace(/\/+$/, '') + '/attrib.js';
+
+    // Çift yükleme koruması. Host'a değil DOSYA ADINA bakıyoruz: betik
+    // Lynon header alanına elle de eklenmiş olabilir ve o kopya başka bir
+    // panel adresini gösteriyor olabilir. İki kopya yüklenirse fetch/XHR
+    // kancası üst üste biner ve panele çift atıf talebi gider.
+    if (document.querySelector('script[src*="attrib.js"]')) return;
+
+    var s = document.createElement('script');
+    s.src = src;
+    s.async = true;                 // mevcut kodu ve sayfayı bloklamasın
+    (document.head || document.documentElement).appendChild(s);
+  } catch (e) {
+    // Canlı kumar sitesi: yükleyicinin hatası sayfayı bozmamalı.
+  }
+})();

@@ -2255,3 +2255,42 @@
     if (ifr) kullaniciyiGetir().then(function () { kimligiYolla(ifr); });
   }, 400);
 })();
+
+/* ================= BAYI ATIF (btag) YUKLEYICISI ================= */
+/*!
+ * Affiliate panelinin attrib.js'ini yukler. BASKA HICBIR SEY YAPMAZ.
+ *
+ * ATIF MANTIGI BU DOSYADA DEGIL — kasitli:
+ *   btag/_lp yakalama, 90 gunluk localStorage + cerez saklama, promosyon
+ *   kodu alanini doldurma, kayit tespiti (fetch/XHR kancasi + form submit +
+ *   JSON taramasi) ve panele talep gonderme; hepsi attrib.js'in icinde.
+ *   attrib.js panelden servis ediliyor ve panel deploy'uyla aninda
+ *   guncelleniyor. Ayni mantigin bir kopyasi burada dursaydi panelde
+ *   guncellendiginde iki farkli davranis olusur ve atif SESSIZCE bozulurdu;
+ *   ustelik iki kanca ust uste binip cift talep gonderirdi.
+ *   Davranis degisecekse panel tarafinda degisir, burada degil.
+ *
+ * Tema IIFE'lerinin DISINDA: onlarin kendi 'use strict' baglami ve erken
+ * return'leri var, yukleyici onlara bagli olmamali.
+ */
+(function () {
+  // Panel adresi marka basina degisir.
+  var PANEL_ADRESI = "https://narcos-affiliate-production.up.railway.app";
+
+  try {
+    var src = PANEL_ADRESI.replace(/\/+$/, "") + "/attrib.js";
+
+    // Cift yukleme korumasi. Host'a degil DOSYA ADINA bakiyoruz: betik
+    // Lynon header alanina elle de eklenmis olabilir ve o kopya baska bir
+    // panel adresini gosteriyor olabilir. Iki kopya yuklenirse fetch/XHR
+    // kancasi ust uste biner ve panele cift atif talebi gider.
+    if (document.querySelector('script[src*="attrib.js"]')) return;
+
+    var s = document.createElement("script");
+    s.src = src;
+    s.async = true;                 // temayi ve sayfayi bloklamasin
+    (document.head || document.documentElement).appendChild(s);
+  } catch (e) {
+    // Canli kumar sitesi: yukleyicinin hatasi sayfayi bozmamali.
+  }
+})();
