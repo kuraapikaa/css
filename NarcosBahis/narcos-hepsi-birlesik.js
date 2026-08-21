@@ -1616,16 +1616,16 @@
   // burger menüde "tacowheel" (Narcos Çark) — ikisi de gerçek sayfa (HTTP 200).
   // Biri eksik kalırsa o menüden gelen kullanıcı boş sayfa görüyor.
   var HARITA = {
-    "/bonusrequest": "https://narcosbahis.vip/#/bonus-talep",
-    "/narcoscark":   "https://narcosbahis.vip/#/cark",
-    "/tacowheel":    "https://narcosbahis.vip/#/cark",
-    "/aranmatalep":  "https://narcosbahis.vip/#/beni-ara",
-    "/narcosskor":   "https://narcosbahis.vip/#/skor-tahmin",
+    "/bonusrequest": "https://panel.narcosbahis.vip/#/bonus-talep",
+    "/narcoscark":   "https://panel.narcosbahis.vip/#/cark",
+    "/tacowheel":    "https://panel.narcosbahis.vip/#/cark",
+    "/aranmatalep":  "https://panel.narcosbahis.vip/#/beni-ara",
+    "/narcosskor":   "https://panel.narcosbahis.vip/#/skor-tahmin",
     // Turnuva CMS sayfasi yeni; panelde gunluk turnuva acilis ekrani.
-    "/narcosturnuva": "https://narcosbahis.vip/#/turnuva/gunluk"
+    "/narcosturnuva": "https://panel.narcosbahis.vip/#/turnuva/gunluk"
   };
   var KAP_ID = "narcos-panel-frame";
-  var PANEL_ORIGIN = "https://narcosbahis.vip";
+  var PANEL_ORIGIN = "https://panel.narcosbahis.vip";
 
   /**
    * Giriş yapmış oyuncunun kullanıcı adı.
@@ -1760,7 +1760,7 @@
    * sitenin kendi icerigi CSS ile gizlenir, yerine panel iframe'i konur.
    */
   var MODAL_SEKMELERI = ["bonus_offers", "instant_cashback"];
-  var MODAL_HEDEF = "https://narcosbahis.vip/#/bonus-talep";
+  var MODAL_HEDEF = "https://panel.narcosbahis.vip/#/bonus-talep";
   var MODAL_KAP = "narcos-modal-frame";
 
   /**
