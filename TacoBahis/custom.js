@@ -32,7 +32,8 @@
     'https://verification.anjouangamblingboard.org/s/' +
     '93cdb2db440d85925f2939b5e3efe0acde1d6f2384d71ece13f3a940b3256e7fb4069a53385faa5b3cbb398224274d23';
 
-  var CALL_URL = 'https://tacoara.com';
+  // Header'daki telefon ikonu: aranma talep formu yeni panel alan adinda.
+  var CALL_URL = 'https://taco.arsterminal.com/aranma-talebi';
   var TELEGRAM_URL = 'https://t.me/tacoresmi';
   var MIRROR_URL = 'https://tacogir.com';
   var TRUST_LOGO_URL =
