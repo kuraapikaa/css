@@ -705,13 +705,17 @@
 
   /* Menüdeki gerçek yollar (2026-08-09'da doğrulandı):
      /tr/bonustalep, /tr/tacocark, /tr/tacoskor, /tr/aranmatalep.
-     Eski test yolları (/tr/sportest, /tr/testspor) sitede 404 — kaldırıldı. */
+     Eski test yolları (/tr/sportest, /tr/testspor) sitede 404 — kaldırıldı.
+
+     Panel adresleri 2026-08-27'de tek alan adına taşındı: eski
+     tacolynon.up.railway.app ve tacoara.up.railway.app yerine
+     taco.arsterminal.com. */
   var PAGE_EMBEDS = [
-    { path: '/tr/bonustalep',  src: 'https://tacolynon.up.railway.app/bonus',       baslik: 'Bonus Talep' },
-    { path: '/tr/tacocark',    src: 'https://tacolynon.up.railway.app/cark',        baslik: 'Taco Çark' },
-    { path: '/tr/tacoskor',    src: 'https://tacolynon.up.railway.app/skor-tahmin', baslik: 'Taco Skor' },
-    // Aranma talep sistemi (2026-07-23; başlık kontrolü yapıldı: X-Frame-Options/CSP yok, gömülebilir)
-    { path: '/tr/aranmatalep', src: 'https://tacoara.up.railway.app/',              baslik: 'Aranma Talep' }
+    { path: '/tr/bonustalep',  src: 'https://taco.arsterminal.com/bonus',       baslik: 'Bonus Talep' },
+    { path: '/tr/tacocark',    src: 'https://taco.arsterminal.com/cark',        baslik: 'Taco Çark' },
+    { path: '/tr/tacoskor',    src: 'https://taco.arsterminal.com/skor-tahmin', baslik: 'Taco Skor' },
+    // Aranma talep sistemi
+    { path: '/tr/aranmatalep', src: 'https://taco.arsterminal.com/aranma-talebi', baslik: 'Aranma Talep' }
   ];
 
   function mountPageEmbeds() {
@@ -889,7 +893,7 @@
 
   var MODAL_EMBED = {
     tab: 'bonus_offers',
-    src: 'https://tacolynon.up.railway.app/bonus',
+    src: 'https://taco.arsterminal.com/bonus',
     baslik: 'Bonus Talep'
   };
 
