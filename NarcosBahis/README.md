@@ -17,7 +17,7 @@ sunduğun sürece hangi CDN yolunu seçtiğin fark etmez.
 **Header Css** (tek URL kabul ediyor, script/HTML etiketi değil):
 
 ```
-https://cdn.jsdelivr.net/gh/kuraapikaa/css@6046fa7/NarcosBahis/narcos-tema-birlesik.css
+https://cdn.jsdelivr.net/gh/kuraapikaa/css@d61d89f/NarcosBahis/narcos-tema-birlesik.css
 ```
 
 **Header Js**:
@@ -25,13 +25,13 @@ https://cdn.jsdelivr.net/gh/kuraapikaa/css@6046fa7/NarcosBahis/narcos-tema-birle
 ```js
 (function () {
   var s = document.createElement("script");
-  s.src = "https://cdn.jsdelivr.net/gh/kuraapikaa/css@6046fa7/NarcosBahis/narcos-hepsi-birlesik.js";
+  s.src = "https://cdn.jsdelivr.net/gh/kuraapikaa/css@d61d89f/NarcosBahis/narcos-hepsi-birlesik.js";
   s.async = false;          // defer DEĞİL — aşağıdaki nota bak
   document.head.appendChild(s);
 })();
 ```
 
-`@6046fa7` sabit commit hash'i. Tema güncellendiğinde bu satırdaki hash'i
+`@d61d89f` sabit commit hash'i. Tema güncellendiğinde bu satırdaki hash'i
 yeni commit'inkiyle değiştir; `@main` kullanma (jsDelivr değişken ref'leri
 uzun süre önbelleklemek zorunda kalıyor).
 
