@@ -1627,7 +1627,7 @@
   var KAP_ID = "narcos-panel-frame";
   var PANEL_ORIGIN = "https://panel.narcosbahis.vip";
   // Hangi surumun calistigini konsoldan gormek icin: window.__narcosGomme
-  var GOMME_SURUM = "2026-09-05f yukseklik-belgeye-gore";
+  var GOMME_SURUM = "2026-09-05g root-yerlesimi-yasak";
   try {
     window.__narcosGomme = { surum: GOMME_SURUM, kaynak: document.currentScript && document.currentScript.src };
     document.documentElement.setAttribute("data-narcos-gomme", GOMME_SURUM);
@@ -2113,10 +2113,30 @@
     header.appendChild(nav);
   }
 
+  /**
+   * ICERIK ALANI: yalnizca CMS'in sayfa govdesi. `#root`'a DUSULMEZ.
+   *
+   * Gozlenen (05.09.2026, konsol): yenilemede tema CMS `main`'i cizmeden
+   * kosuyor, `#root`'a dusuyor, kabi oraya ekliyor ve "kardesleri gizle"
+   * adimi sitenin TUM uygulamasini (baslik, menu, footer) sakliyordu:
+   *   kapParent: DIV#root, kapStyle: max(320px, 100dvh + 0px),
+   *   kids: [narcos-panel-frame:1403, DIV#.:0]
+   * Oyuncu "panel tam ekran acildi, siteden ciktim" goruyordu. `main`
+   * yoksa null doner; MutationObserver render bitince tekrar dener.
+   */
   function icerikAlani() {
     return document.querySelector('main[data-mj="page-content"]') ||
-           document.querySelector("main") ||
-           document.getElementById("root");
+           document.querySelector("main");
+  }
+
+  /** kardesleriGizle'nin tersi: gizlenen kardesleri eski haline getirir. */
+  function kardesleriGoster(ust) {
+    if (!ust) return;
+    var gizli = ust.querySelectorAll("[data-ng-gizli]");
+    for (var j = 0; j < gizli.length; j++) {
+      gizli[j].style.display = gizli[j].getAttribute("data-ng-gizli") || "";
+      gizli[j].removeAttribute("data-ng-gizli");
+    }
   }
 
   /**
@@ -2206,17 +2226,25 @@
       if (mevcut) {
         var ust = mevcut.parentElement;
         mevcut.remove();
-        if (ust) {                      // gizlediğimiz içeriği geri aç
-          var gizli = ust.querySelectorAll("[data-ng-gizli]");
-          for (var j = 0; j < gizli.length; j++) {
-            gizli[j].style.display = gizli[j].getAttribute("data-ng-gizli") || "";
-            gizli[j].removeAttribute("data-ng-gizli");
-          }
-        }
+        kardesleriGoster(ust);          // gizlediğimiz içeriği geri aç
       }
       return;
     }
     if (mevcut) {                       // zaten var; hedef değiştiyse güncelle
+      // Kap yanlis yerdeyse (eski surumde #root'a dusmus ya da CMS main'i
+      // yeniden cizmis) dogru icerik alanina TASI: eski kardesler geri
+      // acilir, yeni yerde gizlenir. Tasima iframe'i yeniden yukler; tek
+      // seferlik ve sitenin gorunmesi ondan onemli.
+      var dogruYer = icerikAlani();
+      if (dogruYer && mevcut.parentElement !== dogruYer) {
+        var eskiUst = mevcut.parentElement;
+        dogruYer.appendChild(mevcut);
+        kardesleriGoster(eskiUst);
+        kardesleriGizle(dogruYer);
+        panelYuksekligi(mevcut);
+        if (window.console && console.warn) console.warn("[narcos-gomme] kap yanlis yerdeydi, icerik alanina tasindi");
+        return;
+      }
       var f = mevcut.querySelector("iframe");
       if (f && !bizimIframeMi(f)) {
         // Kabi eski/yabanci bir gomme kopyasi kurmus (backoffice'te kalan
