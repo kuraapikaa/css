@@ -1627,7 +1627,7 @@
   var KAP_ID = "narcos-panel-frame";
   var PANEL_ORIGIN = "https://panel.narcosbahis.vip";
   // Hangi surumun calistigini konsoldan gormek icin: window.__narcosGomme
-  var GOMME_SURUM = "2026-09-05d kurtarma";
+  var GOMME_SURUM = "2026-09-05e dis-kaydirma-kilidi";
   try {
     window.__narcosGomme = { surum: GOMME_SURUM, kaynak: document.currentScript && document.currentScript.src };
     document.documentElement.setAttribute("data-narcos-gomme", GOMME_SURUM);
@@ -2260,7 +2260,12 @@
     ifr.style.cssText =
       "display:block;width:100%;height:100%;min-height:inherit;border:0;";
     // Panel yüklendiğinde rotayı ve kimliği bildir; kullanıcı bilgisi geç gelirse de tekrar.
-    ifr.addEventListener("load", function () { rotayiYolla(ifr); rotayiTekrarla(ifr); kimligiYolla(ifr); });
+    ifr.addEventListener("load", function () {
+      rotayiYolla(ifr); rotayiTekrarla(ifr); kimligiYolla(ifr);
+      // Panel yuklenirken odak ust belgeyi kaydirmis olabilir.
+      disKaydirmayiSifirla();
+      setTimeout(disKaydirmayiSifirla, 250);
+    });
     kullaniciyiGetir().then(function () { kimligiYolla(ifr); });
     return ifr;
   }
@@ -2290,6 +2295,35 @@
   });
 
   function planla() { setTimeout(goster, 0); }
+
+  /**
+   * PANEL ROTASINDA DIS SAYFA KAYDIRILMAZ.
+   *
+   * Gozlenen (05.09.2026, ekran goruntusu): F5 sonrasi site basligi
+   * "kayboluyor", panel tum ekrani kapliyor; adres ayni. Kap "100dvh -
+   * ust" ile olculdugu icin dis belgede kaydiracak yer olmamali, ama
+   * tarayici yenilemede eski kaydirma konumunu geri yukluyor ve/veya
+   * panel icindeki odak (autofocus) ust belgeyi iframe'in tepesine
+   * kaydiriyor. Iframe kendi icinde kaydigi icin oyuncu dis sayfayi bir
+   * daha yukari alamiyor: baslik ve site menusu gorunmez kaliyor.
+   *
+   * Cozum: panel rotasinda (1) tarayicinin kaydirma geri yuklemesi
+   * kapatilir, (2) dis belge 0'dan asagi kayarsa hemen tepeye alinir.
+   */
+  function disKaydirmayiSifirla() {
+    if (!hedefBul()) return;
+    var y = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    if (y > 0) window.scrollTo(0, 0);
+  }
+  try {
+    if ("scrollRestoration" in history && hedefBul()) history.scrollRestoration = "manual";
+  } catch (e) { /* desteklenmiyor */ }
+  window.addEventListener("scroll", disKaydirmayiSifirla, { passive: true });
+  window.addEventListener("load", function () {
+    disKaydirmayiSifirla();
+    setTimeout(disKaydirmayiSifirla, 300);
+    setTimeout(disKaydirmayiSifirla, 1500);
+  });
 
   planla();
 
