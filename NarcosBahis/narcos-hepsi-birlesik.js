@@ -1738,6 +1738,30 @@
 
   /** Panele kimliği bildir. Panel hazır olmadan gelen mesajları kaçırmamak için
    *  panel kendi tarafından "narcos-panel-hazir" gönderdiğinde de tekrarlanır. */
+  /**
+   * Panelin acmasi gereken rota (iframe'e data-ng-rota olarak yazilir).
+   *
+   * YENILEMEDE LOBI SORUNU: Chrome sayfa yenilenince alt cerceveyi script'in
+   * verdigi src ile degil, oturum gecmisindeki SON adresiyle geri yukluyor.
+   * Oyuncu panel icinde bir kez lobiye ugradiysa /tr/bonusrequest'te F5
+   * sonrasi iframe lobiyi aciyordu. Iki onlem: (1) iframe her kurulusta
+   * rastgele `name` alir, gecmis eslemesi tutmaz; (2) her `load`ta panele
+   * beklenen rota gonderilir, panel farkliysa oraya gecer.
+   */
+  function rotaCikar(hedef) {
+    var i = String(hedef || "").indexOf("#/");
+    return i === -1 ? "" : String(hedef).slice(i + 1).split("?")[0];
+  }
+
+  function rotayiYolla(ifr) {
+    if (!ifr || !ifr.contentWindow) return;
+    var rota = ifr.getAttribute("data-ng-rota");
+    if (!rota) return;
+    try {
+      ifr.contentWindow.postMessage({ tur: "narcos-rota", rota: rota }, PANEL_ORIGIN);
+    } catch (e) { /* iframe henüz yüklenmemiş olabilir */ }
+  }
+
   function kimligiYolla(ifr) {
     if (!ifr || !ifr.contentWindow || !kullaniciAdi) return;
     try {
@@ -1828,6 +1852,8 @@
     kap.setAttribute("data-ng-modal-embed", sekme);
 
     var ifr = document.createElement("iframe");
+    ifr.name = "narcos-panel-" + new Date().getTime();   // gecmis geri yuklemesini kir
+    ifr.setAttribute("data-ng-rota", rotaCikar(MODAL_HEDEF));
     ifr.src = MODAL_HEDEF;
     ifr.title = "Narcos Panel";
     ifr.setAttribute("allow", "clipboard-write");
@@ -1838,7 +1864,7 @@
     kap.appendChild(ifr);
     govde.appendChild(kap);
 
-    ifr.addEventListener("load", function () { kimligiYolla(ifr); });
+    ifr.addEventListener("load", function () { rotayiYolla(ifr); kimligiYolla(ifr); });
     kullaniciyiGetir().then(function () { kimligiYolla(ifr); });
   }
 
@@ -2132,7 +2158,7 @@
     }
     if (mevcut) {                       // zaten var; hedef değiştiyse güncelle
       var f = mevcut.querySelector("iframe");
-      if (f && f.src !== hedef) f.src = hedef;
+      if (f && f.src !== hedef) { f.setAttribute("data-ng-rota", rotaCikar(hedef)); f.src = hedef; }
       // Kap yerindeyken CMS yeni düğüm eklemiş olabilir ("No categories").
       kardesleriGizle(mevcut.parentElement);
       panelYuksekligi(mevcut);
@@ -2153,6 +2179,8 @@
       "border-radius:16px;background:#09090b;margin:0 auto;";
 
     var ifr = document.createElement("iframe");
+    ifr.name = "narcos-panel-" + new Date().getTime();   // gecmis geri yuklemesini kir
+    ifr.setAttribute("data-ng-rota", rotaCikar(hedef));
     ifr.src = hedef;
     ifr.setAttribute("loading", "lazy");
     ifr.setAttribute("title", "Narcos Panel");
@@ -2167,8 +2195,8 @@
     yer.appendChild(kap);
     panelYuksekligi(kap);
 
-    // Panel yüklendiğinde kimliği bildir; kullanıcı bilgisi geç gelirse de tekrar.
-    ifr.addEventListener("load", function () { kimligiYolla(ifr); });
+    // Panel yüklendiğinde rotayı ve kimliği bildir; kullanıcı bilgisi geç gelirse de tekrar.
+    ifr.addEventListener("load", function () { rotayiYolla(ifr); kimligiYolla(ifr); });
     kullaniciyiGetir().then(function () { kimligiYolla(ifr); });
   }
 
@@ -2192,6 +2220,7 @@
     if (!olay.data || olay.data.tur !== "narcos-panel-hazir") return;
     var kap = document.getElementById(KAP_ID);
     var ifr = kap && kap.querySelector("iframe");
+    rotayiYolla(ifr);
     kullaniciyiGetir().then(function () { kimligiYolla(ifr); });
   });
 
