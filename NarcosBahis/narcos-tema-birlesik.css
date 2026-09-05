@@ -2068,3 +2068,44 @@ html:not(.ng-sports-route) #sportsbook-wrapper {
   object-fit: cover !important; pointer-events: none !important;
   border-radius: inherit !important; background: #0a0a0d;
 }
+
+/* ---------------- OYUN KAPAKLARINA HAREKET (varlik gerektirmez) ---------------- */
+/* Video kaynagi yokken kapaklara hareket: uzerine gelince yavas zoom+pan
+ * (Ken Burns) ve capraz isik suzmesi. Yalnizca hover destekli cihazlarda;
+ * hareket azaltma tercihine saygi duyar. */
+@keyframes ng-kapak-kenburns {
+  0%   { transform: scale(1) translate(0, 0); }
+  50%  { transform: scale(1.12) translate(-2.5%, -1.5%); }
+  100% { transform: scale(1.06) translate(1.5%, 1%); }
+}
+@keyframes ng-kapak-isik {
+  0%   { transform: translateX(-140%) skewX(-18deg); opacity: 0; }
+  15%  { opacity: .55; }
+  60%  { transform: translateX(160%) skewX(-18deg); opacity: 0; }
+  100% { transform: translateX(160%) skewX(-18deg); opacity: 0; }
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  [data-mj="game-catalog-card"] > img,
+  [data-mj="widget-game-card"] img {
+    transition: transform .35s ease !important;
+    will-change: transform;
+  }
+  [data-mj="game-catalog-card"]:hover > img,
+  [data-mj="widget-game-card"]:hover img {
+    animation: ng-kapak-kenburns 6s ease-in-out infinite alternate !important;
+  }
+  [data-mj="game-catalog-card"]::after,
+  [data-mj="widget-game-card"]::after {
+    content: ""; position: absolute; top: -20%; bottom: -20%; left: 0; width: 45%;
+    z-index: 3; pointer-events: none; opacity: 0;
+    background: linear-gradient(100deg, rgba(255,255,255,0) 0%, rgba(255,240,200,.35) 50%, rgba(255,255,255,0) 100%);
+    transform: translateX(-140%) skewX(-18deg);
+  }
+  [data-mj="game-catalog-card"]:hover::after,
+  [data-mj="widget-game-card"]:hover::after {
+    animation: ng-kapak-isik 2.4s ease-in-out infinite !important;
+  }
+  /* Video acildiysa (ng-oyun-video) isik ve zoom gizlenir; video ustte kalir. */
+  [data-mj="game-catalog-card"]:has(.ng-oyun-video)::after,
+  [data-mj="widget-game-card"]:has(.ng-oyun-video)::after { display: none; }
+}
