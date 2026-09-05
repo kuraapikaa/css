@@ -1627,9 +1627,10 @@
   var KAP_ID = "narcos-panel-frame";
   var PANEL_ORIGIN = "https://panel.narcosbahis.vip";
   // Hangi surumun calistigini konsoldan gormek icin: window.__narcosGomme
-  var GOMME_SURUM = "2026-09-05c rota+takeover";
+  var GOMME_SURUM = "2026-09-05d kurtarma";
   try {
     window.__narcosGomme = { surum: GOMME_SURUM, kaynak: document.currentScript && document.currentScript.src };
+    document.documentElement.setAttribute("data-narcos-gomme", GOMME_SURUM);
     if (window.console && console.info) console.info("[narcos-gomme] surum " + GOMME_SURUM);
   } catch (e) { /* yok say */ }
 
@@ -1759,13 +1760,51 @@
     return i === -1 ? "" : String(hedef).slice(i + 1).split("?")[0];
   }
 
+  /**
+   * KENDINI ONARAN GOMME.
+   *
+   * Gozlenen (05.09.2026, konsol): yenileme sonrasi iframe'in icinde panel
+   * degil SITENIN KENDISI yukleniyordu — postMessage "target origin
+   * https://panel.narcosbahis.vip does not match recipient
+   * https://narcosbahis491.com" diye firlatti. Tarayici alt cerceveyi
+   * gecmisteki bir site adresiyle geri yukluyor; oyuncu iframe icinde site
+   * lobisini goruyor.
+   *
+   * postMessage'in hedef-origin uyusmazliginda SENKRON firlatmasi tam da
+   * ihtiyacimiz olan sinyal: cerceve panelde degilse iframe'i sifirdan
+   * kuruyoruz (yeni dugum, yeni rastgele ad, ayni hedef). Sayfa basina en
+   * fazla iki kurtarma — dongu korumasi.
+   */
+  var KURTARMA_AZAMI = 2;
+  var kurtarmaSayaci = 0;
+
+  function paneldeDegilHatasi(e) {
+    return !!(e && /does not match the recipient window's origin|target origin provided/i.test(String(e.message || e)));
+  }
+
+  function kurtar(ifr) {
+    if (!ifr || !ifr.parentNode) return null;
+    if (kurtarmaSayaci >= KURTARMA_AZAMI) return null;
+    var hedef = ifr.getAttribute("data-ng-hedef");
+    if (!hedef) return null;
+    kurtarmaSayaci += 1;
+    if (window.console && console.warn) console.warn("[narcos-gomme] iframe panelde degil, yeniden kuruluyor (" + kurtarmaSayaci + "/" + KURTARMA_AZAMI + ")");
+    var yeni = iframeKur(hedef);
+    yeni.setAttribute("loading", ifr.getAttribute("loading") || "eager");
+    ifr.parentNode.replaceChild(yeni, ifr);
+    return yeni;
+  }
+
   function rotayiYolla(ifr) {
     if (!ifr || !ifr.contentWindow) return;
     var rota = ifr.getAttribute("data-ng-rota");
     if (!rota) return;
     try {
       ifr.contentWindow.postMessage({ tur: "narcos-rota", rota: rota }, PANEL_ORIGIN);
-    } catch (e) { /* iframe henüz yüklenmemiş olabilir */ }
+    } catch (e) {
+      if (paneldeDegilHatasi(e)) kurtar(ifr);
+      /* aksi halde iframe henüz yüklenmemiş olabilir */
+    }
   }
 
   // load ani ile panelin React dinleyicisinin takilmasi ayni an degil;
@@ -1870,21 +1909,12 @@
     kap.id = MODAL_KAP;
     kap.setAttribute("data-ng-modal-embed", sekme);
 
-    var ifr = document.createElement("iframe");
-    ifr.name = "narcos-panel-" + new Date().getTime();   // gecmis geri yuklemesini kir
-    ifr.setAttribute("data-ng-rota", rotaCikar(MODAL_HEDEF));
-    ifr.src = MODAL_HEDEF;
-    ifr.title = "Narcos Panel";
-    ifr.setAttribute("allow", "clipboard-write");
-    // Footer script'inin oyun karesi tespitine yakalanmamak icin.
-    ifr.setAttribute("data-ng-panel", "1");
+    var ifr = iframeKur(MODAL_HEDEF);
     ifr.setAttribute("loading", "eager");
+    ifr.style.cssText = "";               // modal kendi olcusunu CSS'ten alir
 
     kap.appendChild(ifr);
     govde.appendChild(kap);
-
-    ifr.addEventListener("load", function () { rotayiYolla(ifr); rotayiTekrarla(ifr); kimligiYolla(ifr); });
-    kullaniciyiGetir().then(function () { kimligiYolla(ifr); });
   }
 
   function hedefBul() {
@@ -2219,6 +2249,7 @@
     var ifr = document.createElement("iframe");
     ifr.name = "narcos-panel-" + new Date().getTime();   // gecmis geri yuklemesini kir
     ifr.setAttribute("data-ng-rota", rotaCikar(hedef));
+    ifr.setAttribute("data-ng-hedef", hedef);
     ifr.src = hedef;
     ifr.setAttribute("loading", "lazy");
     ifr.setAttribute("title", "Narcos Panel");
