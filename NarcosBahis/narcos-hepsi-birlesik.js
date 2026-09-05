@@ -1627,7 +1627,7 @@
   var KAP_ID = "narcos-panel-frame";
   var PANEL_ORIGIN = "https://panel.narcosbahis.vip";
   // Hangi surumun calistigini konsoldan gormek icin: window.__narcosGomme
-  var GOMME_SURUM = "2026-09-05e dis-kaydirma-kilidi";
+  var GOMME_SURUM = "2026-09-05f yukseklik-belgeye-gore";
   try {
     window.__narcosGomme = { surum: GOMME_SURUM, kaynak: document.currentScript && document.currentScript.src };
     document.documentElement.setAttribute("data-narcos-gomme", GOMME_SURUM);
@@ -2015,7 +2015,18 @@
 
   function panelYuksekligi(kap) {
     if (!kap) return;
-    var ust = Math.max(0, Math.round(kap.getBoundingClientRect().top));
+    /*
+     * UST KONUM BELGEYE GORE OLCULUR, GORUNUM PENCERESINE GORE DEGIL.
+     *
+     * getBoundingClientRect().top pencereye goredir: sayfa S piksel kaymissa
+     * ust = gercekUst - S cikar, yukseklik = 100dvh - gercekUst + S olur,
+     * kap S kadar buyur, belge uzar, daha cok kayabilir; her DOM
+     * degisiminde yeniden olculunce KOSAN bir dongu (konsolda olculdu:
+     * scrollHeight - innerHeight = 1166). Belgeye gore olcunce belge
+     * yuksekligi her zaman tam 100dvh: dis sayfada kaydiracak yer kalmaz.
+     */
+    var kaydirma = window.pageYOffset || document.documentElement.scrollTop || 0;
+    var ust = Math.max(0, Math.round(kap.getBoundingClientRect().top + kaydirma));
     var alt = altCubukYuksekligi();
     kap.style.minHeight = TABAN_YUKSEKLIK + "px";
     kap.style.height =
