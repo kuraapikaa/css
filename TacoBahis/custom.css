@@ -1186,14 +1186,9 @@ a.tb-trust-card:focus-visible{
   display: block;
 }
 
-/* Çok dar mobil: ikincil dış kanal butonları header'ı taşırmasın.
-   JS sarmalayıcılara stabil data-tb-header-wrap tutamacı ekler. */
-@media (max-width: 340px){
-  [data-tb-header-wrap="telegram"],
-  [data-tb-header-wrap="call"]{
-    display:none !important;
-  }
-}
+/* Çok dar mobil kuralı KALDIRILDI: ≤620'de aranma ve promosyon butonları
+   zaten gizli (bkz. bölüm 24), tek kalan Telegram'ı 340px'te de gizlemek
+   dış kanalı tamamen yok ediyordu. */
 
 /* 13) Promosyon butonu — hediye kutusu ikonu + hover
    Buton /tr/promotions'a gidiyor; megafon yerine hediye kutusu daha doğru.
@@ -2201,5 +2196,81 @@ div:has(> div > button[aria-label="copy"]):has(i[aria-label="user"]) button{
     #tb-mobil-kisayol a[data-tb-aktif]{
       background:rgba(245,240,228,.09);
     }
+  }
+}
+
+/* ============================================================
+   24) MOBİL HEADER — TEK DIŞ KANAL BUTONU + TAŞMAYAN BAKİYE
+   ============================================================
+   İki şikâyetin kaynağı aynı: ≤620'de header'ın 60px'lik tek satırında
+   logo + bakiye + dört ikon (promosyon, telegram, aranma, profil) yan yana
+   duruyor. Bakiye kutusu daralmıyor; bakiye 8+ haneye çıkınca (22.898.300)
+   sayı alt satıra sarıyor, kutu büyüyüp komşularının üstüne taşıyor ve
+   header satırı aşınca altındaki kısayol şeridini eziyor.
+
+   a) Aranma ve promosyon (hediye) butonları ≤620'de gizlendi. İkisinin de
+      karşılığı header'ın hemen altındaki kısayol şeridinde var
+      (ARANMA / BONUS); ikinci kopya ~72px'i boşuna yiyordu. Telegram
+      kalıyor — şeritte karşılığı yok.
+      Butonlar DOM'dan silinmiyor, yalnızca ≤620'de gizli: >620'de header
+      geniş ve kısayol şeridi yok, orada üçü de eskisi gibi duruyor.
+
+   b) Bakiye kutusu daralabilir hâle getirildi (min-width:0 zinciri), sayı
+      tek satıra kilitlendi ve yazı ölçüsü küçültüldü. Sarma kapalı: iki
+      satıra bölünen bakiye 60px'lik satırı taşırıyordu.
+
+   c) Telegram butonunun ölçüsü ≤620'de sabitlendi. custom.js ölçüyü
+      promosyon butonundan okuyor (syncButtonSize); o buton artık gizli
+      olduğu için getComputedStyle 'auto' döndürür, sync sessizce atlanır ve
+      değişkenler masaüstü yedeğine (40px) düşerdi. Sitenin mobil ölçüsü
+      (32px kutu / 8px köşe / 16px ikon) buraya doğrudan yazıldı. */
+@media (max-width: 620px){
+  /* Sarmalayıcılar da gizleniyor: yalnızca butonu gizlemek boş bir flex
+     öğesi bırakır ve komşu gap'i header'da boşluk olarak durur. Aranma
+     sarmalayıcısını custom.js etiketliyor (data-tb-header-wrap), promosyon
+     sarmalayıcısının tutamacı yok → :has ile yakalanıyor. */
+  [data-tb-header-wrap="call"],
+  [data-mj="header-call-button"],
+  div:has(> [data-mj="header-special-button"]),
+  [data-mj="header-special-button"]{
+    display:none !important;
+  }
+
+  [data-mj="header-telegram-button"]{
+    width:32px !important;
+    height:32px !important;
+    padding:8px !important;
+    border-radius:8px !important;
+  }
+  [data-mj="header-telegram-button"] svg{
+    width:16px !important;
+    height:16px !important;
+  }
+
+  /* Esneme zinciri: flex çocuğunun varsayılan min-width'i "auto" — içeriği
+     ne kadar genişse o kadar yer ister, kutu küçülmez. Sağ koldan bakiye
+     kutusuna kadar sıfırlanıyor ki kutu gerçekten daralabilsin. */
+  [data-mj="header-right"],
+  [data-mj="header-right"] > div,
+  [data-mj="header-right"] > div > div:only-child{
+    min-width:0 !important;
+  }
+  [data-mj="header-right"] > div > div:only-child{
+    flex:0 1 auto !important;
+    max-width:42vw !important;
+    padding-inline:8px !important;
+    overflow:hidden !important;
+    white-space:nowrap !important;
+  }
+  /* 12px + 42vw ≈ 25 karakter: gerçekçi hiçbir bakiye kırpılmaz. Yine de
+     text-overflow bırakıldı — kırpma, düzeni bozmaktan iyidir. */
+  [data-mj="header-right"] > div > div:only-child span,
+  [data-mj="header-right"] > div > div:only-child p{
+    min-width:0 !important;
+    overflow:hidden !important;
+    text-overflow:ellipsis !important;
+    white-space:nowrap !important;
+    font-size:12px !important;
+    line-height:1.15 !important;
   }
 }
