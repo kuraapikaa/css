@@ -447,14 +447,32 @@ html.ng-effects-ready [data-mj="widget-multi-banner-slider"]::before {
   color: #17130b !important;
   background: linear-gradient(120deg, #c68c28, #ffe99d 58%, #b77b1e) !important;
 }
-[data-mj="game-catalog-list"] { gap: 14px !important; }
+/*
+ * OYUN KARTLARI = ANA SAYFA "POPULER OYUNLAR" WIDGET'I ILE AYNI BICIM.
+ *
+ * Katalog kartlari 427/576 dikey kutuya zorlaniyordu; widget kartlari
+ * ise yatay (~157x110, 10/7) ve kose 14px. Istek (05.09.2026): casino,
+ * canli casino ve crash sayfalarindaki oyun bannerlari widget'takilerle
+ * ayni gorunsun. Kutu yatay orana cekildi, kose/kenar/golge widget'la
+ * esitlendi, masaustu izgarasi widget yogunlugunda (150px+ sutun).
+ *
+ * ON KOSUL: Lynon CMS'te bu sayfalarin "Game Thumbnails Type" ayari
+ * HORIZONTAL olmali; dikey gorsel yatay kutuya `cover` ile kirpilir.
+ */
+[data-mj="game-catalog-list"] {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)) !important;
+  gap: 12px !important;
+  width: 100% !important;
+}
+[data-mj="game-catalog-list"] > * { width: 100% !important; min-width: 0 !important; margin: 0 !important; }
 [data-mj="game-catalog-card"] {
   position: relative !important; isolation: isolate; overflow: hidden !important;
   width: 100% !important; height: auto !important; min-height: 0 !important;
   padding: 0 !important;
-  aspect-ratio: 427 / 576 !important;
-  border: 1px solid rgba(242, 213, 138, .18) !important;
-  border-radius: 15px !important;
+  aspect-ratio: 10 / 7 !important;
+  border: 1px solid rgba(242, 213, 138, .13) !important;
+  border-radius: 14px !important;
   background: var(--ng-dark-fill) !important;
   box-shadow: inset 0 1px rgba(255, 255, 255, .045), 0 4px 12px rgba(0, 0, 0, .16) !important;
   contain: layout paint style;
@@ -1378,9 +1396,10 @@ footer::before,
   [data-mj="widget-pages-item"] { border: 0 !important; background: transparent !important; box-shadow: none !important; }
   [data-mj="widget-game-card"] { overflow: hidden !important; border: 1px solid rgba(242, 213, 138, .72) !important; border-radius: 14px !important; }
   [data-mj="game-catalog-module"] { width: 100% !important; padding: 10px 7px 24px !important; box-sizing: border-box !important; }
-  [data-mj="game-catalog-list"] { display: grid !important; grid-template-columns: repeat(4, minmax(0, 1fr)) !important; gap: 7px 5px !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }
+  /* Yatay kart: mobilde 4 yerine 3 sutun (widget'taki gibi okunur boy). */
+  [data-mj="game-catalog-list"] { display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 7px 5px !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }
   [data-mj="game-catalog-list"] > * { width: 100% !important; min-width: 0 !important; margin: 0 !important; }
-  [data-mj="game-catalog-card"] { width: 100% !important; min-width: 0 !important; border-radius: 8px !important; }
+  [data-mj="game-catalog-card"] { width: 100% !important; min-width: 0 !important; border-radius: 10px !important; }
   [data-mj="game-catalog-provider-bottom-sheet-content"] {
     width: 100% !important;
     overflow: hidden !important;
