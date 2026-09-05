@@ -17,7 +17,7 @@ sunduğun sürece hangi CDN yolunu seçtiğin fark etmez.
 **Header Css** (tek URL kabul ediyor, script/HTML etiketi değil):
 
 ```
-https://cdn.jsdelivr.net/gh/godecosoft/css@3ce008e/NarcosBahis/narcos-tema-birlesik.css
+https://cdn.jsdelivr.net/gh/kuraapikaa/css@6046fa7/NarcosBahis/narcos-tema-birlesik.css
 ```
 
 **Header Js**:
@@ -25,13 +25,13 @@ https://cdn.jsdelivr.net/gh/godecosoft/css@3ce008e/NarcosBahis/narcos-tema-birle
 ```js
 (function () {
   var s = document.createElement("script");
-  s.src = "https://cdn.jsdelivr.net/gh/godecosoft/css@3ce008e/NarcosBahis/narcos-hepsi-birlesik.js";
+  s.src = "https://cdn.jsdelivr.net/gh/kuraapikaa/css@6046fa7/NarcosBahis/narcos-hepsi-birlesik.js";
   s.async = false;          // defer DEĞİL — aşağıdaki nota bak
   document.head.appendChild(s);
 })();
 ```
 
-`@3ce008e` sabit commit hash'i. Tema güncellendiğinde bu satırdaki hash'i
+`@6046fa7` sabit commit hash'i. Tema güncellendiğinde bu satırdaki hash'i
 yeni commit'inkiyle değiştir; `@main` kullanma (jsDelivr değişken ref'leri
 uzun süre önbelleklemek zorunda kalıyor).
 
@@ -50,7 +50,7 @@ zaten ortadan kalkıyor, ama `async = false` yine de doğru olan.
 ```
                  6d9854b  (18 Tem, ortak ata)
                  /      \
-   godecosoft/css        Dvppels-dev/narcos-premium-theme
+   kuraapikaa/css        Dvppels-dev/narcos-premium-theme
    NarcosBahis/          codex/theme-refactor-v2
    (v1 soyu)             └─ 92da259 "Refactor premium theme runtime"
                             JS 39->68KB, CSS'ten 5499 satır silindi
