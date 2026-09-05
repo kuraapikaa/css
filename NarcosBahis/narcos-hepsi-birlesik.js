@@ -149,8 +149,10 @@
     var home = path === "/" || path === "/tr", casino = path === "/tr/casino" || path === "/tr/casino/all";
     var liveCasino = /^\/tr\/(?:live-casino|livecasino|canli-casino)(?:\/|$)/.test(path), promotion = /^\/tr\/promotions(?:\/|$)/.test(path);
     var sports = /^\/tr\/(?:sport|sports|sportsbook)(?:\/|$)/.test(path);
+    // Katalog sayfalari (slot, canli casino, crash): masaustunde tam genislik (CSS: html.ng-catalog-route).
+    var catalog = /^\/tr\/(?:casino|live-casino|livecasino|canli-casino|crash[a-z0-9-]*|slot[a-z0-9-]*)(?:\/|$)/.test(path) && !isGameRoutePath(path);
     return {
-      path: path, home: home, casino: casino, liveCasino: liveCasino, promotion: promotion, sports: sports,
+      path: path, home: home, casino: casino, liveCasino: liveCasino, promotion: promotion, sports: sports, catalog: catalog,
       infoSafe: home || /^\/tr\/casino(?:\/|$)/.test(path) || liveCasino || promotion,
       campaign: campaignRoute(path)
     };
@@ -1142,6 +1144,7 @@
     document.documentElement.classList.toggle("ng-home-route", runtime.route.home);
     document.documentElement.classList.toggle("ng-info-safe-route", runtime.route.infoSafe);
     document.documentElement.classList.toggle("ng-sports-route", runtime.route.sports);
+    document.documentElement.classList.toggle("ng-catalog-route", !!runtime.route.catalog);
   }
   var JOBS = {
     shell: renderShell, header: renderHeader, campaign: renderCampaign, trust: renderTrustHub,
@@ -1627,7 +1630,7 @@
   var KAP_ID = "narcos-panel-frame";
   var PANEL_ORIGIN = "https://panel.narcosbahis.vip";
   // Hangi surumun calistigini konsoldan gormek icin: window.__narcosGomme
-  var GOMME_SURUM = "2026-09-05g root-yerlesimi-yasak";
+  var GOMME_SURUM = "2026-09-05h katalog-tam-genislik+video";
   try {
     window.__narcosGomme = { surum: GOMME_SURUM, kaynak: document.currentScript && document.currentScript.src };
     document.documentElement.setAttribute("data-narcos-gomme", GOMME_SURUM);
@@ -2460,4 +2463,79 @@
   } catch (e) {
     // Canli kumar sitesi: yukleyicinin hatasi sayfayi bozmamali.
   }
+})();
+
+/* ================= HAREKETLI OYUN KAPAKLARI (hover video) ================= */
+/*
+ * Masaustunde oyun kartinin uzerine gelince kapak gorselinin yerine kisa,
+ * sessiz, donen bir video oynatilir. Kaynak: bu klasordeki
+ * `oyun-videolari.json` — { "<oyun adi kucuk harf>": "<mp4/webm url>" }.
+ * Oyun adi kartin <img alt> (ya da title) degerinden okunur; eslesme
+ * yoksa hicbir sey olmaz. JSON ilk hover'da bir kez cekilir. Mobilde
+ * (hover yok) kapali: veri ve pil tuketmesin.
+ */
+(function () {
+  "use strict";
+  if (!window.matchMedia || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+
+  function kokUrl() {
+    var script = document.currentScript || document.querySelector('script[src*="narcos-hepsi-birlesik"]');
+    try { return new URL(".", (script && script.src) || window.location.href).href; } catch (e) { return "./"; }
+  }
+  var KOK = kokUrl();
+  var harita = null, yukleniyor = null;
+
+  function anahtar(ad) {
+    return String(ad || "").toLowerCase().replace(/\s+/g, " ").replace(/[^a-z0-9ğüşöçı ]/g, "").trim();
+  }
+  function haritayiYukle() {
+    if (harita) return Promise.resolve(harita);
+    if (yukleniyor) return yukleniyor;
+    yukleniyor = fetch(KOK + "oyun-videolari.json", { cache: "force-cache" })
+      .then(function (r) { return r.ok ? r.json() : {}; })
+      .then(function (j) {
+        harita = {};
+        Object.keys(j || {}).forEach(function (k) { if (typeof j[k] === "string" && j[k] && k.charAt(0) !== "_") harita[anahtar(k)] = j[k]; });
+        return harita;
+      })
+      .catch(function () { harita = {}; return harita; });
+    return yukleniyor;
+  }
+  function kartAdi(kart) {
+    var img = kart.querySelector("img");
+    return (img && (img.getAttribute("alt") || img.getAttribute("title"))) || kart.getAttribute("title") || kart.getAttribute("aria-label") || "";
+  }
+  function videoyuBaslat(kart) {
+    if (kart.querySelector(".ng-oyun-video")) return;
+    var url = harita[anahtar(kartAdi(kart))];
+    if (!url) return;
+    var v = document.createElement("video");
+    v.className = "ng-oyun-video";
+    v.muted = true; v.loop = true; v.playsInline = true; v.autoplay = true; v.preload = "none";
+    v.setAttribute("muted", ""); v.setAttribute("playsinline", "");
+    v.src = url;
+    var cs = window.getComputedStyle(kart);
+    if (cs.position === "static") kart.style.position = "relative";
+    kart.appendChild(v);
+    var p = v.play(); if (p && p.catch) p.catch(function () { v.remove(); });
+  }
+  function videoyuDurdur(kart) {
+    var v = kart.querySelector(".ng-oyun-video");
+    if (v) { try { v.pause(); } catch (e) { /* yok say */ } v.remove(); }
+  }
+  var SECICI = '[data-mj="game-catalog-card"],[data-mj="widget-game-card"],[data-mj="game-card"]';
+  document.addEventListener("mouseover", function (e) {
+    var kart = e.target && e.target.closest ? e.target.closest(SECICI) : null;
+    if (!kart || kart.__ngVideoAcik) return;
+    kart.__ngVideoAcik = true;
+    haritayiYukle().then(function () { if (kart.__ngVideoAcik) videoyuBaslat(kart); });
+  }, true);
+  document.addEventListener("mouseout", function (e) {
+    var kart = e.target && e.target.closest ? e.target.closest(SECICI) : null;
+    if (!kart) return;
+    var hedef = e.relatedTarget;
+    if (hedef && kart.contains(hedef)) return;      // kart icinde gezinti
+    kart.__ngVideoAcik = false;
+    videoyuDurdur(kart);
+  }, true);
 })();

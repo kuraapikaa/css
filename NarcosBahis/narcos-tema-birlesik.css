@@ -2036,3 +2036,35 @@ html:not(.ng-sports-route) #sportsbook-wrapper {
     justify-content: flex-end !important;
   }
 }
+
+/* ---------------- KATALOG SAYFALARI: MASAUSTUNDE TAM GENISLIK ---------------- */
+/* Slot / canli casino / crash sayfalari (html.ng-catalog-route, JS classifyRoute).
+ * CMS'in icerik kapsayicisi ortada dar bir sutunda kaliyordu; katalog ekranin
+ * tamamina yayilir, modulun kenar bosluklari kucultulur. */
+@media (min-width: 1000px) {
+  html.ng-catalog-route main[data-mj="page-content"],
+  html.ng-catalog-route main[data-mj="page-content"] > *,
+  html.ng-catalog-route main[data-mj="page-content"] > * > *,
+  html.ng-catalog-route [data-mj="game-catalog-module"] {
+    width: 100% !important; max-width: none !important;
+    margin-left: 0 !important; margin-right: 0 !important;
+  }
+  html.ng-catalog-route main[data-mj="page-content"] { padding-left: 0 !important; padding-right: 0 !important; }
+  html.ng-catalog-route [data-mj="game-catalog-module"] {
+    padding: 16px clamp(12px, 1.6vw, 28px) 30px !important;
+    border-left: 0 !important; border-right: 0 !important;
+    border-radius: 0 !important;
+  }
+  html.ng-catalog-route [data-mj="game-catalog-list"] {
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)) !important;
+    gap: 14px !important;
+  }
+}
+
+/* ---------------- HAREKETLI OYUN KAPAKLARI (hover video) ---------------- */
+.ng-oyun-video {
+  position: absolute !important; inset: 0 !important; z-index: 2 !important;
+  display: block !important; width: 100% !important; height: 100% !important;
+  object-fit: cover !important; pointer-events: none !important;
+  border-radius: inherit !important; background: #0a0a0d;
+}

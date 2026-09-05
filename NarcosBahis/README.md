@@ -107,3 +107,18 @@ gitmiyor demektir — panel tarafından teyit edilmeli.
 
 Ayrıca panelin CSP'sinde `frame-ancestors` bu alan adını içermeli, yoksa
 tarayıcı iframe'i boş gösteriyor.
+
+## Hareketli oyun kapakları (hover video)
+
+Masaüstünde oyun kartının üzerine gelince kapak yerine kısa, sessiz, dönen
+bir video oynar. Eşleme `oyun-videolari.json` dosyasında:
+
+```json
+{ "sweet bonanza": "https://cdn.jsdelivr.net/gh/kuraapikaa/css@<hash>/NarcosBahis/video/sweet-bonanza.mp4" }
+```
+
+- Anahtar: kartın `<img alt>` değeri, küçük harf (noktalama önemsiz).
+- Değer: mp4/webm adresi. Bu depoya `NarcosBahis/video/` altına konabilir
+  (jsDelivr dosya başına 20 MB; 3-6 saniyelik 480p döngü ~1-2 MB).
+- Eşleşmeyen oyunlarda hiçbir şey olmaz; mobilde kapalı.
+- JSON ve videolar da hash'e bağlı: yeni video eklenince hash güncellenir.
