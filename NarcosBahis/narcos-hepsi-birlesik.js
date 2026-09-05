@@ -1626,6 +1626,12 @@
   };
   var KAP_ID = "narcos-panel-frame";
   var PANEL_ORIGIN = "https://panel.narcosbahis.vip";
+  // Hangi surumun calistigini konsoldan gormek icin: window.__narcosGomme
+  var GOMME_SURUM = "2026-09-05c rota+takeover";
+  try {
+    window.__narcosGomme = { surum: GOMME_SURUM, kaynak: document.currentScript && document.currentScript.src };
+    if (window.console && console.info) console.info("[narcos-gomme] surum " + GOMME_SURUM);
+  } catch (e) { /* yok say */ }
 
   /**
    * Giriş yapmış oyuncunun kullanıcı adı.
@@ -1762,6 +1768,19 @@
     } catch (e) { /* iframe henüz yüklenmemiş olabilir */ }
   }
 
+  // load ani ile panelin React dinleyicisinin takilmasi ayni an degil;
+  // birkac kez tekrar gonder (panel farkli degilse mesaji yok sayar).
+  function rotayiTekrarla(ifr) {
+    [300, 1000, 2500, 5000].forEach(function (ms) {
+      setTimeout(function () { rotayiYolla(ifr); }, ms);
+    });
+  }
+
+  /** Bizim kurdugumuz iframe mi? (Eski/yabanci bir gomme kopyasi ayni kabi kurmus olabilir.) */
+  function bizimIframeMi(f) {
+    return !!(f && f.hasAttribute && f.hasAttribute("data-ng-rota"));
+  }
+
   function kimligiYolla(ifr) {
     if (!ifr || !ifr.contentWindow || !kullaniciAdi) return;
     try {
@@ -1864,7 +1883,7 @@
     kap.appendChild(ifr);
     govde.appendChild(kap);
 
-    ifr.addEventListener("load", function () { rotayiYolla(ifr); kimligiYolla(ifr); });
+    ifr.addEventListener("load", function () { rotayiYolla(ifr); rotayiTekrarla(ifr); kimligiYolla(ifr); });
     kullaniciyiGetir().then(function () { kimligiYolla(ifr); });
   }
 
@@ -2158,7 +2177,17 @@
     }
     if (mevcut) {                       // zaten var; hedef değiştiyse güncelle
       var f = mevcut.querySelector("iframe");
-      if (f && f.src !== hedef) { f.setAttribute("data-ng-rota", rotaCikar(hedef)); f.src = hedef; }
+      if (f && !bizimIframeMi(f)) {
+        // Kabi eski/yabanci bir gomme kopyasi kurmus (backoffice'te kalan
+        // satir ici kopya). O iframe rota mesaji tasimaz ve yenilemede
+        // gecmisten geri yuklenir; kendi iframe'imizle degistiriyoruz.
+        var yeni = iframeKur(hedef);
+        mevcut.replaceChild(yeni, f);
+        f = yeni;
+      } else if (f && f.src !== hedef) {
+        f.setAttribute("data-ng-rota", rotaCikar(hedef));
+        f.src = hedef;
+      }
       // Kap yerindeyken CMS yeni düğüm eklemiş olabilir ("No categories").
       kardesleriGizle(mevcut.parentElement);
       panelYuksekligi(mevcut);
@@ -2178,6 +2207,15 @@
       "width:100%;overflow:hidden;" +
       "border-radius:16px;background:#09090b;margin:0 auto;";
 
+    var ifr = iframeKur(hedef);
+    kap.appendChild(ifr);
+
+    yer.appendChild(kap);
+    panelYuksekligi(kap);
+  }
+
+  /** Sayfa gommesi iframe'i: rastgele ad, rota isareti, yukleme dinleyicileri. */
+  function iframeKur(hedef) {
     var ifr = document.createElement("iframe");
     ifr.name = "narcos-panel-" + new Date().getTime();   // gecmis geri yuklemesini kir
     ifr.setAttribute("data-ng-rota", rotaCikar(hedef));
@@ -2190,14 +2228,10 @@
     ifr.setAttribute("data-ng-panel", "1");
     ifr.style.cssText =
       "display:block;width:100%;height:100%;min-height:inherit;border:0;";
-    kap.appendChild(ifr);
-
-    yer.appendChild(kap);
-    panelYuksekligi(kap);
-
     // Panel yüklendiğinde rotayı ve kimliği bildir; kullanıcı bilgisi geç gelirse de tekrar.
-    ifr.addEventListener("load", function () { rotayiYolla(ifr); kimligiYolla(ifr); });
+    ifr.addEventListener("load", function () { rotayiYolla(ifr); rotayiTekrarla(ifr); kimligiYolla(ifr); });
     kullaniciyiGetir().then(function () { kimligiYolla(ifr); });
+    return ifr;
   }
 
   // Ekran döndürme, adres çubuğunun gizlenmesi ve masaüstü/mobil sınırının
