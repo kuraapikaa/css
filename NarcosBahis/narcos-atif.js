@@ -25,8 +25,8 @@
 (function () {
   "use strict";
   if (window.__narcosAtif) return;
-  window.__narcosAtif = { surum: "2026-09-06c" };
-  try { if (window.console && console.info) console.info("[narcos-atif] surum 2026-09-06c"); } catch (e) { /* yok say */ }
+  window.__narcosAtif = { surum: "2026-09-06d" };
+  try { if (window.console && console.info) console.info("[narcos-atif] surum 2026-09-06d"); } catch (e) { /* yok say */ }
 
   var PANEL = "https://panel.narcosbahis.vip";
   var ANAHTAR = "ng_atif";            // localStorage + cerez
@@ -82,8 +82,20 @@
    * alir. Burada mevcut adres bos cikarsa o yedek okunur.
    */
   var ILK_ADRES = "ng_ilk_adres";
+  /**
+   * Tarayicinin gezinme kaydi: belgenin YUKLENDIGI adres. SPA sonradan
+   * history.replaceState ile adresi degistirse de bu deger degismez.
+   * Header Js'nin de SPA'dan sonra calistigi goruldu (ilkAdres null),
+   * bu yuzden asil kaynak budur; sessionStorage yedek.
+   */
+  function gezinmeAdresi() {
+    return guvenli(function () {
+      var g = performance.getEntriesByType && performance.getEntriesByType("navigation");
+      return g && g[0] && g[0].name ? String(g[0].name) : "";
+    }) || "";
+  }
   function ilkAdresSorgusu() {
-    var href = guvenli(function () { return sessionStorage.getItem(ILK_ADRES); });
+    var href = gezinmeAdresi() || guvenli(function () { return sessionStorage.getItem(ILK_ADRES); });
     if (!href) return "";
     var a = document.createElement("a"); a.href = href;
     var qs = a.search || "";
@@ -311,6 +323,8 @@
       saklanan: depoOku(),
       bildirilenKayit: guvenli(function () { return localStorage.getItem(KAYIT_ANAHTARI); }) || cerezOku(KAYIT_ANAHTARI) || null,
       ilkAdres: guvenli(function () { return sessionStorage.getItem(ILK_ADRES); }) || null,
+      gezinmeAdresi: gezinmeAdresi() || null,
+      adres: location.href,
       panel: PANEL
     };
   };
