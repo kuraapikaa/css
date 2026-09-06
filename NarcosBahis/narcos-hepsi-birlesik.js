@@ -1,3 +1,5 @@
+/* Takip linki ilk adres yedegi: SPA adresi yeniden yazmadan once btag'i sakla (bkz. narcos-atif.js). */
+try { if (/[?&#]btag=/i.test(location.href) && !sessionStorage.getItem("ng_ilk_adres")) sessionStorage.setItem("ng_ilk_adres", location.href); } catch (e) { /* yok say */ }
 /*! narcos-hepsi-birlesik.js — NarcosBahis tek dosya tema + panel calisma zamani
  *
  * NEDEN TEK DOSYA:
@@ -1630,7 +1632,7 @@
   var KAP_ID = "narcos-panel-frame";
   var PANEL_ORIGIN = "https://panel.narcosbahis.vip";
   // Hangi surumun calistigini konsoldan gormek icin: window.__narcosGomme
-  var GOMME_SURUM = "2026-09-06b atif-betigi";
+  var GOMME_SURUM = "2026-09-06c atif-betigi";
   try {
     window.__narcosGomme = { surum: GOMME_SURUM, kaynak: document.currentScript && document.currentScript.src };
     document.documentElement.setAttribute("data-narcos-gomme", GOMME_SURUM);

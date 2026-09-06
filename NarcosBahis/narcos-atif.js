@@ -25,8 +25,8 @@
 (function () {
   "use strict";
   if (window.__narcosAtif) return;
-  window.__narcosAtif = { surum: "2026-09-06b" };
-  try { if (window.console && console.info) console.info("[narcos-atif] surum 2026-09-06b"); } catch (e) { /* yok say */ }
+  window.__narcosAtif = { surum: "2026-09-06c" };
+  try { if (window.console && console.info) console.info("[narcos-atif] surum 2026-09-06c"); } catch (e) { /* yok say */ }
 
   var PANEL = "https://panel.narcosbahis.vip";
   var ANAHTAR = "ng_atif";            // localStorage + cerez
@@ -71,6 +71,26 @@
     guvenli(function () { localStorage.setItem(ANAHTAR, ham); });
     guvenli(function () { cerezYaz(ANAHTAR, ham, SAKLAMA_MS); });
   }
+  /**
+   * ILK ADRES YEDEGI.
+   *
+   * Gozlenen (06.09.2026): /?btag=TEST ile gelen ziyaretcide `saklanan`
+   * null kaldi. Sunucu yonlendirme yapmiyor (200), ama SPA acilista adresi
+   * yeniden yaziyor (/tr/ ... sorgusuz) ve bu betik async yuklendigi icin
+   * parametreyi goremiyor. Header Js snippet'i sayfa ayristirilirken (SPA
+   * kosmadan) adresi sessionStorage'a yazar; tema dosyasi da ayni yedegi
+   * alir. Burada mevcut adres bos cikarsa o yedek okunur.
+   */
+  var ILK_ADRES = "ng_ilk_adres";
+  function ilkAdresSorgusu() {
+    var href = guvenli(function () { return sessionStorage.getItem(ILK_ADRES); });
+    if (!href) return "";
+    var a = document.createElement("a"); a.href = href;
+    var qs = a.search || "";
+    var h = a.hash || ""; var qi = h.indexOf("?");
+    if (qi >= 0) qs += (qs ? "&" : "?") + h.slice(qi + 1);
+    return qs;
+  }
   function sorguParametreleri() {
     var out = {};
     function topla(qs) {
@@ -87,6 +107,12 @@
     var h = location.hash || "";
     var qi = h.indexOf("?");
     if (qi >= 0) topla(h.slice(qi));
+    if (!out.btag && !out.bTag && !out.BTag && !out.BTAG) {
+      topla(ilkAdresSorgusu());
+      // Lynon'un kendi btag cerezi/deposu varsa son care olarak onu al.
+      var lyn = cerezOku("btag") || cerezOku("BTag") || guvenli(function () { return localStorage.getItem("btag") || localStorage.getItem("BTag"); });
+      if (lyn && !out.btag) out.btag = lyn;
+    }
     return out;
   }
   function gonder(yol, veri) {
@@ -284,6 +310,7 @@
       surum: window.__narcosAtif.surum,
       saklanan: depoOku(),
       bildirilenKayit: guvenli(function () { return localStorage.getItem(KAYIT_ANAHTARI); }) || cerezOku(KAYIT_ANAHTARI) || null,
+      ilkAdres: guvenli(function () { return sessionStorage.getItem(ILK_ADRES); }) || null,
       panel: PANEL
     };
   };

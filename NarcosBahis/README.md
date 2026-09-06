@@ -24,6 +24,8 @@ https://cdn.jsdelivr.net/gh/kuraapikaa/css@126dfea/NarcosBahis/narcos-tema-birle
 
 ```js
 (function () {
+  // Takip linki: SPA adresi yeniden yazmadan once btag'i sakla (narcos-atif.js okur).
+  try { if (/[?&#]btag=/i.test(location.href) && !sessionStorage.getItem("ng_ilk_adres")) sessionStorage.setItem("ng_ilk_adres", location.href); } catch (e) {}
   var s = document.createElement("script");
   s.src = "https://cdn.jsdelivr.net/gh/kuraapikaa/css@126dfea/NarcosBahis/narcos-hepsi-birlesik.js";
   s.async = false;          // defer DEĞİL — aşağıdaki nota bak
