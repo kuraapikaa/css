@@ -1630,7 +1630,7 @@
   var KAP_ID = "narcos-panel-frame";
   var PANEL_ORIGIN = "https://panel.narcosbahis.vip";
   // Hangi surumun calistigini konsoldan gormek icin: window.__narcosGomme
-  var GOMME_SURUM = "2026-09-05h katalog-tam-genislik+video";
+  var GOMME_SURUM = "2026-09-06a atif-betigi";
   try {
     window.__narcosGomme = { surum: GOMME_SURUM, kaynak: document.currentScript && document.currentScript.src };
     document.documentElement.setAttribute("data-narcos-gomme", GOMME_SURUM);
@@ -2463,6 +2463,31 @@
   } catch (e) {
     // Canli kumar sitesi: yukleyicinin hatasi sayfayi bozmamali.
   }
+})();
+
+/* ================= NARCOS PANELI TAKIP LINKI ATIFI (narcos-atif.js) ================= */
+/*!
+ * Narcos panelinin (panel.narcosbahis.vip) affiliate atif betigini yukler.
+ * Yukaridaki attrib.js yukleyicisinden BAGIMSIZ ve ona dokunmaz: o baska
+ * bir affiliate panelinin betigi (06.09.2026 itibariyla 404 donuyor ama
+ * kaldirilmadi). Iki betik farkli anahtarlar ve farkli panel adresleri
+ * kullanir; ust uste binmez.
+ *
+ * Betik bu dosyayla AYNI kaynaktan (jsDelivr, ayni commit) gelir: sitenin
+ * script-src izni zaten bu kaynagi kapsiyor; surumu de temayla birlikte
+ * ilerler (hash guncellenince ikisi birden guncellenir).
+ */
+(function () {
+  try {
+    if (document.querySelector('script[src*="narcos-atif.js"]')) return;
+    var su = document.currentScript || document.querySelector('script[src*="narcos-hepsi-birlesik"]');
+    var kok;
+    try { kok = new URL(".", (su && su.src) || window.location.href).href; } catch (e) { kok = "./"; }
+    var s = document.createElement("script");
+    s.src = kok + "narcos-atif.js";
+    s.async = true;
+    (document.head || document.documentElement).appendChild(s);
+  } catch (e) { /* canli site: yukleyici hatasi sayfayi bozmasin */ }
 })();
 
 /* ================= HAREKETLI OYUN KAPAKLARI (hover video) ================= */
