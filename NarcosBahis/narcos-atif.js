@@ -25,8 +25,8 @@
 (function () {
   "use strict";
   if (window.__narcosAtif) return;
-  window.__narcosAtif = { surum: "2026-09-06e" };
-  try { if (window.console && console.info) console.info("[narcos-atif] surum 2026-09-06e"); } catch (e) { /* yok say */ }
+  window.__narcosAtif = { surum: "2026-09-06f" };
+  try { if (window.console && console.info) console.info("[narcos-atif] surum 2026-09-06f"); } catch (e) { /* yok say */ }
 
   var PANEL = "https://panel.narcosbahis.vip";
   var ANAHTAR = "ng_atif";            // localStorage + cerez
@@ -34,7 +34,9 @@
   var GUN_MS = 24 * 60 * 60 * 1000;
   var SAKLAMA_MS = 90 * GUN_MS;
   var YENI_HESAP_MS = 15 * 60 * 1000;
-  var KAYIT_UCU = /regist|sign-?up|signup|create-?account|uye-?ol|kayit/i;
+  // Lynon kayit ucu: POST /api/user/api/v1/usersite/user/create (ve autocreate);
+  // "register" gecmiyor — bundle'dan okundu (06.09.2026).
+  var KAYIT_UCU = /usersite\/user\/(auto)?create|regist|sign-?up|signup|create-?account|uye-?ol|kayit/i;
   var ME_UCU = /\/api\/v1\/me(\?|$)/i;
   var AD_ALANLARI = /^(username|userName|user_name|login|userLogin|nickname|nickName|memberName|accountName)$/;
   var ID_ALANLARI = /^(id|userId|user_id|playerId|player_id|clientId|client_id)$/;
