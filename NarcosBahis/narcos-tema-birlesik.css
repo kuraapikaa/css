@@ -2055,8 +2055,9 @@ html:not(.ng-sports-route) #sportsbook-wrapper {
     border-left: 0 !important; border-right: 0 !important;
     border-radius: 0 !important;
   }
+  /* Her satirda 7 kart (istek 06.09.2026); dar masaustunde de 7, kartlar kucultur. */
   html.ng-catalog-route [data-mj="game-catalog-list"] {
-    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)) !important;
+    grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
     gap: 14px !important;
   }
 }
