@@ -17,7 +17,7 @@ sunduğun sürece hangi CDN yolunu seçtiğin fark etmez.
 **Header Css** (tek URL kabul ediyor, script/HTML etiketi değil):
 
 ```
-https://cdn.jsdelivr.net/gh/kuraapikaa/css@662abd6/NarcosBahis/narcos-tema-birlesik.css
+https://cdn.jsdelivr.net/gh/kuraapikaa/css@adf561a/NarcosBahis/narcos-tema-birlesik.css
 ```
 
 **Header Js**:
@@ -27,13 +27,13 @@ https://cdn.jsdelivr.net/gh/kuraapikaa/css@662abd6/NarcosBahis/narcos-tema-birle
   // Takip linki: SPA adresi yeniden yazmadan once btag'i sakla (narcos-atif.js okur).
   try { if (/[?&#]btag=/i.test(location.href) && !sessionStorage.getItem("ng_ilk_adres")) sessionStorage.setItem("ng_ilk_adres", location.href); } catch (e) {}
   var s = document.createElement("script");
-  s.src = "https://cdn.jsdelivr.net/gh/kuraapikaa/css@662abd6/NarcosBahis/narcos-hepsi-birlesik.js";
+  s.src = "https://cdn.jsdelivr.net/gh/kuraapikaa/css@adf561a/NarcosBahis/narcos-hepsi-birlesik.js";
   s.async = false;          // defer DEĞİL — aşağıdaki nota bak
   document.head.appendChild(s);
 })();
 ```
 
-`@662abd6` sabit commit hash'i. Tema güncellendiğinde bu satırdaki hash'i
+`@adf561a` sabit commit hash'i. Tema güncellendiğinde bu satırdaki hash'i
 yeni commit'inkiyle değiştir; `@main` kullanma (jsDelivr değişken ref'leri
 uzun süre önbelleklemek zorunda kalıyor).
 
