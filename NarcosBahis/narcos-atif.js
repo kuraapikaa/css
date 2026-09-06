@@ -25,8 +25,8 @@
 (function () {
   "use strict";
   if (window.__narcosAtif) return;
-  window.__narcosAtif = { surum: "2026-09-06f" };
-  try { if (window.console && console.info) console.info("[narcos-atif] surum 2026-09-06f"); } catch (e) { /* yok say */ }
+  window.__narcosAtif = { surum: "2026-09-06g" };
+  try { if (window.console && console.info) console.info("[narcos-atif] surum 2026-09-06g"); } catch (e) { /* yok say */ }
 
   var PANEL = "https://panel.narcosbahis.vip";
   var ANAHTAR = "ng_atif";            // localStorage + cerez
@@ -96,13 +96,25 @@
       return g && g[0] && g[0].name ? String(g[0].name) : "";
     }) || "";
   }
+  /**
+   * Hash'ten parametre: "#?btag=X", "#/yol?btag=X" ya da dogrudan "#btag=X".
+   * Bazi tarayici/eklentiler (izleme parametresi temizleme) sorgudaki
+   * btag'i adres cubugunda siliyor; hash'e dokunmuyorlar (06.09.2026).
+   */
+  function hashSorgusu(h) {
+    if (!h) return "";
+    var qi = h.indexOf("?");
+    if (qi >= 0) return h.slice(qi);
+    var govde = h.replace(/^#\/?/, "");
+    return /^[A-Za-z0-9_]+=/.test(govde) ? "?" + govde : "";
+  }
   function ilkAdresSorgusu() {
     var href = gezinmeAdresi() || guvenli(function () { return sessionStorage.getItem(ILK_ADRES); });
     if (!href) return "";
     var a = document.createElement("a"); a.href = href;
     var qs = a.search || "";
-    var h = a.hash || ""; var qi = h.indexOf("?");
-    if (qi >= 0) qs += (qs ? "&" : "?") + h.slice(qi + 1);
+    var hq = hashSorgusu(a.hash || "");
+    if (hq) qs += (qs ? "&" : "?") + hq.slice(1);
     return qs;
   }
   function sorguParametreleri() {
@@ -118,9 +130,7 @@
       });
     }
     topla(location.search);
-    var h = location.hash || "";
-    var qi = h.indexOf("?");
-    if (qi >= 0) topla(h.slice(qi));
+    topla(hashSorgusu(location.hash || ""));
     var var_mi = function () { return out.btag || out.bTag || out.BTag || out.BTAG; };
     if (!var_mi()) topla(ilkAdresSorgusu());
     /*
@@ -133,8 +143,7 @@
       if (ref && ref.indexOf(location.protocol + "//" + location.host + "/") === 0 && /[?&#]btag=/i.test(ref)) {
         var a = document.createElement("a"); a.href = ref;
         topla(a.search || "");
-        var rh = a.hash || ""; var rqi = rh.indexOf("?");
-        if (rqi >= 0) topla(rh.slice(rqi));
+        topla(hashSorgusu(a.hash || ""));
       }
     }
     // Lynon'un kendi btag cerezi/deposu: adi tam bilinmiyor, "btag" geceni al.
