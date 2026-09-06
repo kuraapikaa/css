@@ -25,7 +25,8 @@
 (function () {
   "use strict";
   if (window.__narcosAtif) return;
-  window.__narcosAtif = { surum: "2026-09-06a" };
+  window.__narcosAtif = { surum: "2026-09-06b" };
+  try { if (window.console && console.info) console.info("[narcos-atif] surum 2026-09-06b"); } catch (e) { /* yok say */ }
 
   var PANEL = "https://panel.narcosbahis.vip";
   var ANAHTAR = "ng_atif";            // localStorage + cerez
@@ -263,6 +264,30 @@
       return yolla.apply(this, arguments);
     };
   });
+  // Acilista: btag saklanmis ama uyelik bildirilmemisse /me'ye bak — betik
+  // sayfanin kendi /me cagrisindan sonra yuklenmis olabilir (kancayi kacirir).
+  guvenli(function () {
+    if (!durum) return;
+    var onceki = guvenli(function () { return localStorage.getItem(KAYIT_ANAHTARI); }) || cerezOku(KAYIT_ANAHTARI);
+    if (onceki) return;
+    setTimeout(function () {
+      fetch("/api/v1/me", { credentials: "same-origin", headers: { Accept: "application/json" } })
+        .then(function (y) { return y.ok ? y.json() : null; })
+        .then(function (veri) { if (veri && yeniHesapMi(veri)) { var ad = kullaniciAdi(veri); if (ad) kayitBildir(ad, oyuncuId(veri), "me-tarihi"); } })
+        .catch(function () {});
+    }, 2000);
+  });
+
+  // Teshis: konsolda window.__narcosAtif.durum()
+  window.__narcosAtif.durum = function () {
+    return {
+      surum: window.__narcosAtif.surum,
+      saklanan: depoOku(),
+      bildirilenKayit: guvenli(function () { return localStorage.getItem(KAYIT_ANAHTARI); }) || cerezOku(KAYIT_ANAHTARI) || null,
+      panel: PANEL
+    };
+  };
+
   // Kayit formu gonderimi (fetch/XHR yakalanamazsa yedek): basari gorunmese de
   // 4 sn sonra /me'den yeni hesap kontrolu.
   document.addEventListener("submit", function (e) {
