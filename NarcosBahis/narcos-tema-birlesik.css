@@ -1411,7 +1411,8 @@ footer::before,
   [data-mj="game-catalog-provider-bottom-sheet-header"] { padding: 15px 18px 9px !important; color: var(--ng-gold-4) !important; text-align: center !important; }
   [data-mj="game-catalog-provider-bottom-sheet-body"] { padding: 12px 14px 18px !important; }
   [data-mj="game-catalog-provider-bottom-sheet-body"] > div:first-child > div { display: flex !important; align-items: center !important; gap: 8px !important; padding: 0 12px !important; border: 1px solid var(--ng-line) !important; border-radius: 13px !important; }
-  [data-mj="game-catalog-provider-bottom-sheet-search"] { flex: 1 1 auto !important; width: auto !important; min-height: 42px !important; padding: 0 4px !important; background: transparent !important; text-align: left !important; }
+  /* Yazilan metin buyutec ikonunun ustune biniyordu (mobil ekran goruntusu, 06.09.2026): ikon icin sol bosluk. */
+  [data-mj="game-catalog-provider-bottom-sheet-search"] { flex: 1 1 auto !important; width: auto !important; min-height: 42px !important; padding: 0 8px 0 34px !important; background: transparent !important; text-align: left !important; }
   [data-mj="game-catalog-provider-bottom-sheet-search"]::placeholder { color: rgba(255, 255, 255, .72) !important; opacity: 1 !important; }
   [data-mj="game-catalog-provider-bottom-sheet-sort"] { display: flex !important; gap: 8px !important; margin-bottom: 10px !important; padding: 4px !important; border: 1px solid var(--ng-line) !important; border-radius: 12px !important; }
   [data-mj="game-catalog-provider-sort-popular"],
@@ -2109,4 +2110,20 @@ html:not(.ng-sports-route) #sportsbook-wrapper {
   /* Video acildiysa (ng-oyun-video) isik ve zoom gizlenir; video ustte kalir. */
   [data-mj="game-catalog-card"]:has(.ng-oyun-video)::after,
   [data-mj="widget-game-card"]:has(.ng-oyun-video)::after { display: none; }
+}
+
+/* ---------------- MOBIL: PANEL SAYFALARINDA CIFT MENU VE SOHBET BALONU ---------------- */
+@media (max-width: 620px) {
+  /* Panel kendi kisayol menusunu tasiyor (LOBI/BONUS/CARK/KAZI/...). Sitenin
+   * mobil kisayol seridi ayni sayfada ikinci bir menu satiri oluyordu; panel
+   * rotalarinda gizlenir, ekranin ~%12'si icerige doner. */
+  html.ng-panel-route #narcos-mobil-kisayol { display: none !important; }
+  /* Canli destek balonu sayfa icerigini (ornek: bonus kartindaki TALEP ET)
+   * ortuyordu: kucultulur ve alt gezinme cubugunun hemen ustune alinir. */
+  html.ng-panel-route button[aria-label*="ohbet"] {
+    position: fixed !important; right: 10px !important;
+    bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important;
+    width: 48px !important; height: 48px !important; min-width: 0 !important; min-height: 0 !important;
+    transform: none !important; z-index: 60 !important;
+  }
 }
