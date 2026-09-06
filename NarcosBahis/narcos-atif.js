@@ -25,8 +25,8 @@
 (function () {
   "use strict";
   if (window.__narcosAtif) return;
-  window.__narcosAtif = { surum: "2026-09-06d" };
-  try { if (window.console && console.info) console.info("[narcos-atif] surum 2026-09-06d"); } catch (e) { /* yok say */ }
+  window.__narcosAtif = { surum: "2026-09-06e" };
+  try { if (window.console && console.info) console.info("[narcos-atif] surum 2026-09-06e"); } catch (e) { /* yok say */ }
 
   var PANEL = "https://panel.narcosbahis.vip";
   var ANAHTAR = "ng_atif";            // localStorage + cerez
@@ -119,11 +119,38 @@
     var h = location.hash || "";
     var qi = h.indexOf("?");
     if (qi >= 0) topla(h.slice(qi));
-    if (!out.btag && !out.bTag && !out.BTag && !out.BTAG) {
-      topla(ilkAdresSorgusu());
-      // Lynon'un kendi btag cerezi/deposu varsa son care olarak onu al.
-      var lyn = cerezOku("btag") || cerezOku("BTag") || guvenli(function () { return localStorage.getItem("btag") || localStorage.getItem("BTag"); });
-      if (lyn && !out.btag) out.btag = lyn;
+    var var_mi = function () { return out.btag || out.bTag || out.BTag || out.BTAG; };
+    if (!var_mi()) topla(ilkAdresSorgusu());
+    /*
+     * Gozlenen (06.09.2026): /?btag=TEST acilisinda site TAM SAYFA
+     * yenilemesiyle /register'a atliyor; gezinme kaydi bile sorgusuz
+     * /register. Ayni kaynakli atlamada document.referrer sorguyu korur.
+     */
+    if (!var_mi()) {
+      var ref = document.referrer || "";
+      if (ref && ref.indexOf(location.protocol + "//" + location.host + "/") === 0 && /[?&#]btag=/i.test(ref)) {
+        var a = document.createElement("a"); a.href = ref;
+        topla(a.search || "");
+        var rh = a.hash || ""; var rqi = rh.indexOf("?");
+        if (rqi >= 0) topla(rh.slice(rqi));
+      }
+    }
+    // Lynon'un kendi btag cerezi/deposu: adi tam bilinmiyor, "btag" geceni al.
+    if (!var_mi()) {
+      var lyn = null;
+      guvenli(function () {
+        document.cookie.split(";").forEach(function (c) {
+          var i = c.indexOf("="); var ad = c.slice(0, i).trim(); var deger = decodeURIComponent(c.slice(i + 1).trim());
+          if (!lyn && /btag/i.test(ad) && /^[A-Za-z0-9_.-]{1,64}$/.test(deger)) lyn = deger;
+        });
+      });
+      guvenli(function () {
+        for (var i = 0; i < localStorage.length && !lyn; i++) {
+          var k = localStorage.key(i); var v = localStorage.getItem(k) || "";
+          if (/btag/i.test(k) && /^[A-Za-z0-9_.-]{1,64}$/.test(v)) lyn = v;
+        }
+      });
+      if (lyn) out.btag = lyn;
     }
     return out;
   }
@@ -325,6 +352,9 @@
       ilkAdres: guvenli(function () { return sessionStorage.getItem(ILK_ADRES); }) || null,
       gezinmeAdresi: gezinmeAdresi() || null,
       adres: location.href,
+      referrer: document.referrer || null,
+      cerezler: guvenli(function () { return document.cookie.split(";").map(function (c) { return c.split("=")[0].trim(); }).filter(Boolean); }) || [],
+      depoAnahtarlari: guvenli(function () { return Object.keys(localStorage); }) || [],
       panel: PANEL
     };
   };
