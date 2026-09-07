@@ -929,7 +929,7 @@ try { if (/[?&#]btag=/i.test(location.href) && !sessionStorage.getItem("ng_ilk_a
     if (pages && pages.parentElement !== main) pages = null;
     var before = providers || (pages && pages.nextSibling);
     var widget = mount("narcos-game-hub", "section", main, before, function (node) {
-      node.className = "ng-trust-hub";
+      node.className = "ng-trust-hub ng-trust-hub-v2";
       node.setAttribute("aria-labelledby", "narcos-trust-hub-title");
       var head = create("div", "ng-trust-head");
       head.appendChild(create("span", "ng-trust-eyebrow", "NARCOS PREMIUM"));
@@ -937,23 +937,54 @@ try { if (/[?&#]btag=/i.test(location.href) && !sessionStorage.getItem("ng_ilk_a
       title.id = "narcos-trust-hub-title";
       head.appendChild(title);
       head.appendChild(create("p", "ng-trust-lead", "Güçlü topluluk, köklü deneyim ve her an yanınızda destek."));
+      var cizgi = create("span", "ng-trust-cizgi");
+      cizgi.setAttribute("aria-hidden", "true");
+      head.appendChild(cizgi);
       node.appendChild(head);
       var grid = create("div", "ng-trust-grid");
       grid.setAttribute("aria-label", "NarcosBahis güven ve deneyim bilgileri");
+      /*
+       * Sayilar animasyonlu (0'dan hedefe): `data-ng-sayi` hedef, `data-ng-onek`
+       * / `data-ng-sonek` sabit ekler. Canlandirma `trustSayilariniCanlandir`
+       * ile, kart gorunur olunca bir kez. Hareket azaltma tercihinde son
+       * deger dogrudan yazilir.
+       */
       [
-        { icon: "members", value: "120.000+", label: "AKTİF ÜYE" },
-        { icon: "experience", value: "10 YILI AŞKIN", label: "DENEYİM" },
-        { icon: "support", value: "7/24", label: "CANLI DESTEK" },
-        { icon: "verified", value: "RESMİ", label: "DOĞRULANMIŞ LİSANS", href: VERIFY_URL }
-      ].forEach(function (item) {
-        var card = item.href ? externalLink(item.href, "ng-trust-card", "", item.value + " " + item.label + " doğrulamasını aç") : create("article", "ng-trust-card");
+        { icon: "members", sayi: 120000, sonek: "+", label: "AKTİF ÜYE", alt: "Her gün büyüyen topluluk", ton: "uye" },
+        { icon: "experience", sayi: 10, sonek: "+", label: "YIL DENEYİM", alt: "Köklü ve güvenilir", ton: "deneyim" },
+        { icon: "support", sayi: 24, onek: "7/", label: "CANLI DESTEK", alt: "Şu an çevrimiçi", canli: true, ton: "destek" },
+        { icon: "verified", metin: "RESMİ", label: "DOĞRULANMIŞ LİSANS", alt: "Lisansı doğrula", href: VERIFY_URL, ton: "lisans" }
+      ].forEach(function (item, sira) {
+        var etiket = (item.metin || ((item.onek || "") + (item.sayi != null ? item.sayi.toLocaleString("tr-TR") : "") + (item.sonek || ""))) + " " + item.label;
+        var card = item.href ? externalLink(item.href, "ng-trust-card ng-trust-card-" + item.ton, "", etiket + " doğrulamasını aç") : create("article", "ng-trust-card ng-trust-card-" + item.ton);
+        card.style.setProperty("--ng-trust-sira", String(sira));
         var iconWrap = create("span", "ng-trust-icon-wrap");
+        var halka = create("span", "ng-trust-halka");
+        halka.setAttribute("aria-hidden", "true");
+        iconWrap.appendChild(halka);
         var icon = create("span", "ng-trust-icon ng-trust-icon-" + item.icon);
         icon.setAttribute("aria-hidden", "true");
         iconWrap.appendChild(icon);
         var copy = create("span", "ng-trust-copy");
-        copy.appendChild(create("strong", "ng-trust-value", item.value));
+        var value = create("strong", "ng-trust-value");
+        if (item.metin) {
+          value.appendChild(create("span", "ng-trust-metin", item.metin));
+        } else {
+          if (item.onek) value.appendChild(create("span", "ng-trust-onek", item.onek));
+          var sayi = create("span", "ng-trust-sayi", "0");
+          sayi.setAttribute("data-ng-sayi", String(item.sayi));
+          value.appendChild(sayi);
+          if (item.sonek) value.appendChild(create("span", "ng-trust-sonek", item.sonek));
+        }
+        copy.appendChild(value);
         copy.appendChild(create("span", "ng-trust-label", item.label));
+        var alt = create("span", "ng-trust-alt", item.alt);
+        if (item.canli) {
+          var nokta = create("span", "ng-trust-nokta");
+          nokta.setAttribute("aria-hidden", "true");
+          alt.insertBefore(nokta, alt.firstChild);
+        }
+        copy.appendChild(alt);
         card.appendChild(iconWrap);
         card.appendChild(copy);
         if (item.href) {
@@ -965,9 +996,46 @@ try { if (/[?&#]btag=/i.test(location.href) && !sessionStorage.getItem("ng_ilk_a
       });
       node.appendChild(grid);
       node.appendChild(create("p", "ng-trust-note", "18+ • Sorumlu oyun • Bütçe ve zaman limitlerinizi belirleyin."));
+      trustSayilariniCanlandir(node);
     });
     if (!providers && pages && widget.previousElementSibling !== pages) pages.insertAdjacentElement("afterend", widget);
     return true;
+  }
+  /**
+   * Guven kartlarindaki sayilari 0'dan hedefe sayar. Kart ekrana girince
+   * bir kez calisir (IntersectionObserver yoksa hemen). Hareket azaltma
+   * tercihi acikken son deger dogrudan yazilir. Sayi tr-TR bicimiyle
+   * (120.000) gosterilir.
+   */
+  function trustSayilariniCanlandir(kok) {
+    var hedefler = kok.querySelectorAll("[data-ng-sayi]");
+    if (!hedefler.length) return;
+    var azalt = false;
+    try { azalt = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { azalt = false; }
+    function bicim(n) { try { return Math.round(n).toLocaleString("tr-TR"); } catch (e) { return String(Math.round(n)); } }
+    function say(el) {
+      if (el.getAttribute("data-ng-canlandi")) return;
+      el.setAttribute("data-ng-canlandi", "1");
+      var hedef = Number(el.getAttribute("data-ng-sayi")) || 0;
+      if (azalt || typeof requestAnimationFrame !== "function") { el.textContent = bicim(hedef); return; }
+      var sure = hedef > 1000 ? 2200 : 1400, baslangic = 0;
+      var kart = el.closest ? el.closest(".ng-trust-card") : null;
+      if (kart) kart.classList.add("ng-sayiyor");
+      function adim(ts) {
+        if (!baslangic) baslangic = ts;
+        var t = Math.min(1, (ts - baslangic) / sure);
+        var e = 1 - Math.pow(1 - t, 3);
+        el.textContent = bicim(hedef * e);
+        if (t < 1) requestAnimationFrame(adim);
+        else if (kart) { kart.classList.remove("ng-sayiyor"); kart.classList.add("ng-saydi"); }
+      }
+      requestAnimationFrame(adim);
+    }
+    if (typeof IntersectionObserver !== "function") { hedefler.forEach(say); return; }
+    var io = new IntersectionObserver(function (girisler) {
+      girisler.forEach(function (g) { if (g.isIntersecting) { say(g.target); io.unobserve(g.target); } });
+    }, { threshold: 0.35 });
+    hedefler.forEach(function (el) { io.observe(el); });
   }
   function jackpotCard(symbol, label, value, tone) {
     var card = create("article", "ng-jackpot-card ng-jackpot-card-" + tone);
@@ -1632,7 +1700,7 @@ try { if (/[?&#]btag=/i.test(location.href) && !sessionStorage.getItem("ng_ilk_a
   var KAP_ID = "narcos-panel-frame";
   var PANEL_ORIGIN = "https://panel.narcosbahis.vip";
   // Hangi surumun calistigini konsoldan gormek icin: window.__narcosGomme
-  var GOMME_SURUM = "2026-09-06g atif-betigi";
+  var GOMME_SURUM = "2026-09-06h guven-v2";
   try {
     window.__narcosGomme = { surum: GOMME_SURUM, kaynak: document.currentScript && document.currentScript.src };
     document.documentElement.setAttribute("data-narcos-gomme", GOMME_SURUM);
