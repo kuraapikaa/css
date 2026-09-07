@@ -361,8 +361,8 @@ html.ng-game-embed [data-mj="bottom-nav-item"] {
   background: linear-gradient(135deg, #b77b1e, #ffe99d 56%, #d49a2c);
   mask: center / contain no-repeat;
 }
-.ng-telegram-icon { mask-image: url("./narcos-telegram-icon.png"); }
-.ng-gift-icon { mask-image: url("./narcos-gift-icon.png"); }
+.ng-telegram-icon { mask-image: url("./narcos-telegram-icon.png?v=2"); }
+.ng-gift-icon { mask-image: url("./narcos-gift-icon.png?v=2"); }
 [data-mj="header-special-button"].ng-gift-button > :not(.ng-gift-icon) { display: none !important; }
 @keyframes ng-gold-text-flow { to { background-position: 240% center; } }
 @keyframes ng-mobile-info-marquee { from { transform: translateX(35%); } to { transform: translateX(-100%); } }
@@ -682,10 +682,10 @@ html.ng-sports-route:has(#sportsbook-wrapper) footer { display: none !important;
   background: linear-gradient(135deg, #b77b1e, #fff2bd 55%, #c98f2b);
   mask: center / contain no-repeat;
 }
-.ng-trust-icon-members { mask-image: url("./narcos-members-icon.png"); }
-.ng-trust-icon-experience { mask-image: url("./narcos-experience-icon.png"); }
-.ng-trust-icon-support { mask-image: url("./narcos-support-icon.png"); }
-.ng-trust-icon-verified { mask-image: url("./narcos-verified-icon.png"); }
+.ng-trust-icon-members { mask-image: url("./narcos-members-icon.png?v=2"); }
+.ng-trust-icon-experience { mask-image: url("./narcos-experience-icon.png?v=2"); }
+.ng-trust-icon-support { mask-image: url("./narcos-support-icon.png?v=2"); }
+.ng-trust-icon-verified { mask-image: url("./narcos-verified-icon.png?v=2"); }
 .ng-trust-copy { display: grid; gap: 4px; min-width: 0; }
 .ng-trust-value { color: var(--ng-gold-4); font-size: clamp(16px, 1.45vw, 25px); font-weight: 900; line-height: 1.08; }
 .ng-trust-label { color: rgba(247, 243, 232, .72); font-size: 11px; font-weight: 800; letter-spacing: .09em; }
