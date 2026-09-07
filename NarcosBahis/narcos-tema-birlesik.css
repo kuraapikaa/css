@@ -276,6 +276,7 @@ main [role="textbox"]:focus {
   box-shadow: inset 0 1px rgba(255, 255, 255, .55), 0 8px 24px rgba(201, 152, 67, .25) !important;
 }
 .ng-call-button,
+.ng-gift-fallback,
 .ng-telegram-button,
 [data-mj="header-special-button"].ng-gift-button {
   display: inline-grid !important; place-items: center;
@@ -1352,6 +1353,7 @@ footer::before,
   [data-mj="login-button"] { min-width: 40px !important; padding-inline: 6px !important; }
   [data-mj="register-button"] { min-width: 46px !important; padding-inline: 6px !important; }
   .ng-call-button,
+  .ng-gift-fallback,
   .ng-telegram-button,
   [data-mj="header-special-button"].ng-gift-button {
     flex-basis: 30px;

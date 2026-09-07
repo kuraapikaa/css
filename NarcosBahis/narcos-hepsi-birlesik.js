@@ -734,6 +734,28 @@ try { if (/[?&#]btag=/i.test(location.href) && !sessionStorage.getItem("ng_ilk_a
       icon.setAttribute("aria-hidden", "true");
       button.appendChild(icon);
     });
+    /*
+     * GIRIS YAPMIS KULLANICIDA HEDIYE BUTONU.
+     *
+     * Lynon "special button"u yalnizca CMS'te "yetkili kullanici URL'si"
+     * doluysa oturum acmis kullaniciya gosteriyor; bu sitede o alan bos,
+     * bu yuzden giristen sonra promosyon ikonu kayboluyordu (07.09.2026).
+     * Buton yoksa temanin kendi hediye butonu ayni yere konur; Lynon'un
+     * butonu geri gelirse yedek kaldirilir.
+     */
+    var giftYedek = document.getElementById("narcos-gift-fallback");
+    if (!gift) {
+      gift = mount("narcos-gift-fallback", "a", right, telegram, function (a) {
+        a.className = "ng-gift-button ng-gift-fallback";
+        a.href = "/tr/bonusrequest";
+        a.setAttribute("aria-label", "Hediye ve bonuslar");
+        var icon = create("span", "ng-gift-icon");
+        icon.setAttribute("aria-hidden", "true");
+        a.appendChild(icon);
+      });
+    } else if (giftYedek) {
+      giftYedek.remove();
+    }
     var giftRoot = directChild(gift, right);
     if (giftRoot && giftRoot !== loginRoot && giftRoot !== telegram) {
       place(right, giftRoot, telegram);
@@ -1700,7 +1722,7 @@ try { if (/[?&#]btag=/i.test(location.href) && !sessionStorage.getItem("ng_ilk_a
   var KAP_ID = "narcos-panel-frame";
   var PANEL_ORIGIN = "https://panel.narcosbahis.vip";
   // Hangi surumun calistigini konsoldan gormek icin: window.__narcosGomme
-  var GOMME_SURUM = "2026-09-06h guven-v2";
+  var GOMME_SURUM = "2026-09-07a hediye-yedek";
   try {
     window.__narcosGomme = { surum: GOMME_SURUM, kaynak: document.currentScript && document.currentScript.src };
     document.documentElement.setAttribute("data-narcos-gomme", GOMME_SURUM);
