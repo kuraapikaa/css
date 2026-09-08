@@ -621,58 +621,51 @@ html.ng-sports-route:has(#sportsbook-wrapper) #phoenix365ifraim {
 }
 html.ng-sports-route:has(#sportsbook-wrapper) [data-mj="footer"],
 html.ng-sports-route:has(#sportsbook-wrapper) footer { display: none !important; }
-/* ---------------- TRUST / JACKPOT ---------------- */
+/* ---------------- GAME HUB / JACKPOT ---------------- */
+/* Kategori karti satirinin altindaki oyun seridi. Eskiden burada
+   "GUVENIN VE DENEYIMIN ADRESI" guven paneli vardi.
+
+   Kartin icerigi yalnizca gorsel: oyun adi, "HEMEN OYNA!" ve saglayici
+   logosu gorselin icinde basili, ustune yazi katmani koymuyoruz.
+
+   Sutun sayisi auto-fit DEGIL: auto-fit 900px'te 6 karti 5+1 diye kirip tek
+   basina kalan bir kart birakiyordu. Masaustunde sutun = kart sayisi
+   (--ng-game-columns'u JS listeden yaziyor), tablette 3, mobilde 2 — 6 kart
+   3+3 ve 2+2+2 olarak esit satirlara bolunuyor. */
 #narcos-game-hub {
-  position: relative; isolation: isolate; overflow: hidden;
+  display: grid;
+  grid-template-columns: repeat(var(--ng-game-columns, 6), minmax(0, 1fr));
+  gap: 12px;
   width: min(calc(100% - 32px), 1432px);
   margin: 18px auto 24px;
-  padding: clamp(17px, 2vw, 27px);
-  box-sizing: border-box; border: 1px solid transparent; border-radius: 24px;
-  background: linear-gradient(145deg, rgba(13, 13, 16, .96), rgba(34, 28, 19, .88)) padding-box, linear-gradient(110deg, #8f6424, #fff2bd, #c99843, #8f6424) border-box;
-  background-size: 100% 100%, 300% 100%;
-  box-shadow: var(--ng-shadow), inset 0 1px rgba(255, 242, 189, .09);
+  box-sizing: border-box;
 }
-.ng-trust-head { margin: 0 auto 17px; text-align: center; }
-.ng-trust-eyebrow { color: var(--ng-gold-3); font-size: 11px; font-weight: 900; letter-spacing: .22em; }
-.ng-trust-title {
-  margin: 5px 0 3px !important;
-  color: transparent !important;
-  font-size: clamp(20px, 2vw, 31px) !important;
-  background: linear-gradient(90deg, #c99843, #fff2bd, #c99843);
-  background-clip: text;
+@media (max-width: 1000px) {
+  #narcos-game-hub { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
-.ng-trust-lead { margin: 0; color: var(--ng-muted); font-size: 14px; }
-.ng-trust-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
-.ng-trust-card {
-  position: relative; display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-items: center; gap: 14px; min-width: 0;
-  min-height: 108px; padding: 16px;
-  color: #fff; text-decoration: none;
-  border: 1px solid rgba(242, 213, 138, .2);
-  border-radius: 17px;
-  background: radial-gradient(circle at 12% 20%, rgba(242, 213, 138, .1), transparent 42%), rgba(255, 255, 255, .04);
+.ng-game-card {
+  position: relative; display: block; min-width: 0; overflow: hidden;
+  border: 1px solid rgba(242, 213, 138, .28);
+  border-radius: 16px;
+  /* Gorsel gelene kadar kartin yeri koyu dursun — beyaz kutu parlamasin. */
+  background: linear-gradient(145deg, rgba(34, 28, 19, .88), rgba(13, 13, 16, .96));
+  box-shadow: var(--ng-shadow);
+  transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
 }
-.ng-trust-icon-wrap {
-  display: grid; place-items: center; width: 58px; height: 58px;
-  border: 1px solid rgba(255, 242, 189, .26);
-  border-radius: 17px;
-  background: linear-gradient(145deg, rgba(242, 213, 138, .16), rgba(8, 8, 11, .82));
+.ng-game-card:hover,
+.ng-game-card:focus-visible {
+  transform: translateY(-4px);
+  border-color: rgba(255, 242, 189, .66);
+  box-shadow: 0 16px 34px rgba(201, 152, 67, .22), 0 0 18px rgba(242, 213, 138, .18);
+  outline: none;
 }
-.ng-trust-icon {
-  display: block; width: 31px; height: 31px;
-  background: linear-gradient(135deg, #b77b1e, #fff2bd 55%, #c98f2b);
-  mask: center / contain no-repeat;
+/* Sabit oran: gorseller birebir ayni boyda gelmese de satir duzgun dizilsin.
+   5/6, gonderilen kart gorsellerinin orani (595x711). */
+.ng-game-image {
+  display: block; width: 100%; height: auto;
+  aspect-ratio: 5 / 6;
+  object-fit: cover;
 }
-.ng-trust-icon-members { mask-image: url("./narcos-members-icon.png"); }
-.ng-trust-icon-experience { mask-image: url("./narcos-experience-icon.png"); }
-.ng-trust-icon-support { mask-image: url("./narcos-support-icon.png"); }
-.ng-trust-icon-verified { mask-image: url("./narcos-verified-icon.png"); }
-.ng-trust-copy { display: grid; gap: 4px; min-width: 0; }
-.ng-trust-value { color: var(--ng-gold-4); font-size: clamp(16px, 1.45vw, 25px); font-weight: 900; line-height: 1.08; }
-.ng-trust-label { color: rgba(247, 243, 232, .72); font-size: 11px; font-weight: 800; letter-spacing: .09em; }
-.ng-trust-arrow { position: absolute; top: 10px; right: 12px; color: var(--ng-gold-3); }
-.ng-trust-note { margin: 13px 0 0; color: rgba(247, 243, 232, .52); font-size: 10px; text-align: center; }
 #narcos-egt-jackpot {
   position: relative; isolation: isolate;
   width: min(1040px, calc(100% - 32px));
@@ -773,21 +766,6 @@ footer::before,
   white-space: nowrap;
 }
 .ng-footer-column-link:hover { color: var(--ng-gold-3) !important; transform: translateX(3px); }
-#narcos-values-panel {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-}
-.ng-value-card {
-  padding: clamp(22px, 3vw, 38px);
-  text-align: center;
-  border: 1px solid rgba(217, 171, 59, .48);
-  border-radius: 18px;
-  background: var(--ng-dark-fill);
-}
-.ng-value-card h3 { margin: 0 0 16px; color: var(--ng-gold-3); font-size: clamp(19px, 1.8vw, 27px); }
-.ng-value-card p { margin: 0; color: rgba(255, 255, 255, .91); font-size: clamp(13px, 1.05vw, 16px); line-height: 1.62; }
-.ng-value-card p + p { margin-top: 12px; }
 #narcos-social-panel {
   display: grid;
   grid-template-columns: minmax(190px, .72fr) repeat(2, minmax(220px, 1fr));
@@ -876,7 +854,6 @@ footer::before,
 .ng-license-title a { color: var(--ng-gold-3) !important; font-weight: 800; }
 .ng-license-action { order: 4; padding: 6px 10px; color: var(--ng-gold-3); font-size: 11px; text-decoration: none; border: 1px solid var(--ng-line); border-radius: 10px; }
 #narcos-game-hub,
-#narcos-values-panel,
 #narcos-social-panel,
 #narcos-license-banner { content-visibility: auto; contain-intrinsic-size: auto 260px; }
 /* ---------------- PROMOTION DETAIL / CAMPAIGN ROUTES ---------------- */
@@ -1080,8 +1057,6 @@ footer::before,
 }
 /* ---------------- TABLET ---------------- */
 @media (max-width: 920px) {
-  .ng-trust-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  #narcos-values-panel { grid-template-columns: 1fr; }
   #narcos-social-panel { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .ng-social-heading { grid-column: 1 / -1; text-align: center; }
 }
@@ -1625,16 +1600,8 @@ footer::before,
   }
   html.ng-game-embed [data-mj="footer"],
   html.ng-game-embed footer { display: none !important; }
-  #narcos-game-hub { width: calc(100% - 24px); margin: 12px auto 18px; padding: 14px 10px; border-radius: 18px; }
-  .ng-trust-head { margin-bottom: 11px; }
-  .ng-trust-title { font-size: 17px !important; }
-  .ng-trust-lead { font-size: 10px; }
-  .ng-trust-grid { gap: 7px; }
-  .ng-trust-card { grid-template-columns: 42px minmax(0, 1fr); gap: 8px; min-height: 82px; padding: 9px 8px; border-radius: 13px; }
-  .ng-trust-icon-wrap { width: 42px; height: 42px; border-radius: 12px; }
-  .ng-trust-icon { width: 24px; height: 24px; }
-  .ng-trust-value { font-size: 13px; }
-  .ng-trust-label { font-size: 8px; letter-spacing: .055em; }
+  #narcos-game-hub { width: calc(100% - 16px); gap: 8px; margin: 12px auto 18px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ng-game-card { border-radius: 12px; }
   #narcos-egt-jackpot { width: calc(100% - 20px); margin: 10px auto 17px; padding: 12px; border-radius: 16px; }
   .ng-jackpot-grid { gap: 10px 12px; }
   .ng-jackpot-card { min-height: 78px; padding: 13px 8px 10px; border-radius: 13px; }
@@ -1647,7 +1614,6 @@ footer::before,
   .ng-footer-column-title { margin-bottom: 12px; font-size: 11px; }
   .ng-footer-column-link,
   .ng-footer-column-note { display: inline-block; padding: 0 9px; overflow: visible; font-size: 12px; text-overflow: clip; }
-  #narcos-values-panel,
   #narcos-social-panel { grid-template-columns: 1fr; gap: 10px; }
   #narcos-social-panel { padding: 12px; }
   .ng-contact-button { width: 100%; padding: 12px 14px; font-size: 11px; }

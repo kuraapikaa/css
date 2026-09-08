@@ -6,7 +6,7 @@
  *   3) Header'a lisans rozeti (logonun sağı)
  *   4) Header'a Telegram + aranma talebi butonları
  *   5) Footer 18+ rozetini etiketler (CSS tutamağı için)
- *   6) Ana sayfada kategori kartlarının altına güven/hizmet paneli
+ *   6) Ana sayfada kategori kartlarının altına oyun kartı şeridi
  *
  * NEDEN JS: Site bir React SPA. Elemanlar bir kez eklenirse rota
  * değişiminde React header/footer'ı yeniden çizince kaybolur.
@@ -35,32 +35,30 @@
   var CALL_URL = 'https://tacoara.com';
   var TELEGRAM_URL = 'https://t.me/tacoresmi';
   var MIRROR_URL = 'https://tacogir.com';
-  var TRUST_LOGO_URL =
-    'https://tacobahis551.com/api/cmsgateway/api/v1.0/AssetsSite/' +
-    'eec59f1e-d34c-4401-848a-ef80e22e3b9c';
-
   var CONTACTS = [
     { key: 'reklam', baslik: 'Reklam ve Affiliate', mail: 'reklam@tacobahis.com' },
     { key: 'destek', baslik: 'Destek ve Yardım',    mail: 'destek@tacobahis.com' },
     { key: 'talep',  baslik: 'İstek ve Öneriler',   mail: 'talep@tacobahis.com'  }
   ];
 
-  // Vizyon / misyon metinleri — düzenlemek isterseniz burası.
-  var ABOUT = [
-    {
-      baslik: 'Vizyonumuz',
-      paragraflar: [
-        'TacoBahis olarak vizyonumuz; yenilikçi teknoloji, güçlü altyapı ve şeffaf hizmet anlayışıyla çevrim içi oyun ve spor bahisleri sektöründe güvenin ve kalitenin simgesi olmaktır.',
-        'Hızlı ödeme sistemleri, adil oyun politikası ve güçlü kullanıcı deneyimiyle global ölçekte tercih edilen, güvenli ve sürdürülebilir büyüyen lider bir marka olmayı hedefliyoruz.'
-      ]
-    },
-    {
-      baslik: 'Misyonumuz',
-      paragraflar: [
-        'TacoBahis’in misyonu; üyelerine 7/24 kesintisiz hizmet sunmak, yüksek oranlar ve avantajlı kampanyalar sağlamak, hızlı ve güvenilir ödeme altyapısıyla memnuniyeti en üst seviyeye çıkarmaktır.',
-        'Şeffaflık, adalet ve güçlü teknolojik altyapı ile güvenli, hızlı ve sorunsuz bir oyun deneyimi sunmayı hedefler.'
-      ]
-    }
+  /* Ana sayfa oyun kartları — sıra, Game ID ve görsel YALNIZCA burada.
+     Kart eklemek/çıkarmak için bu listeye dokunmak yeterli; ızgara öğe
+     sayısına göre kendini ayarlıyor (bkz. custom.css, "oyun kartları").
+
+     Bağlantı GÖRECELİ (/tr/game/<id>): tema hangi alan adında yüklüyse
+     kullanıcı orada kalır. Mutlak yazsaydık ayna adreslerinden gelen
+     kullanıcıyı ana alan adına atardık — oturumu orada değil.
+
+     Görseller kartın TAMAMINI kaplıyor; oyun adı, "HEMEN OYNA!" ve sağlayıcı
+     logosu görselin içinde basılı. Bu yüzden karta ayrıca yazı basmıyoruz —
+     iki kez yazardı. Erişilebilirlik alt metni `ad` alanından geliyor. */
+  var OYUNLAR = [
+    { id: '180637', ad: 'Sweet Bonanza',        gorsel: '' },
+    { id: '197502', ad: '40 Burning Hot 6 Reels', gorsel: '' },
+    { id: '180634', ad: 'Gates Of Olympus 1000', gorsel: '' },
+    { id: '180909', ad: 'Starlight Princess Pachi', gorsel: '' },
+    { id: '197458', ad: 'Flaming Hot Extreme',  gorsel: '' },
+    { id: '197455', ad: '40 Shining Crown',     gorsel: '' }
   ];
 
   // Resmi kanallar
@@ -132,32 +130,7 @@
     disari:
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" ' +
       'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-      '<path d="M7 17 17 7M9 7h8v8"/></svg>',
-
-    trustPayment:
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" ' +
-      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-      '<rect x="2.5" y="5" width="19" height="14" rx="3"/>' +
-      '<path d="M2.5 9h19M6.5 14.5h4"/></svg>',
-
-    trustOdds:
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" ' +
-      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-      '<path d="m3 17 5.2-5.2 3.7 3.7L21 6.4"/>' +
-      '<path d="M15.5 6.4H21v5.5"/></svg>',
-
-    trustSupport:
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" ' +
-      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-      '<path d="M4 13v-2a8 8 0 0 1 16 0v2"/>' +
-      '<path d="M6.5 17H5a2 2 0 0 1-2-2v-1a2 2 0 0 1 2-2h1.5v5Zm11 0H19a2 2 0 0 0 2-2v-1a2 2 0 0 0-2-2h-1.5v5Z"/>' +
-      '<path d="M17.5 17c-.7 2-2.4 3-5 3H11"/></svg>',
-
-    trustVerified:
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" ' +
-      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-      '<path d="m12 2 2.4 2 3.1-.1.7 3 2.5 1.8-1.2 2.9 1.2 2.9-2.5 1.8-.7 3-3.1-.1-2.4 2-2.4-2-3.1.1-.7-3-2.5-1.8 1.2-2.9-1.2-2.9 2.5-1.8.7-3 3.1.1L12 2Z"/>' +
-      '<path d="m8.2 11.7 2.4 2.4 5.2-5.2"/></svg>'
+      '<path d="M7 17 17 7M9 7h8v8"/></svg>'
   };
 
   /* ---------- 1) Footer lisans bloğu ---------- */
@@ -182,33 +155,6 @@
       '<a class="tb-lic-btn" href="' + VERIFY_URL + '" target="_blank" rel="noopener noreferrer">' +
         'Lisans durumunu doğrula' + SVG.ok +
       '</a>';
-    return box;
-  }
-
-  /* ---------- 3) Vizyon / misyon kartları ---------- */
-
-  function buildAbout() {
-    var box = document.createElement('div');
-    box.setAttribute('data-mj', 'footer-about');
-
-    var html =
-      '<div class="tb-about-brand">' +
-        '<img src="' + TRUST_LOGO_URL + '" alt="TacoBahis" loading="lazy" decoding="async">' +
-      '</div>';
-    for (var i = 0; i < ABOUT.length; i++) {
-      var a = ABOUT[i];
-      var p = '';
-      for (var j = 0; j < a.paragraflar.length; j++) {
-        p += '<p>' + a.paragraflar[j] + '</p>';
-      }
-      if (i > 0) html += '<span class="tb-about-rule" aria-hidden="true"></span>';
-      html +=
-        '<div class="tb-about">' +
-          '<h3>' + a.baslik + '</h3>' +
-          p +
-        '</div>';
-    }
-    box.innerHTML = html;
     return box;
   }
 
@@ -336,27 +282,26 @@
     syncCopyrightYear(footer);
 
     var bra = footer.querySelector(':scope > [data-mj="footer-brand"]');
-    var abo = footer.querySelector(':scope > [data-mj="footer-about"]');
     var chn = footer.querySelector(':scope > [data-mj="footer-channels"]');
     var con = footer.querySelector(':scope > [data-mj="footer-contact"]');
     var lic = footer.querySelector(':scope > [data-mj="footer-license"]');
     var cta = footer.querySelector(':scope > [data-mj="footer-cta"]');
-    var aboLogo = abo && abo.querySelector('.tb-about-brand img');
 
     // Önceki sürümden kalmış gizli CTA varsa temizle.
     if (cta) cta.remove();
+    // Vizyon/misyon bloğu kaldırıldı; eski sürümden kalanı da temizle.
+    var abo = footer.querySelector(':scope > [data-mj="footer-about"]');
+    if (abo) abo.remove();
 
     // Hepsi yerindeyse dokunma — yoksa observer sonsuz döngüye girer.
-    if (bra && abo && aboLogo && chn && con && lic) return;
+    if (bra && chn && con && lic) return;
 
     if (bra) bra.remove();
-    if (abo) abo.remove();
     if (chn) chn.remove();
     if (con) con.remove();
     if (lic) lic.remove();
     var brand = buildFooterBrand();
     if (brand) footer.appendChild(brand);
-    footer.appendChild(buildAbout());
     footer.appendChild(buildChannels());
     footer.appendChild(buildContact());
     footer.appendChild(buildLicense());
@@ -952,50 +897,46 @@
     host.appendChild(wrap);
   }
 
-  /* ---------- Ana sayfa güven ve hizmet paneli ---------- */
+  /* ---------- Ana sayfa oyun kartları ----------
 
-  function buildTrustHub() {
+     Eskiden burada "GÜVENİN VE DENEYİMİN ADRESİ" güven paneli vardı; yerini
+     doğrudan oyuna götüren kart şeridi aldı. Konum aynı: kategori kartı
+     satırının (widget-pages) hemen altı.
+
+     Kart = tek bir <a> + <img>. Görselin içinde oyun adı, "HEMEN OYNA!" ve
+     sağlayıcı logosu zaten basılı olduğu için üstüne yazı katmanı
+     koymuyoruz. */
+
+  function buildGameHub() {
     var widget = document.createElement('section');
-    widget.id = 'taco-trust-hub';
-    widget.className = 'tb-trust-hub';
-    widget.setAttribute('data-tb-trust-hub', '');
-    widget.setAttribute('aria-labelledby', 'taco-trust-hub-title');
-    widget.innerHTML =
-      '<div class="tb-trust-head">' +
-        '<img class="tb-trust-logo" src="' + TRUST_LOGO_URL + '" alt="TacoBahis" ' +
-        'loading="lazy" decoding="async">' +
-        '<h2 class="tb-trust-title" id="taco-trust-hub-title">GÜVENİN VE DENEYİMİN ADRESİ</h2>' +
-        '<p class="tb-trust-lead">Güçlü altyapı, hızlı işlemler ve 7/24 destek.</p>' +
-      '</div>' +
-      '<div class="tb-trust-grid" aria-label="TacoBahis güven ve hizmet bilgileri">' +
-        '<article class="tb-trust-card">' +
-          '<span class="tb-trust-icon-wrap"><span class="tb-trust-icon">' + SVG.trustPayment + '</span></span>' +
-          '<span class="tb-trust-copy"><strong class="tb-trust-value">HIZLI</strong>' +
-          '<span class="tb-trust-label">GÜVENİLİR ÖDEME</span></span>' +
-        '</article>' +
-        '<article class="tb-trust-card">' +
-          '<span class="tb-trust-icon-wrap"><span class="tb-trust-icon">' + SVG.trustOdds + '</span></span>' +
-          '<span class="tb-trust-copy"><strong class="tb-trust-value">YÜKSEK</strong>' +
-          '<span class="tb-trust-label">ORANLAR &amp; KAMPANYALAR</span></span>' +
-        '</article>' +
-        '<article class="tb-trust-card">' +
-          '<span class="tb-trust-icon-wrap"><span class="tb-trust-icon">' + SVG.trustSupport + '</span></span>' +
-          '<span class="tb-trust-copy"><strong class="tb-trust-value">7/24</strong>' +
-          '<span class="tb-trust-label">CANLI DESTEK</span></span>' +
-        '</article>' +
-        '<a class="tb-trust-card" href="' + VERIFY_URL + '" target="_blank" rel="noopener noreferrer" ' +
-        'aria-label="Resmi TacoBahis lisans doğrulamasını aç">' +
-          '<span class="tb-trust-icon-wrap"><span class="tb-trust-icon">' + SVG.trustVerified + '</span></span>' +
-          '<span class="tb-trust-copy"><strong class="tb-trust-value">RESMİ</strong>' +
-          '<span class="tb-trust-label">DOĞRULANMIŞ LİSANS</span></span>' +
-          '<span class="tb-trust-arrow" aria-hidden="true">↗</span>' +
-        '</a>' +
-      '</div>';
+    widget.id = 'taco-game-hub';
+    widget.className = 'tb-game-hub';
+    widget.setAttribute('data-tb-game-hub', '');
+    widget.setAttribute('aria-label', 'Öne çıkan oyunlar');
+
+    var html = '';
+    for (var i = 0; i < OYUNLAR.length; i++) {
+      var o = OYUNLAR[i];
+      // Görseli olmayan kart basılmaz: src="" sayfanın kendi adresine
+      // çözülür ve tarayıcı kırık görsel ikonu çizerdi.
+      if (!o.gorsel) continue;
+      html +=
+        '<a class="tb-game-card" href="/tr/game/' + o.id + '" ' +
+          'aria-label="' + o.ad + ' oyununu aç">' +
+          '<img class="tb-game-img" src="' + o.gorsel + '" alt="' + o.ad + '" ' +
+            'loading="lazy" decoding="async">' +
+        '</a>';
+    }
+    if (!html) return null;
+    widget.innerHTML = html;
+    // Masaüstünde sütun sayısı = kart sayısı; CSS tek satıra dizsin diye
+    // sayıyı listeden buradan veriyoruz (bkz. custom.css --tb-oyun-sutun).
+    widget.style.setProperty('--tb-oyun-sutun', widget.children.length);
     return widget;
   }
 
-  function mountTrustHub() {
-    var widget = document.querySelector('[data-tb-trust-hub]');
+  function mountGameHub() {
+    var widget = document.querySelector('[data-tb-game-hub]');
     var path = window.location.pathname.toLowerCase().replace(/\/+$/, '');
     var isHome = path === '' || path === '/' || path === '/tr';
 
@@ -1009,15 +950,15 @@
 
     var pages = main.querySelector(':scope > [data-mj="widget-pages"]');
     if (!pages) return;
-    if (!widget) widget = buildTrustHub();
+    if (!widget) widget = buildGameHub();
+    if (!widget) return;
 
-    // React ana sayfayı yeniden çizdiğinde paneli güncel kategori satırının
+    // React ana sayfayı yeniden çizdiğinde şeridi güncel kategori satırının
     // hemen arkasına geri al; başka bir widget sırasına bağımlı kalma.
     if (widget.parentElement !== main || widget.previousElementSibling !== pages) {
       pages.insertAdjacentElement('afterend', widget);
     }
   }
-
   /* ---------- Banner animasyonunu görünürken çalıştır ---------- */
 
   var observedBanner = null;
@@ -1213,7 +1154,7 @@
     mountPageEmbeds();
     observeEmbedHeight();
     mountModalEmbed();
-    mountTrustHub();
+    mountGameHub();
     mountBannerMotion();
 
     // Zepcom kimlik: ad hazırsa ilet; giriş sonradan yapıldıysa yeniden sondaj.
@@ -1232,7 +1173,7 @@
     '[data-mj="header-call-button"], [data-mj="header-telegram-button"], ' +
     '[data-mj="announcement"], ' +
     '[data-mj="info-page-content"], ' +
-    '[data-mj="widget-pages"], [data-tb-trust-hub], ' +
+    '[data-mj="widget-pages"], [data-tb-game-hub], ' +
     '[data-mj="widget-banner-link"]';
   var mountFrame = 0;
 

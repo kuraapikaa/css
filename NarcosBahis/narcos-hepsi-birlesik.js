@@ -38,9 +38,27 @@
   if (previous && previous.destroy) previous.destroy();
   var VERIFY_URL = "https://verification.anjouangamblingboard.org/s/140e70a801efff238b59b01782ba34d909755fd6e27deb06c4959b328d6e9698e01f00b62578604eca16f199ebb446cb";
   var TELEGRAM_URL = "https://t.me/narcosresmi", CURRENT_URL = "https://narcosgir.com";
-  var WEBSITE_URL = "https://narcosbahis.com/", SUPPORT_EMAIL = "destek@narcosbahis.com", REVISION = "v9";
+  var WEBSITE_URL = "https://narcosbahis.com/", SUPPORT_EMAIL = "destek@narcosbahis.com", REVISION = "v10";
   var CASINO_LOBBY_PATH = "/tr/casino/all", LIVE_CASINO_LOBBY_PATH = "/tr/livecasino/all";
   var CALL_REQUEST_PATH = "/tr/aranmatalep";
+  /* Ana sayfa oyun kartlari — sira, Game ID ve gorsel YALNIZCA burada.
+     Kart eklemek/cikarmak icin bu listeye dokunmak yeterli; izgara oge
+     sayisina gore kendini ayarliyor (bkz. narcos-tema-birlesik.css).
+
+     Baglanti GORECELI (/tr/game/<id>): tema hangi alan adinda yukluyse
+     kullanici orada kalir. Mutlak yazsaydik ayna adreslerinden gelen
+     kullaniciyi ana alan adina atardik — oturumu orada degil.
+
+     Gorseller kartin TAMAMINI kapliyor; oyun adi, "HEMEN OYNA!" ve saglayici
+     logosu gorselin icinde basili. Bu yuzden karta ayrica yazi basmiyoruz. */
+  var GAMES = [
+    { id: "180637", name: "Sweet Bonanza", image: "" },
+    { id: "197502", name: "40 Burning Hot 6 Reels", image: "" },
+    { id: "180634", name: "Gates Of Olympus 1000", image: "" },
+    { id: "180909", name: "Starlight Princess Pachi", image: "" },
+    { id: "197458", name: "Flaming Hot Extreme", image: "" },
+    { id: "197455", name: "40 Shining Crown", image: "" }
+  ];
   /**
    * Varlik (ikon/gorsel) kok yolu.
    *
@@ -755,14 +773,6 @@
     link.appendChild(arrow);
     return link;
   }
-  function valueCard(title, paragraphs) {
-    var card = create("article", "ng-value-card");
-    card.appendChild(create("h3", "", title));
-    paragraphs.forEach(function (paragraph) {
-      card.appendChild(create("p", "", paragraph));
-    });
-    return card;
-  }
   function renderLicense(node) {
     node.setAttribute("aria-label", "Lisans doğrulama bilgisi");
     var panel = create("div", "ng-license-panel");
@@ -801,17 +811,6 @@
       label: "Her zaman güncel",
       value: "narcosgir.com"
     }));
-  }
-  function renderValues(node) {
-    node.setAttribute("aria-label", "NarcosBahis vizyon ve misyonu");
-    node.appendChild(valueCard("VİZYONUMUZ", [
-      "NarcosBahis olarak vizyonumuz; yenilikçi teknoloji, güçlü altyapı ve şeffaf hizmet anlayışıyla çevrim içi oyun ve spor bahisleri sektöründe güvenin ve kalitenin simgesi olmaktır.",
-      "Hızlı ödeme sistemleri, adil oyun politikası ve güçlü kullanıcı deneyimiyle global ölçekte tercih edilen, güvenli ve sürdürülebilir büyüyen lider bir marka olmayı hedefliyoruz."
-    ]));
-    node.appendChild(valueCard("MİSYONUMUZ", [
-      "NarcosBahis'in misyonu; üyelerine 7/24 kesintisiz hizmet sunmak, yüksek oranlar ve avantajlı kampanyalar sağlamak, hızlı ve güvenilir ödeme altyapısıyla memnuniyeti en üst seviyeye çıkarmaktır.",
-      "Şeffaflık, adalet ve güçlü teknolojik altyapı ile güvenli, hızlı ve sorunsuz bir oyun deneyimi sunmayı hedefler."
-    ]));
   }
   function renderContact(node) {
     node.className = "ng-contact-button";
@@ -899,8 +898,10 @@
     observeTextRoot(footer);
     var contact = mount("narcos-contact-button", "a", target, null, renderContact);
     var license = mount("narcos-license-banner", "section", target, contact, renderLicense);
-    var social = mount("narcos-social-panel", "section", target, license, renderSocial);
-    mount("narcos-values-panel", "section", target, social, renderValues);
+    mount("narcos-social-panel", "section", target, license, renderSocial);
+    // Vizyon/misyon paneli kaldirildi; onceki surumden kalan dugum varsa temizle.
+    var staleValues = document.getElementById("narcos-values-panel");
+    if (staleValues) staleValues.remove();
     markAgeBadge(footer);
     var telegramImage = query('a img[alt="Telegram"]', footer);
     var telegramLink = telegramImage && telegramImage.closest("a");
@@ -910,10 +911,18 @@
     renderFooterColumns();
     return true;
   }
-  function renderTrustHub() {
+  /* Ana sayfa oyun karti seridi.
+
+     Eskiden burada "GUVENIN VE DENEYIMIN ADRESI" guven paneli vardi; yerini
+     dogrudan oyuna goturen kartlar aldi. Konum ve id ayni kaldi
+     (#narcos-game-hub), yalnizca icerigi degisti. */
+  function renderGameHub() {
     var route = runtime.route || classifyRoute(cleanPath());
     var existing = document.getElementById("narcos-game-hub");
-    if (!route.home) {
+    // Gorseli girilmemis kart basilmaz: src="" sayfanin kendi adresine
+    // cozulur ve tarayici kirik gorsel ikonu cizerdi.
+    var games = GAMES.filter(function (game) { return game.image; });
+    if (!route.home || !games.length) {
       if (existing) existing.remove();
       return false;
     }
@@ -925,42 +934,18 @@
     if (pages && pages.parentElement !== main) pages = null;
     var before = providers || (pages && pages.nextSibling);
     var widget = mount("narcos-game-hub", "section", main, before, function (node) {
-      node.className = "ng-trust-hub";
-      node.setAttribute("aria-labelledby", "narcos-trust-hub-title");
-      var head = create("div", "ng-trust-head");
-      head.appendChild(create("span", "ng-trust-eyebrow", "NARCOS PREMIUM"));
-      var title = create("h2", "ng-trust-title", "GÜVENİN VE DENEYİMİN ADRESİ");
-      title.id = "narcos-trust-hub-title";
-      head.appendChild(title);
-      head.appendChild(create("p", "ng-trust-lead", "Güçlü topluluk, köklü deneyim ve her an yanınızda destek."));
-      node.appendChild(head);
-      var grid = create("div", "ng-trust-grid");
-      grid.setAttribute("aria-label", "NarcosBahis güven ve deneyim bilgileri");
-      [
-        { icon: "members", value: "120.000+", label: "AKTİF ÜYE" },
-        { icon: "experience", value: "10 YILI AŞKIN", label: "DENEYİM" },
-        { icon: "support", value: "7/24", label: "CANLI DESTEK" },
-        { icon: "verified", value: "RESMİ", label: "DOĞRULANMIŞ LİSANS", href: VERIFY_URL }
-      ].forEach(function (item) {
-        var card = item.href ? externalLink(item.href, "ng-trust-card", "", item.value + " " + item.label + " doğrulamasını aç") : create("article", "ng-trust-card");
-        var iconWrap = create("span", "ng-trust-icon-wrap");
-        var icon = create("span", "ng-trust-icon ng-trust-icon-" + item.icon);
-        icon.setAttribute("aria-hidden", "true");
-        iconWrap.appendChild(icon);
-        var copy = create("span", "ng-trust-copy");
-        copy.appendChild(create("strong", "ng-trust-value", item.value));
-        copy.appendChild(create("span", "ng-trust-label", item.label));
-        card.appendChild(iconWrap);
-        card.appendChild(copy);
-        if (item.href) {
-          var arrow = create("span", "ng-trust-arrow", "↗");
-          arrow.setAttribute("aria-hidden", "true");
-          card.appendChild(arrow);
-        }
-        grid.appendChild(card);
+      node.className = "ng-game-hub";
+      node.setAttribute("aria-label", "One cikan oyunlar");
+      // Masaustunde sutun sayisi = kart sayisi; CSS tek satira dizsin diye
+      // sayiyi listeden buradan veriyoruz (bkz. --ng-game-columns).
+      node.style.setProperty("--ng-game-columns", games.length);
+      games.forEach(function (game) {
+        var card = create("a", "ng-game-card");
+        card.href = "/tr/game/" + game.id;
+        card.setAttribute("aria-label", game.name + " oyununu ac");
+        card.appendChild(makeImage(game.image, "ng-game-image", game.name, 595, 711, true));
+        node.appendChild(card);
       });
-      node.appendChild(grid);
-      node.appendChild(create("p", "ng-trust-note", "18+ • Sorumlu oyun • Bütçe ve zaman limitlerinizi belirleyin."));
     });
     if (!providers && pages && widget.previousElementSibling !== pages) pages.insertAdjacentElement("afterend", widget);
     return true;
@@ -1144,7 +1129,7 @@
     document.documentElement.classList.toggle("ng-sports-route", runtime.route.sports);
   }
   var JOBS = {
-    shell: renderShell, header: renderHeader, campaign: renderCampaign, trust: renderTrustHub,
+    shell: renderShell, header: renderHeader, campaign: renderCampaign, games: renderGameHub,
     jackpot: renderJackpot, sidebar: markMobileSidebar,
     leagues: markLeagueWidget, footer: renderFooter
   };
@@ -1157,7 +1142,7 @@
   function routeDeferredJobs(includeShellExtras) {
     var route = runtime.route || classifyRoute(cleanPath());
     var names = [];
-    if (route.home || document.getElementById("narcos-game-hub")) names.push("trust");
+    if (route.home || document.getElementById("narcos-game-hub")) names.push("games");
     if (route.casino || document.getElementById("narcos-egt-jackpot")) names.push("jackpot");
     if (route.home) names.push("leagues");
     if (includeShellExtras) names.push("sidebar", "footer");
@@ -1224,7 +1209,7 @@
   function routeContentJobs(critical, deferred) {
     var route = runtime.route || classifyRoute(cleanPath());
     if (route.campaign) critical.campaign = true;
-    if (route.home) deferred.trust = true;
+    if (route.home) deferred.games = true;
     if (route.casino) deferred.jackpot = true;
   }
   function isCatalogNoiseMutation(target, node) {

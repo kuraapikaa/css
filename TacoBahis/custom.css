@@ -29,245 +29,81 @@ body::before{
   z-index:1;
 }
 
-/* Ana sayfa — kategori widgetlarının altındaki premium güven/hizmet paneli. */
-#taco-trust-hub{
-  --tb-trust-navy:#050b2d;
-  --tb-trust-navy-light:#12285f;
-  --tb-trust-gold:#f5c872;
-  --tb-trust-gold-light:#fff0a3;
-  --tb-trust-muted:rgba(235,239,255,.68);
-  position:relative;
-  isolation:isolate;
-  overflow:hidden;
-  box-sizing:border-box;
-  width:min(calc(100% - 32px), 1432px);
-  margin:18px auto 24px;
-  padding:clamp(17px,2vw,27px);
-  color:#f7f3e8;
-  border:1px solid transparent;
-  border-radius:24px;
-  background:
-    linear-gradient(145deg,var(--tb-trust-navy),var(--tb-trust-navy-light)) padding-box,
-    linear-gradient(110deg,#8f6424,#f5c872,#fff0a3,#b77b1e,#8f6424) border-box;
-  background-size:100% 100%,300% 100%;
-  box-shadow:
-    0 18px 48px rgba(1,5,24,.54),
-    0 0 28px rgba(245,200,114,.08),
-    inset 0 1px 0 rgba(255,240,163,.11);
-  animation:tb-trust-border 7s linear infinite;
-}
-#taco-trust-hub::before{
-  content:"";
-  position:absolute;
-  inset:-52% 8% auto;
-  height:170px;
-  z-index:-1;
-  pointer-events:none;
-  background:radial-gradient(ellipse,rgba(245,200,114,.22),transparent 70%);
-  filter:blur(18px);
-}
-.tb-trust-head{
-  margin:0 auto 17px;
-  text-align:center;
-}
-.tb-trust-logo{
-  display:block;
-  width:clamp(132px,14vw,190px);
-  max-height:48px;
-  margin:0 auto 8px;
-  object-fit:contain;
-}
-.tb-trust-title{
-  margin:5px 0 3px !important;
-  color:transparent !important;
-  font-size:clamp(20px,2vw,31px) !important;
-  font-weight:800 !important;
-  line-height:1.08 !important;
-  background:linear-gradient(90deg,#d49b3a,#fff0a3,#d49b3a);
-  -webkit-background-clip:text;
-  background-clip:text;
-}
-.tb-trust-lead{
-  margin:0;
-  color:var(--tb-trust-muted);
-  font-size:14px;
-  line-height:1.25;
-}
-.tb-trust-grid{
+/* ============================================================
+   ANA SAYFA OYUN KARTLARI
+   ============================================================
+   Kategori kartı satırının (widget-pages) hemen altındaki şerit. Eskiden
+   burada "GÜVENİN VE DENEYİMİN ADRESİ" güven paneli vardı; yerini doğrudan
+   oyuna götüren kartlar aldı (custom.js -> OYUNLAR).
+
+   Kartın içeriği yalnızca görsel: oyun adı, "HEMEN OYNA!" ve sağlayıcı
+   logosu görselin içinde basılı. Üstüne yazı katmanı koymuyoruz.
+
+   Sütun sayısı auto-fit DEĞİL: auto-fit 900px'te 6 kartı 5+1 diye kırıp
+   tek başına kalan bir kart bırakıyordu. Masaüstünde sütun = kart sayısı
+   (--tb-oyun-sutun'u custom.js listeden yazıyor, CSS'e sabit sayı
+   girmiyoruz), tablette 3, mobilde 2 — 6 kart 3+3 ve 2+2+2 olarak eşit
+   satırlara bölünüyor. */
+#taco-game-hub{
   display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
+  grid-template-columns:repeat(var(--tb-oyun-sutun,6),minmax(0,1fr));
   gap:12px;
+  box-sizing:border-box;
+  width:min(calc(100% - 32px),1432px);
+  margin:18px auto 24px;
 }
-.tb-trust-card{
+@media (max-width:1000px){
+  #taco-game-hub{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
+.tb-game-card{
   position:relative;
-  display:grid;
-  grid-template-columns:auto minmax(0,1fr);
-  align-items:center;
-  gap:14px;
+  display:block;
   min-width:0;
-  min-height:108px;
-  padding:16px;
   overflow:hidden;
-  color:#fff;
-  text-decoration:none;
   border:1px solid rgba(245,200,114,.28);
-  border-radius:17px;
-  background:
-    radial-gradient(circle at 12% 20%,rgba(245,200,114,.16),transparent 44%),
-    linear-gradient(135deg,var(--tb-trust-navy-light),var(--tb-trust-navy));
-  box-shadow:inset 0 1px rgba(255,255,255,.055),0 10px 24px rgba(1,5,24,.28);
+  border-radius:16px;
+  /* Görsel yüklenene kadar kartın yeri lacivert dursun — beyaz bir kutu
+     parlayıp sönmesin. */
+  background:linear-gradient(145deg,#12285f,#050b2d);
+  box-shadow:0 10px 24px rgba(1,5,24,.34);
   transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease;
 }
-.tb-trust-card::after{
-  content:"";
-  position:absolute;
-  inset:-80% -45%;
-  pointer-events:none;
-  background:linear-gradient(105deg,transparent 42%,rgba(255,242,189,.20) 50%,transparent 58%);
-  transform:translateX(-58%);
-  animation:tb-trust-shine 6.2s ease-in-out infinite;
-}
-a.tb-trust-card:hover,
-a.tb-trust-card:focus-visible{
-  transform:translateY(-3px);
+.tb-game-card:hover,
+.tb-game-card:focus-visible{
+  transform:translateY(-4px);
   border-color:rgba(255,242,189,.66);
-  box-shadow:0 13px 30px rgba(201,152,67,.18),inset 0 1px rgba(255,255,255,.07);
+  box-shadow:0 16px 34px rgba(201,152,67,.22),0 0 18px rgba(245,200,114,.18);
   outline:none;
 }
-.tb-trust-icon-wrap{
-  display:grid;
-  place-items:center;
-  width:58px;
-  height:58px;
-  flex:0 0 58px;
-  border:1px solid rgba(255,240,163,.34);
-  border-radius:17px;
-  background:linear-gradient(145deg,rgba(26,48,108,.96),rgba(3,9,31,.98));
-  box-shadow:inset 0 1px rgba(255,255,255,.08),0 9px 22px rgba(1,5,24,.38);
-}
-.tb-trust-icon{
-  display:grid;
-  width:31px;
-  height:31px;
-  place-items:center;
-  color:var(--tb-trust-gold);
-  filter:drop-shadow(0 0 7px rgba(245,200,114,.38));
-}
-.tb-trust-icon svg{
+/* Sabit oran: görseller birebir aynı boyda gelmese de satır düzgün dizilsin.
+   5/6, gönderilen kart görsellerinin oranı (595x711 ≈ 0.837). */
+.tb-game-img{
   display:block;
   width:100%;
-  height:100%;
-}
-.tb-trust-copy{
-  display:grid;
-  gap:4px;
-  min-width:0;
-}
-.tb-trust-value{
-  color:var(--tb-trust-gold-light);
-  font-size:clamp(16px,1.45vw,25px);
-  font-weight:900;
-  line-height:1.08;
-  letter-spacing:.015em;
-  text-shadow:0 4px 14px rgba(0,0,0,.36);
-}
-.tb-trust-label{
-  color:rgba(247,243,232,.72);
-  font-size:11px;
-  font-weight:800;
-  line-height:1.25;
-  letter-spacing:.09em;
-}
-.tb-trust-arrow{
-  position:absolute;
-  top:10px;
-  right:12px;
-  color:var(--tb-trust-gold);
-  font-size:16px;
-}
-#taco-trust-hub .tb-trust-note{
-  display:none !important;
-}
-@keyframes tb-trust-border{
-  to{background-position:0 0,300% 0}
-}
-@keyframes tb-trust-shine{
-  0%,70%,100%{transform:translateX(-58%)}
-  84%{transform:translateX(58%)}
-}
-@media (max-width:920px){
-  .tb-trust-grid{
-    grid-template-columns:repeat(2,minmax(0,1fr));
-  }
+  height:auto;
+  aspect-ratio:5/6;
+  object-fit:cover;
 }
 @media (max-width:620px){
-  #taco-trust-hub{
+  #taco-game-hub{
     width:calc(100% - 16px);
-    margin:12px auto 18px;
-    padding:14px 10px;
-    border-radius:18px;
-    animation:none;
-  }
-  #taco-trust-hub::before{
-    filter:none;
-  }
-  .tb-trust-head{
-    margin-bottom:11px;
-  }
-  .tb-trust-logo{
-    width:132px;
-    max-height:36px;
-    margin-bottom:6px;
-  }
-  .tb-trust-title{
-    font-size:17px !important;
-  }
-  .tb-trust-lead{
-    font-size:10px;
-  }
-  .tb-trust-grid{
-    gap:7px;
-  }
-  .tb-trust-card{
-    grid-template-columns:42px minmax(0,1fr);
     gap:8px;
-    min-height:82px;
-    padding:9px 8px;
-    border-radius:13px;
+    margin:12px auto 18px;
+    grid-template-columns:repeat(2,minmax(0,1fr));
   }
-  .tb-trust-card::after{
-    display:none;
-  }
-  .tb-trust-icon-wrap{
-    width:42px;
-    height:42px;
+  .tb-game-card{
     border-radius:12px;
-  }
-  .tb-trust-icon{
-    width:24px;
-    height:24px;
-    filter:none;
-  }
-  .tb-trust-value{
-    font-size:13px;
-  }
-  .tb-trust-label{
-    font-size:8px;
-    letter-spacing:.055em;
-  }
-  .tb-trust-arrow{
-    top:6px;
-    right:7px;
-    font-size:12px;
   }
 }
 @media (prefers-reduced-motion:reduce){
-  #taco-trust-hub,
-  .tb-trust-card::after{
-    animation:none !important;
-  }
-  .tb-trust-card{
+  .tb-game-card{
     transition:none;
+  }
+  .tb-game-card:hover,
+  .tb-game-card:focus-visible{
+    transform:none;
   }
 }
 
@@ -837,72 +673,6 @@ a.tb-trust-card:focus-visible{
 [data-mj="footer-license"] .tb-lic-btn:hover::after{ opacity:1; }
 [data-mj="footer-license"] .tb-lic-btn:hover svg{ transform: translateX(3px); }
 
-/* Vizyon / Misyon — güven paneliyle aynı navy–gold görünüm. */
-[data-mj="footer-about"]{
-  order: 6 !important;
-  display: grid;
-  grid-template-columns: minmax(0,1fr) 1px minmax(0,1fr);
-  box-sizing: border-box;
-  width: min(calc(100% - 32px), 1432px);
-  margin: 18px auto 0;
-  padding: 32px 24px 44px;
-  border: 1px solid transparent;
-  border-radius: 24px;
-  background:
-    linear-gradient(145deg,var(--tb-footer-navy),var(--tb-footer-navy-light)) padding-box,
-    linear-gradient(110deg,#8f6424,#f5c872,#fff0a3,#b77b1e,#8f6424) border-box;
-  box-shadow:
-    0 18px 48px rgba(1,5,24,.42),
-    0 0 26px rgba(245,200,114,.06),
-    inset 0 1px 0 rgba(255,240,163,.09);
-  text-align: center;
-}
-[data-mj="footer-about"] .tb-about-brand{
-  grid-column: 1 / -1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 0 30px;
-}
-[data-mj="footer-about"] .tb-about-brand img{
-  display: block;
-  width: clamp(160px,16vw,220px);
-  max-height: 80px;
-  object-fit: contain;
-  filter: drop-shadow(0 6px 16px rgba(1,5,24,.34));
-}
-[data-mj="footer-about"] .tb-about{
-  padding: 0 34px;
-}
-/* ortadaki saç teli — uçlarda sönümlenir */
-[data-mj="footer-about"] .tb-about-rule{
-  display: block;
-  width: 1px;
-  align-self: stretch;
-  background: linear-gradient(180deg, transparent, rgba(245,200,114,.4), transparent);
-}
-[data-mj="footer-about"] h3{
-  margin: 0 0 24px;
-  color: #F5C872;
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 34px;
-  font-weight: 600;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  background: linear-gradient(90deg,#d49b3a,#fff0a3,#d49b3a);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-[data-mj="footer-about"] p{
-  margin: 0 0 18px;
-  font-size: 15px;
-  line-height: 1.75;
-  color: rgba(235,239,255,.76);
-}
-[data-mj="footer-about"] p + p{ color: rgba(235,239,255,.56); }
-[data-mj="footer-about"] p:last-child{ margin-bottom: 0; }
-
 /* Resmi kanallar — navy kartlar ve altın gradient çerçeve. */
 [data-mj="footer-channels"]{
   order: 7 !important;
@@ -1026,27 +796,6 @@ a.tb-trust-card:focus-visible{
 [data-mj="footer-channels"] .tb-ch:hover .tb-ch-ok{ transform: translate(2px,-2px); }
 
 @media (max-width: 900px){
-  [data-mj="footer-about"]{
-    grid-template-columns: 1fr;
-    width: calc(100% - 16px);
-    margin-top: 12px;
-    padding: 24px 10px 30px;
-    border-radius: 18px;
-  }
-  [data-mj="footer-about"] .tb-about-brand{
-    margin-bottom: 24px;
-  }
-  [data-mj="footer-about"] .tb-about-brand img{
-    width: 160px;
-    max-height: 58px;
-  }
-  [data-mj="footer-about"] .tb-about-rule{
-    width: auto;
-    height: 1px;
-    margin: 28px 0;
-    background: linear-gradient(90deg, transparent, rgba(245,200,114,.4), transparent);
-  }
-  [data-mj="footer-about"] .tb-about{ padding: 0 8px; }
   [data-mj="footer-channels"]{
     grid-template-columns: 1fr;
     width: calc(100% - 16px);
@@ -1615,7 +1364,7 @@ button[name="search"]:hover::after{ opacity:1; }
    lacivert-altın paletine uyarlandı). Liste: altın-pill sekmeler + hover'da
    yükselen kartlar. Detay: altın gradyan başlık, banner altın çerçeveli kart,
    içerik bloğu, ✦ bullet'lı madde kartları, "strong" paragrafı altın vurgulu
-   kutu. Palet literal hex (--tb-trust-* global değil, promo sayfasında yok). */
+   kutu. Palet literal hex — temada paylaşılan bir değişken kümesi yok. */
 [data-mj="promotions-page"]{
   padding:18px clamp(12px,2vw,28px) 30px !important;
 }
