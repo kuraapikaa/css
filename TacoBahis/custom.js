@@ -53,12 +53,18 @@
      logosu görselin içinde basılı. Bu yüzden karta ayrıca yazı basmıyoruz —
      iki kez yazardı. Erişilebilirlik alt metni `ad` alanından geliyor. */
   var OYUNLAR = [
-    { id: '180637', ad: 'Sweet Bonanza',        gorsel: '' },
-    { id: '197502', ad: '40 Burning Hot 6 Reels', gorsel: '' },
-    { id: '180634', ad: 'Gates Of Olympus 1000', gorsel: '' },
-    { id: '180909', ad: 'Starlight Princess Pachi', gorsel: '' },
-    { id: '197458', ad: 'Flaming Hot Extreme',  gorsel: '' },
-    { id: '197455', ad: '40 Shining Crown',     gorsel: '' }
+    { id: '180637', ad: 'Sweet Bonanza',
+      gorsel: 'https://i.ibb.co/d4P1T2Qn/content-18761947-c57a57537890b2dc51d77723d764d7e6.webp' },
+    { id: '197502', ad: '40 Burning Hot 6 Reels',
+      gorsel: 'https://i.ibb.co/BVSmk50B/content-18761947-4ab8b1d3db7090e98a0a7db6d1c2ea6b.webp' },
+    { id: '180634', ad: 'Gates Of Olympus 1000',
+      gorsel: 'https://i.ibb.co/dwdGsTvh/content-18761947-47313707316f13d0d692571158552aa8.webp' },
+    { id: '180909', ad: 'Starlight Princess Pachi',
+      gorsel: 'https://i.ibb.co/Rp6wKmkQ/content-18761947-bb33a004a522e0ffdee52bcfe67baadc.webp' },
+    { id: '197458', ad: 'Flaming Hot Extreme',
+      gorsel: 'https://i.ibb.co/GfN4yD3x/content-18761947-71eb5a7738698ebe72dadb5c2625ab59.webp' },
+    { id: '197455', ad: '40 Shining Crown',
+      gorsel: 'https://i.ibb.co/8gZp6Q4p/content-18761947-d0ea1184d09dfdd63073779c23f8f7de.webp' }
   ];
 
   // Resmi kanallar

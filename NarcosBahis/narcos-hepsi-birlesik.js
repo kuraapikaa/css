@@ -52,12 +52,18 @@
      Gorseller kartin TAMAMINI kapliyor; oyun adi, "HEMEN OYNA!" ve saglayici
      logosu gorselin icinde basili. Bu yuzden karta ayrica yazi basmiyoruz. */
   var GAMES = [
-    { id: "180637", name: "Sweet Bonanza", image: "" },
-    { id: "197502", name: "40 Burning Hot 6 Reels", image: "" },
-    { id: "180634", name: "Gates Of Olympus 1000", image: "" },
-    { id: "180909", name: "Starlight Princess Pachi", image: "" },
-    { id: "197458", name: "Flaming Hot Extreme", image: "" },
-    { id: "197455", name: "40 Shining Crown", image: "" }
+    { id: "180637", name: "Sweet Bonanza",
+      image: "https://i.ibb.co/d4P1T2Qn/content-18761947-c57a57537890b2dc51d77723d764d7e6.webp" },
+    { id: "197502", name: "40 Burning Hot 6 Reels",
+      image: "https://i.ibb.co/BVSmk50B/content-18761947-4ab8b1d3db7090e98a0a7db6d1c2ea6b.webp" },
+    { id: "180634", name: "Gates Of Olympus 1000",
+      image: "https://i.ibb.co/dwdGsTvh/content-18761947-47313707316f13d0d692571158552aa8.webp" },
+    { id: "180909", name: "Starlight Princess Pachi",
+      image: "https://i.ibb.co/Rp6wKmkQ/content-18761947-bb33a004a522e0ffdee52bcfe67baadc.webp" },
+    { id: "197458", name: "Flaming Hot Extreme",
+      image: "https://i.ibb.co/GfN4yD3x/content-18761947-71eb5a7738698ebe72dadb5c2625ab59.webp" },
+    { id: "197455", name: "40 Shining Crown",
+      image: "https://i.ibb.co/8gZp6Q4p/content-18761947-d0ea1184d09dfdd63073779c23f8f7de.webp" }
   ];
   /**
    * Varlik (ikon/gorsel) kok yolu.
