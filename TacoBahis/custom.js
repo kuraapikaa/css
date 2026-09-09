@@ -657,12 +657,18 @@
   /* Menüdeki gerçek yollar (2026-08-09'da doğrulandı):
      /tr/bonustalep, /tr/tacocark, /tr/tacoskor, /tr/aranmatalep.
      Eski test yolları (/tr/sportest, /tr/testspor) sitede 404 — kaldırıldı. */
+  /* Gömülen uygulamaların kökü. Dört sayfa da artık TEK kökten geliyor
+     (eskiden bonus/çark/skor tacolynon.up.railway.app'te, aranma talebi ayrı
+     bir Railway alan adındaydı). Tek sabit: kök değişince tek satır
+     güncelleniyor ve iframe'i gömen tarafta CSP/frame-ancestors izni de tek
+     bir alan adı için verilmesi yetiyor. */
+  var EMBED_ROOT = 'https://taco.arsterminal.com';
+
   var PAGE_EMBEDS = [
-    { path: '/tr/bonustalep',  src: 'https://tacolynon.up.railway.app/bonus',       baslik: 'Bonus Talep' },
-    { path: '/tr/tacocark',    src: 'https://tacolynon.up.railway.app/cark',        baslik: 'Taco Çark' },
-    { path: '/tr/tacoskor',    src: 'https://tacolynon.up.railway.app/skor-tahmin', baslik: 'Taco Skor' },
-    // Aranma talep sistemi (2026-07-23; başlık kontrolü yapıldı: X-Frame-Options/CSP yok, gömülebilir)
-    { path: '/tr/aranmatalep', src: 'https://tacoara.up.railway.app/',              baslik: 'Aranma Talep' }
+    { path: '/tr/bonustalep',  src: EMBED_ROOT + '/bonus',          baslik: 'Bonus Talep' },
+    { path: '/tr/tacocark',    src: EMBED_ROOT + '/cark',           baslik: 'Taco Çark' },
+    { path: '/tr/tacoskor',    src: EMBED_ROOT + '/skor-tahmin',    baslik: 'Taco Skor' },
+    { path: '/tr/aranmatalep', src: EMBED_ROOT + '/aranma-talebi',  baslik: 'Aranma Talep' }
   ];
 
   function mountPageEmbeds() {
@@ -840,7 +846,7 @@
 
   var MODAL_EMBED = {
     tab: 'bonus_offers',
-    src: 'https://tacolynon.up.railway.app/bonus',
+    src: EMBED_ROOT + '/bonus',
     baslik: 'Bonus Talep'
   };
 
