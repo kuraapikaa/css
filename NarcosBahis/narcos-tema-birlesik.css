@@ -2176,6 +2176,20 @@ html:not(.ng-sports-route) #sportsbook-wrapper {
   aspect-ratio: 1 / 1 !important;
   border-radius: 12px !important;
 }
+/* Masaustunde tam boyut (istek 12.09.2026): serit, katalog izgarasiyla ayni
+ * 7 sutuna oturur; kartlar katalog kartlariyla ayni genislikte, kare. */
+@media (min-width: 1000px) {
+  html.ng-catalog-route main[data-mj="page-content"] :has(> [data-mj="game-catalog-card"]):not([data-mj="game-catalog-list"]) {
+    display: grid !important;
+    grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+    gap: 14px !important;
+    width: 100% !important;
+    overflow: visible !important;
+  }
+  html.ng-catalog-route main[data-mj="page-content"] :not([data-mj="game-catalog-list"]) > [data-mj="game-catalog-card"] {
+    width: 100% !important; max-width: none !important; min-width: 0 !important;
+  }
+}
 
 /* ---------------- HAREKETLI OYUN KAPAKLARI (hover video) ---------------- */
 .ng-oyun-video {
