@@ -2184,7 +2184,7 @@ html:not(.ng-sports-route) #sportsbook-wrapper {
 @media (min-width: 1000px) {
   html.ng-catalog-route [data-mj="game-catalog-last-played-list"] {
     display: grid !important;
-    grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+    grid-template-columns: repeat(8, minmax(0, 1fr)) !important;
     gap: 14px !important;
     width: 100% !important;
   }
@@ -2194,6 +2194,16 @@ html:not(.ng-sports-route) #sportsbook-wrapper {
   html.ng-catalog-route [data-mj="game-catalog-last-played-item"] > [data-mj="game-catalog-card"] {
     width: 100% !important; max-width: none !important;
   }
+}
+/* Son oynanan kapaklari DIKEY (portre) geliyor; kare/yatay kutu alttaki oyun adini
+ * kirpiyordu (12.09.2026). Kutu gorselin kendi oranini alir, kapak kirpilmaz. */
+[data-mj="game-catalog-last-played-item"] > [data-mj="game-catalog-card"] {
+  aspect-ratio: auto !important; height: auto !important;
+}
+[data-mj="game-catalog-last-played-item"] > [data-mj="game-catalog-card"] > img {
+  position: static !important; inset: auto !important;
+  width: 100% !important; height: auto !important;
+  object-fit: contain !important;
 }
 
 
