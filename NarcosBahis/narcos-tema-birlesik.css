@@ -2184,8 +2184,8 @@ html:not(.ng-sports-route) #sportsbook-wrapper {
 @media (min-width: 1000px) {
   html.ng-catalog-route [data-mj="game-catalog-last-played-list"] {
     display: grid !important;
-    grid-template-columns: repeat(8, minmax(0, 1fr)) !important;
-    gap: 14px !important;
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    gap: 12px !important;
     width: 100% !important;
   }
   html.ng-catalog-route [data-mj="game-catalog-last-played-list"] > [data-mj="game-catalog-last-played-item"] {
