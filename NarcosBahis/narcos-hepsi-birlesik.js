@@ -926,7 +926,9 @@ try { if (/[?&#]btag=/i.test(location.href) && !sessionStorage.getItem("ng_ilk_a
     var contact = mount("narcos-contact-button", "a", target, null, renderContact);
     var license = mount("narcos-license-banner", "section", target, contact, renderLicense);
     var social = mount("narcos-social-panel", "section", target, license, renderSocial);
-    mount("narcos-values-panel", "section", target, social, renderValues);
+    // Vizyon/misyon paneli kaldirildi (istek 12.09.2026); eski surumden kalan kutu varsa sokulur.
+    var eskiValues = document.getElementById("narcos-values-panel");
+    if (eskiValues) eskiValues.remove();
     markAgeBadge(footer);
     var telegramImage = query('a img[alt="Telegram"]', footer);
     var telegramLink = telegramImage && telegramImage.closest("a");
@@ -1252,7 +1254,9 @@ try { if (/[?&#]btag=/i.test(location.href) && !sessionStorage.getItem("ng_ilk_a
   function routeDeferredJobs(includeShellExtras) {
     var route = runtime.route || classifyRoute(cleanPath());
     var names = [];
-    if (route.home || document.getElementById("narcos-game-hub")) names.push("trust");
+    // Guven bolumu (narcos-game-hub) kaldirildi (istek 12.09.2026).
+    var eskiHub = document.getElementById("narcos-game-hub");
+    if (eskiHub) eskiHub.remove();
     if (route.casino || document.getElementById("narcos-egt-jackpot")) names.push("jackpot");
     if (route.home) names.push("leagues");
     if (includeShellExtras) names.push("sidebar", "footer");
@@ -1319,7 +1323,6 @@ try { if (/[?&#]btag=/i.test(location.href) && !sessionStorage.getItem("ng_ilk_a
   function routeContentJobs(critical, deferred) {
     var route = runtime.route || classifyRoute(cleanPath());
     if (route.campaign) critical.campaign = true;
-    if (route.home) deferred.trust = true;
     if (route.casino) deferred.jackpot = true;
   }
   function isCatalogNoiseMutation(target, node) {
@@ -1722,7 +1725,7 @@ try { if (/[?&#]btag=/i.test(location.href) && !sessionStorage.getItem("ng_ilk_a
   var KAP_ID = "narcos-panel-frame";
   var PANEL_ORIGIN = "https://panel.narcosbahis.vip";
   // Hangi surumun calistigini konsoldan gormek icin: window.__narcosGomme
-  var GOMME_SURUM = "2026-09-07a hediye-yedek";
+  var GOMME_SURUM = "2026-09-12a guven-vizyon-kaldirildi";
   try {
     window.__narcosGomme = { surum: GOMME_SURUM, kaynak: document.currentScript && document.currentScript.src };
     document.documentElement.setAttribute("data-narcos-gomme", GOMME_SURUM);
