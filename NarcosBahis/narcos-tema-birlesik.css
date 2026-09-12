@@ -2124,9 +2124,12 @@ html:not(.ng-sports-route) #sportsbook-wrapper {
  * CMS'in icerik kapsayicisi ortada dar bir sutunda kaliyordu; katalog ekranin
  * tamamina yayilir, modulun kenar bosluklari kucultulur. */
 @media (min-width: 1000px) {
+  /* Jackpot widget'i (#narcos-egt-jackpot) main'in ilk cocugu; tam genislik
+   * kurali onu da kenardan kenara yayiyordu (12.09.2026). Kendi masaustu
+   * duzeni asagida. */
   html.ng-catalog-route main[data-mj="page-content"],
-  html.ng-catalog-route main[data-mj="page-content"] > *,
-  html.ng-catalog-route main[data-mj="page-content"] > * > *,
+  html.ng-catalog-route main[data-mj="page-content"] > *:not(#narcos-egt-jackpot),
+  html.ng-catalog-route main[data-mj="page-content"] > *:not(#narcos-egt-jackpot) > *,
   html.ng-catalog-route [data-mj="game-catalog-module"] {
     width: 100% !important; max-width: none !important;
     margin-left: 0 !important; margin-right: 0 !important;
@@ -2142,6 +2145,36 @@ html:not(.ng-sports-route) #sportsbook-wrapper {
     grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
     gap: 14px !important;
   }
+  /* JACKPOT — MASAUSTU: logo solda, dort kart tek satirda. 2x2 izgara + ortada
+   * mutlak konumlu logo genis ekranda devasa kutular uretiyordu. */
+  #narcos-egt-jackpot {
+    display: flex; align-items: center; gap: clamp(16px, 1.6vw, 28px);
+    width: min(calc(100% - 56px), 1560px) !important; max-width: none !important;
+    margin: 16px auto 20px !important;
+    padding: 14px clamp(16px, 1.6vw, 26px) !important;
+    border-radius: 20px;
+  }
+  .ng-jackpot-heading {
+    position: static; transform: none;
+    flex: 0 0 clamp(170px, 12vw, 220px); height: 92px;
+  }
+  .ng-jackpot-grid {
+    flex: 1 1 auto; min-width: 0;
+    grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px 16px;
+  }
+  .ng-jackpot-card { min-height: 92px; padding: 16px 12px 12px; border-radius: 16px; }
+  .ng-jackpot-suit { top: -15px; font-size: 38px; }
+  .ng-jackpot-value { font-size: clamp(22px, 1.7vw, 34px); }
+}
+
+/* ---------------- SON OYNANMIS OYUNLAR (giris yapmis kullanici) ---------------- */
+/* Lynon'un "Son Oynanmis Oyunlar" seridi ayni kart bilesenini (game-catalog-card)
+ * kullaniyor ama katalog izgarasinin DISINDA, ~95px kare kutucuklarla. Katalog icin
+ * verilen 10/7 yatay oran bu kare kapaklari alttan kirpiyordu (12.09.2026). Izgara
+ * disindaki kartlar kare kalir, kapak tamami gorunur. */
+[data-mj="game-catalog-card"]:not([data-mj="game-catalog-list"] *) {
+  aspect-ratio: 1 / 1 !important;
+  border-radius: 12px !important;
 }
 
 /* ---------------- HAREKETLI OYUN KAPAKLARI (hover video) ---------------- */
