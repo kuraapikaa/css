@@ -2176,20 +2176,26 @@ html:not(.ng-sports-route) #sportsbook-wrapper {
   aspect-ratio: 1 / 1 !important;
   border-radius: 12px !important;
 }
-/* Masaustunde tam boyut (istek 12.09.2026): serit, katalog izgarasiyla ayni
- * 7 sutuna oturur; kartlar katalog kartlariyla ayni genislikte, kare. */
+/* Masaustunde tam boyut (istek 12.09.2026). Lynon (lobby_game_catalog) iki
+ * duzen kullaniyor: 10 oyuna kadar esnek satir (last-played-list > item,
+ * item en fazla 120px), 10'dan fazlaysa keen-slider (last-played-slider).
+ * Esnek satir katalogla ayni 7 sutunlu izgaraya alinir; kaydiricida slayt
+ * genisligi keen'in kendi hesabina birakilir (ust uste binmesin). */
 @media (min-width: 1000px) {
-  html.ng-catalog-route main[data-mj="page-content"] :has(> [data-mj="game-catalog-card"]):not([data-mj="game-catalog-list"]) {
+  html.ng-catalog-route [data-mj="game-catalog-last-played-list"] {
     display: grid !important;
     grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
     gap: 14px !important;
     width: 100% !important;
-    overflow: visible !important;
   }
-  html.ng-catalog-route main[data-mj="page-content"] :not([data-mj="game-catalog-list"]) > [data-mj="game-catalog-card"] {
-    width: 100% !important; max-width: none !important; min-width: 0 !important;
+  html.ng-catalog-route [data-mj="game-catalog-last-played-list"] > [data-mj="game-catalog-last-played-item"] {
+    max-width: none !important; width: 100% !important; min-width: 0 !important; flex: none !important;
+  }
+  html.ng-catalog-route [data-mj="game-catalog-last-played-item"] > [data-mj="game-catalog-card"] {
+    width: 100% !important; max-width: none !important;
   }
 }
+
 
 /* ---------------- HAREKETLI OYUN KAPAKLARI (hover video) ---------------- */
 .ng-oyun-video {
