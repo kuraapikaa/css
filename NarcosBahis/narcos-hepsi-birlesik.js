@@ -1720,12 +1720,16 @@ try { if (/[?&#]btag=/i.test(location.href) && !sessionStorage.getItem("ng_ilk_a
     "/aranmatalep":  "https://panel.narcosbahis.vip/#/beni-ara",
     "/narcosskor":   "https://panel.narcosbahis.vip/#/skor-tahmin",
     // Turnuva CMS sayfasi yeni; panelde gunluk turnuva acilis ekrani.
-    "/narcosturnuva": "https://panel.narcosbahis.vip/#/turnuva/gunluk"
+    "/narcosturnuva": "https://panel.narcosbahis.vip/#/turnuva/gunluk",
+    // Ozel oran: CMS sayfasi bos oyun izgarasi gosteriyordu; panelde
+    // "Ozel Oran & Ozel Marketler" ekrani (istek 14.09.2026).
+    "/ozeloran":     "https://panel.narcosbahis.vip/#/ozel-oran",
+    "/ozel-oran":    "https://panel.narcosbahis.vip/#/ozel-oran"
   };
   var KAP_ID = "narcos-panel-frame";
   var PANEL_ORIGIN = "https://panel.narcosbahis.vip";
   // Hangi surumun calistigini konsoldan gormek icin: window.__narcosGomme
-  var GOMME_SURUM = "2026-09-12a guven-vizyon-kaldirildi";
+  var GOMME_SURUM = "2026-09-14a ozel-oran-gomme";
   try {
     window.__narcosGomme = { surum: GOMME_SURUM, kaynak: document.currentScript && document.currentScript.src };
     document.documentElement.setAttribute("data-narcos-gomme", GOMME_SURUM);
