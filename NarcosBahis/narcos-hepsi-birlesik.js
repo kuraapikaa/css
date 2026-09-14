@@ -31,7 +31,7 @@ try { if (/[?&#]btag=/i.test(location.href) && !sessionStorage.getItem("ng_ilk_a
    Keeps the current public DOM contract while avoiding destructive SPA patches. */
 (function () {
   "use strict";
-  var GLOBAL_KEY = "__narcosPremiumThemeRuntime", VERSION = "2.4.1";
+  var GLOBAL_KEY = "__narcosPremiumThemeRuntime", VERSION = "2.4.2";
   var previous = window[GLOBAL_KEY];
   if (previous && previous.version === VERSION && previous.refresh) {
     previous.refresh();
