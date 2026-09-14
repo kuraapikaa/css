@@ -720,11 +720,30 @@ try { if (/[?&#]btag=/i.test(location.href) && !sessionStorage.getItem("ng_ilk_a
     return false;
   }
 
+  var navGozlemcisi = null;
+  var navZaman = null;
+
+  /**
+   * Site, seridi kendi yeniden cizdiginde bizim ekledigimiz ogeleri
+   * siliyor (React tekrar render ediyor). Serit degistikce yeniden
+   * tamamlayan kucuk bir gozlemci: yalnizca EKSIK varsa is yapar, bu
+   * yuzden dongu olusturmaz.
+   */
+  function navGozlemciKur(liste) {
+    if (navGozlemcisi || typeof MutationObserver !== "function") return;
+    navGozlemcisi = new MutationObserver(function () {
+      if (navZaman) return;
+      navZaman = setTimeout(function () { navZaman = null; navSeridiniTamamla(); }, 180);
+    });
+    navGozlemcisi.observe(liste, { childList: true });
+  }
+
   function navSeridiniTamamla() {
     if (!window.matchMedia || !window.matchMedia("(min-width: 1240px)").matches) return;
     var serit = query('[data-mj="header-nav-list"]');
     var liste = serit && serit.querySelector("ul");
     if (!liste) return;
+    navGozlemciKur(liste);
     var ornek = liste.querySelector('[data-mj="header-nav-item"]');
     if (!ornek) return;
 
@@ -791,6 +810,15 @@ try { if (/[?&#]btag=/i.test(location.href) && !sessionStorage.getItem("ng_ilk_a
       }
     });
   }
+
+  // Serit gec olusabiliyor; ilk saniyelerde birkac kez dene.
+  [400, 1200, 2500, 5000, 9000].forEach(function (ms) {
+    setTimeout(function () { try { navSeridiniTamamla(); } catch (e) { /* yok say */ } }, ms);
+  });
+  window.addEventListener("resize", function () {
+    if (navZaman) return;
+    navZaman = setTimeout(function () { navZaman = null; navSeridiniTamamla(); }, 220);
+  });
 
   function renderHeader() {
     var shell = activeHeader();
@@ -1850,7 +1878,7 @@ try { if (/[?&#]btag=/i.test(location.href) && !sessionStorage.getItem("ng_ilk_a
   var KAP_ID = "narcos-panel-frame";
   var PANEL_ORIGIN = "https://panel.narcosbahis.vip";
   // Hangi surumun calistigini konsoldan gormek icin: window.__narcosGomme
-  var GOMME_SURUM = "2026-09-14b tam-menu";
+  var GOMME_SURUM = "2026-09-14c tam-menu";
   try {
     window.__narcosGomme = { surum: GOMME_SURUM, kaynak: document.currentScript && document.currentScript.src };
     document.documentElement.setAttribute("data-narcos-gomme", GOMME_SURUM);
