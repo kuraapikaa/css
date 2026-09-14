@@ -673,6 +673,125 @@ try { if (/[?&#]btag=/i.test(location.href) && !sessionStorage.getItem("ng_ilk_a
     }
     return null;
   }
+
+  /* ================= HEADER MENUSU: TAMAMI TEK SATIRDA ================= */
+  /**
+   * Site, seride sigmayan menu ogelerini "Daha Fazla" acilirina atiyor ve
+   * genislik yetse bile son ogeyi orada tutuyor (olculdu: 1888px'lik
+   * seritte bile 13 ogenin 12'si gosteriliyordu). Istek (14.09.2026):
+   * masaustunde butun ikonlar gorunsun, "Daha Fazla" olmasin.
+   *
+   * Yol: CMS'in kendi menu ucundan tam liste okunur, seritte olmayan
+   * ogeler mevcut bir <li> klonlanarak eklenir (sinif/stil birebir ayni
+   * kalsin diye), liste tamamlaninca "Daha Fazla" gizlenir. Menu
+   * panelden degisirse liste de degisir; sabit kodlanmis oge yok.
+   */
+  var MENU_UCU = "/api/cmsgateway/api/v2/HeaderMenusSite";
+  var IKON_UCU = "/api/cmsgateway/api/v1.0/AssetsSite/";
+  var menuSozu = null;
+  var olcumTetiklendi = false;
+
+  function menuyuOku() {
+    if (!menuSozu) {
+      menuSozu = fetch(MENU_UCU, { credentials: "include" })
+        .then(function (r) { return r.ok ? r.json() : []; })
+        .then(function (d) { return Array.isArray(d) ? d : (d && (d.data || d.Data)) || []; })
+        .catch(function () { return []; });
+    }
+    return menuSozu;
+  }
+
+  /** Karsilastirma icin baslik: buyuk/kucuk ve noktalama farki tolere edilir. */
+  function menuAnahtari(v) {
+    return String(v == null ? "" : v).toLocaleLowerCase("tr").replace(/[^0-9a-zçğıöşü]/gi, "");
+  }
+
+  function menuAdresi(oge) {
+    if (!oge) return null;
+    if (oge.type === "liveSupport") return null;           // sohbet widget'i, adres degil
+    var yol = oge.url || (oge.identifier ? "/" + oge.identifier : null);
+    if (!yol) return null;
+    return "/tr" + (yol.charAt(0) === "/" ? yol : "/" + yol);
+  }
+
+  function canliDestegiAc() {
+    var dugme = document.querySelector('button[aria-label*="ohbet"], button[aria-label*="hat"], #zepcom-launcher, .zepcom-launcher');
+    if (dugme && dugme.click) { dugme.click(); return true; }
+    return false;
+  }
+
+  function navSeridiniTamamla() {
+    if (!window.matchMedia || !window.matchMedia("(min-width: 1240px)").matches) return;
+    var serit = query('[data-mj="header-nav-list"]');
+    var liste = serit && serit.querySelector("ul");
+    if (!liste) return;
+    var ornek = liste.querySelector('[data-mj="header-nav-item"]');
+    if (!ornek) return;
+
+    /* Site ilk cizimde tema stilleri uygulanmadan olcuyor ve 13 ogenin
+     * yalnizca 8'ini gosteriyor; tek bir resize olayi kendi mantigini
+     * guncel genisliklerle yeniden calistiriyor. */
+    if (!olcumTetiklendi) {
+      olcumTetiklendi = true;
+      setTimeout(function () { window.dispatchEvent(new Event("resize")); }, 300);
+    }
+
+    menuyuOku().then(function (menu) {
+      if (!menu.length) return;
+      var serit2 = query('[data-mj="header-nav-list"]');
+      var liste2 = serit2 && serit2.querySelector("ul");
+      var ornek2 = liste2 && liste2.querySelector('[data-mj="header-nav-item"]:not([data-ng-ek])');
+      if (!liste2 || !ornek2) return;
+
+      var mevcut = {};
+      Array.prototype.forEach.call(liste2.querySelectorAll('[data-mj="header-nav-item"]'), function (li) {
+        var p = li.querySelector("p") || li;
+        mevcut[menuAnahtari(p.textContent)] = true;
+      });
+
+      var dugme = liste2.querySelector("button.sl-navlink");
+      var eksikKaldi = false;
+
+      menu.forEach(function (oge) {
+        var anahtar = menuAnahtari(oge && oge.title);
+        if (!anahtar || mevcut[anahtar]) return;
+        var adres = menuAdresi(oge);
+        if (!adres && oge.type !== "liveSupport") { eksikKaldi = true; return; }
+
+        var li = ornek2.cloneNode(true);
+        li.setAttribute("data-ng-ek", "1");
+        var bag = li.querySelector("a");
+        if (!bag) { eksikKaldi = true; return; }
+        // Klon, ornegin "aktif sayfa" durumunu tasiyabilir; temizlenir.
+        bag.className = String(bag.className || "").replace(/\bactive\b|\bis-active\b/g, "").trim();
+        bag.removeAttribute("aria-current");
+        var yazi = li.querySelector("p");
+        if (yazi) yazi.textContent = oge.title;
+        var ikon = bag.querySelector("span");
+        if (ikon && oge.icon) {
+          var url = 'url("' + IKON_UCU + oge.icon + '")';
+          ikon.style.maskImage = url;
+          ikon.style.webkitMaskImage = url;
+        }
+        if (oge.type === "liveSupport") {
+          bag.setAttribute("href", "#");
+          bag.addEventListener("click", function (e) { e.preventDefault(); canliDestegiAc(); });
+        } else {
+          bag.setAttribute("href", adres);
+          bag.setAttribute("target", "_self");
+        }
+        if (dugme && dugme.parentElement === liste2) liste2.insertBefore(li, dugme);
+        else liste2.appendChild(li);
+        mevcut[anahtar] = true;
+      });
+
+      if (dugme) {
+        if (eksikKaldi) dugme.removeAttribute("data-ng-tam");
+        else dugme.setAttribute("data-ng-tam", "1");
+      }
+    });
+  }
+
   function renderHeader() {
     var shell = activeHeader();
     var header = shell && query('[aria-label="site-header"]', shell);
@@ -699,6 +818,8 @@ try { if (/[?&#]btag=/i.test(location.href) && !sessionStorage.getItem("ng_ilk_a
         });
       }
     }
+    navSeridiniTamamla();
+
     var gift = query('[data-mj="header-special-button"]', header);
     if (gift) {
       gift.classList.add("ng-gift-button");
@@ -1729,7 +1850,7 @@ try { if (/[?&#]btag=/i.test(location.href) && !sessionStorage.getItem("ng_ilk_a
   var KAP_ID = "narcos-panel-frame";
   var PANEL_ORIGIN = "https://panel.narcosbahis.vip";
   // Hangi surumun calistigini konsoldan gormek icin: window.__narcosGomme
-  var GOMME_SURUM = "2026-09-14a ozel-oran-gomme";
+  var GOMME_SURUM = "2026-09-14b tam-menu";
   try {
     window.__narcosGomme = { surum: GOMME_SURUM, kaynak: document.currentScript && document.currentScript.src };
     document.documentElement.setAttribute("data-narcos-gomme", GOMME_SURUM);

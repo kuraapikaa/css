@@ -1147,6 +1147,41 @@ footer::before,
     flex: 0 0 auto !important;
   }
 }
+/* 1240px ve uzeri: MENUNUN TAMAMI TEK SATIRDA (istek 14.09.2026).
+ *
+ * Iki engel vardi: (1) serit, CMS'in 1432px'lik ortak icerik sutununun
+ * icinde kaldigi icin 1920px ekranda bile dar bir alana sikisiyordu;
+ * (2) site kendi tasma mantigiyla son ogeyi "Daha Fazla" menusunde
+ * tutuyordu. Burada serit o sutundan cikarilip ortalanir; eksik ogeleri
+ * tema JS'i (navSeridiniTamamla) CMS menu ucundan ekler ve tamamlaninca
+ * "Daha Fazla" butonuna data-ng-tam yazip gizler. */
+@media (min-width: 1240px) {
+  [data-mj="header-nav"] > div { max-width: none !important; padding-inline: 0 !important; }
+  [data-mj="header-nav-list"] > ul {
+    /* `safe center`: 13 oge sigmadiginda ortalama, seridin SOL basini
+     * kirpmak yerine basa hizalanir (veri kaybi olmaz). */
+    justify-content: center !important;
+    justify-content: safe center !important;
+    gap: clamp(2px, .3vw, 8px) !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scrollbar-width: none !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  [data-mj="header-nav-list"] > ul::-webkit-scrollbar { width: 0 !important; height: 0 !important; }
+  [data-mj="header-nav-item"] { flex: 0 0 auto !important; }
+  /* Ogeler icerik genisliginde kalsin ki serit gercekten ORTALANSIN;
+   * ustteki kural `width: 100%` ile hepsini esit paya boluyordu. */
+  [data-mj="header-nav-item"] > a,
+  [data-mj="header-nav-item"] > button,
+  [data-mj="header-nav-item"] > span,
+  [data-mj="header-nav-item"] > div {
+    width: auto !important;
+    padding-inline: clamp(6px, .55vw, 12px) !important;
+  }
+  [data-mj="header-nav-list"] button.sl-navlink[data-ng-tam] { display: none !important; }
+}
 /* 621-1239px: 12 oge + "Daha Fazla" butonu bu genislige tek satir sigmiyor;
  * sikistirmak yerine ikonlari gizleyip seridi yatay kaydirilabilir yapiyoruz.
  * Boylece etiketler ASLA "..." ile kirpilmiyor. */
