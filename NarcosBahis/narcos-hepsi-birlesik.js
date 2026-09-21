@@ -2266,7 +2266,7 @@
  */
 (function () {
   // Panel adresi marka basina degisir.
-  var PANEL_ADRESI = "https://narcos-affiliate-production.up.railway.app";
+  var PANEL_ADRESI = "https://panel.narcospartners.com";
 
   try {
     var src = PANEL_ADRESI.replace(/\/+$/, "") + "/attrib.js";

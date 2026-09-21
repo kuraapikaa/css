@@ -1294,20 +1294,17 @@
  * return'leri var, yükleyici onlara bağlı olmamalı.
  */
 (function () {
-  /* ⚠️ DOLDURULMASI GEREKİYOR — TacoBahis affiliate paneli henüz açılmadı.
+  /* TacoBahis affiliate paneli. Adres marka başına değişir — Narcos'unki
+   * buraya YAZILMAMALI, iki markanın panelleri ayrı.
    *
-   * Panel yayına girince buraya adresini yaz, ör:
-   *   var PANEL_ADRESI = 'https://taco-affiliate-production.up.railway.app';
-   *
-   * Boş bırakıldığı sürece yükleyici hiçbir şey yapmaz — yanlış bir adres
-   * yazmaktansa hiç yüklememek doğru: yanlış adreste atıf sessizce çalışmaz
-   * ama çalışıyor sanılır. Narcos'un adresi tahmin için KULLANILMAMALI,
-   * iki markanın panelleri ayrı.
+   * Boş bırakılırsa yükleyici hiçbir şey yapmaz (panel kapalıyken doğru
+   * davranış): yanlış bir adres yazmaktansa hiç yüklememek iyidir, çünkü
+   * yanlış adreste atıf sessizce çalışmaz ama çalışıyor sanılır.
    *
    * Adres değiştikten sonra jsDelivr URL'indeki commit hash'i de
    * güncellenmeli, yoksa değişiklik canlıya çıkmaz.
    */
-  var PANEL_ADRESI = '';
+  var PANEL_ADRESI = 'https://panel.tacoaffiliates.com';
 
   try {
     if (!PANEL_ADRESI) return;
