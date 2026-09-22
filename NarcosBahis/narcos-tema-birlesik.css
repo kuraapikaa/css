@@ -452,7 +452,15 @@ html.ng-effects-ready [data-mj="widget-multi-banner-slider"]::before {
   position: relative !important; isolation: isolate; overflow: hidden !important;
   width: 100% !important; height: auto !important; min-height: 0 !important;
   padding: 0 !important;
-  aspect-ratio: 427 / 576 !important;
+  /* Platform katalog gorselini YATAY servis ediyor:
+   * /api/cmsgateway/api/v1/AssetsSite/gameimage/<id>.webp?folder=GameImages
+   * &width=440&height=310 -> 440/310 (1.419).
+   * Kutu 427/576 (dikey) idi; `object-fit: cover` yatay gorseli dikey kutuya
+   * sigdirmak icin sagdan soldan kirpiyor, oyun logolari uclarindan kesilmis
+   * gorunuyordu. Oran gorselle birebir olunca kirpma kalmiyor.
+   * Dikey afis istenirse platformun `folder=VerticalGameImages` servis etmesi
+   * gerekir; o gun bu oran 427/576'ya geri alinir. */
+  aspect-ratio: 440 / 310 !important;
   border: 1px solid rgba(242, 213, 138, .18) !important;
   border-radius: 15px !important;
   background: var(--ng-dark-fill) !important;
@@ -1353,7 +1361,9 @@ footer::before,
   [data-mj="widget-pages-item"] { border: 0 !important; background: transparent !important; box-shadow: none !important; }
   [data-mj="widget-game-card"] { overflow: hidden !important; border: 1px solid rgba(242, 213, 138, .72) !important; border-radius: 14px !important; }
   [data-mj="game-catalog-module"] { width: 100% !important; padding: 10px 7px 24px !important; box-sizing: border-box !important; }
-  [data-mj="game-catalog-list"] { display: grid !important; grid-template-columns: repeat(4, minmax(0, 1fr)) !important; gap: 7px 5px !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }
+  /* 4 sutun dikey kartlar icindi; yatay kartta 375px'te kart 86x61'e dusup
+   * logo okunmaz oluyordu. 3 sutun: ~115x81, masaustundeki ~155x109'a yakin. */
+  [data-mj="game-catalog-list"] { display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 7px 5px !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }
   [data-mj="game-catalog-list"] > * { width: 100% !important; min-width: 0 !important; margin: 0 !important; }
   [data-mj="game-catalog-card"] { width: 100% !important; min-width: 0 !important; border-radius: 8px !important; }
   [data-mj="game-catalog-provider-bottom-sheet-content"] {
