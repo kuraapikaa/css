@@ -36,7 +36,9 @@
     return;
   }
   if (previous && previous.destroy) previous.destroy();
-  var VERIFY_URL = "https://verification.anjouangamblingboard.org/s/140e70a801efff238b59b01782ba34d909755fd6e27deb06c4959b328d6e9698e01f00b62578604eca16f199ebb446cb";
+  /* Anjouan lisans dogrulama. 2026-09-22'de yenilendi: hem token hem ALAN
+     ADI degisti — artik `verification.` alt alan adi yok, kok alan adi. */
+  var VERIFY_URL = "https://anjouangamblingboard.org/s/d90255cb443366c006c9186ee705465fa3d443db37c7586e53af34d65f08bb7dd4715507c017066e7a0c176b92f48ad7";
   var TELEGRAM_URL = "https://t.me/narcosresmi", CURRENT_URL = "https://narcosgir.com";
   var WEBSITE_URL = "https://narcosbahis.com/", SUPPORT_EMAIL = "destek@narcosbahis.com", REVISION = "v10";
   var CASINO_LOBBY_PATH = "/tr/casino/all", LIVE_CASINO_LOBBY_PATH = "/tr/livecasino/all";

@@ -28,9 +28,10 @@
   // Yazılı sürümden ayrı olması şart — o, 34px'te okunaksız bir lekeye dönüşüyordu.
   var HEADER_SEAL_URL = 'https://i.ibb.co/YKVjFR8/anjouan-shield-check-256.png';
 
+  /* Anjouan lisans doğrulama. 2026-09-22'de yenilendi: hem token hem ALAN ADI
+     değişti — artık `verification.` alt alan adı yok, kök alan adı. */
   var VERIFY_URL =
-    'https://verification.anjouangamblingboard.org/s/' +
-    '93cdb2db440d85925f2939b5e3efe0acde1d6f2384d71ece13f3a940b3256e7fb4069a53385faa5b3cbb398224274d23';
+    'https://anjouangamblingboard.org/s/a482a52809503dd515b27664849ce9cc5dc00749843d192e15c027047d9521b9dea1141ad3fd4d09bb61fc4e273fe75e';
 
   var CALL_URL = 'https://tacoara.com';
   var TELEGRAM_URL = 'https://t.me/tacoresmi';
