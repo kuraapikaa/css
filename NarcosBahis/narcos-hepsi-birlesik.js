@@ -1615,7 +1615,10 @@
     "/aranmatalep":  "https://panel.narcosbahis.vip/#/beni-ara",
     "/narcosskor":   "https://panel.narcosbahis.vip/#/skor-tahmin",
     // Turnuva CMS sayfasi yeni; panelde gunluk turnuva acilis ekrani.
-    "/narcosturnuva": "https://panel.narcosbahis.vip/#/turnuva/gunluk"
+    "/narcosturnuva": "https://panel.narcosbahis.vip/#/turnuva/gunluk",
+    // Ozel oran CMS sayfasini panelin ozel oran ekranina gom.
+    "/ozeloran":     "https://panel.narcosbahis.vip/#/ozel-oran",
+    "/ozel-oran":    "https://panel.narcosbahis.vip/#/ozel-oran"
   };
   var KAP_ID = "narcos-panel-frame";
   var PANEL_ORIGIN = "https://panel.narcosbahis.vip";
